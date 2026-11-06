@@ -86,8 +86,7 @@ object SetotowerApi {
                         val signature = ByteArray(8)
                         input.read(signature)
                         input.reset()
-                        val signatureText = signature.toString(Charsets.UTF_8).trimStart()
-                        if (signatureText.startsWith("#EXTM3U") || signatureText.startsWith("<html", ignoreCase = true)) {
+                        if (isPlaylistOrHtmlPrefix(signature)) {
                             throw IOException("Setotower returned a playlist or webpage instead of an MP4 video.")
                         }
                         FileOutputStream(partial).use { output ->
@@ -137,6 +136,13 @@ object SetotowerApi {
             attempt++
         }
     }
+
+    internal fun isPlaylistOrHtmlPrefix(prefix: ByteArray): Boolean {
+        val text = prefix.toString(Charsets.UTF_8).trimStart()
+        return text.startsWith("#EXTM3U") || text.startsWith("<html", ignoreCase = true)
+    }
+
+    internal fun parseCinebInfo(url: String, data: JsonObject): ResultItem = fromInfoJson(url, data)
 
     private fun fromInfoJson(url: String, data: JsonObject): ResultItem {
         val title = data.string("title") ?: "Cineb download"
