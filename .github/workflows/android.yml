@@ -58,6 +58,9 @@ jobs:
           fi
           chmod +x gradlew
 
+      - name: Check Setotower branding
+        run: bash scripts/check_setotower_branding.sh
+
       - name: Require private signing for version tags
         if: startsWith(github.ref, 'refs/tags/v')
         env:
