@@ -25,10 +25,10 @@ Setotower Downloader este un descarcător de audio/video gratuit și de sursă d
 
 ![CI](https://github.com/aezammi/setotower-downloader-android/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
 
-[![preview release](https://img.shields.io/github/release/deniscerri/setotower-downloader.svg?maxAge=3600&include\_prereleases&label=preview)](https://github.com/aezammi/setotower-downloader-android/releases) 
-[![downloads](https://img.shields.io/github/downloads/deniscerri/setotower-downloader/total?style=flat-square)](https://github.com/aezammi/setotower-downloader-android/releases) 
-[![Translation status](https://downloader.setotower.com)](https://downloader.setotower.com?utm_source=widget) 
-[![community](https://img.shields.io/badge/Discord-Setotower Downloader-blueviolet?style=flat-square&logo=discord)](https://discord.gg/WW3KYWxAPm) 
+[![preview release](https://img.shields.io/github/release/aezammi/setotower-downloader.svg?maxAge=3600&include\_prereleases&label=preview)](https://github.com/aezammi/setotower-downloader-android/releases)
+[![downloads](https://img.shields.io/github/downloads/aezammi/setotower-downloader/total?style=flat-square)](https://github.com/aezammi/setotower-downloader-android/releases)
+[![Translation status](https://downloader.setotower.com)](https://downloader.setotower.com?utm_source=widget)
+[![community](https://img.shields.io/badge/Discord-Setotower Downloader-blueviolet?style=flat-square&logo=discord)](https://discord.gg/WW3KYWxAPm)
 [![community](https://img.shields.io/badge/Telegram-Setotower Downloader-blue?style=flat-square&logo=telegram)](https://downloader.setotower.com)
 [![website](https://img.shields.io/badge/Website-orange?style=flat-square&logo=youtube)](https://downloader.setotower.com)
 [![community](https://img.shields.io/badge/Telegram-Updates-red?style=flat-square&logo=telegram)](https://downloader.setotower.com)
@@ -65,7 +65,7 @@ Setotower Downloader este un descarcător de audio/video gratuit și de sursă d
 - Căutați sau introduceți un link din aplicație
   - Puteți acumula căutări, astfel încât să le puteți procesa în același timp
 - Înregistrați descărcările în caz de probleme
-- Reîncerca descărcări cancelate sau eșuate 
+- Reîncerca descărcări cancelate sau eșuate
   - Poți folosi gesturi pentru a glisa la stânga pentru a descărca din nou și la dreapta pentru a șterge
   - Puteți apăsa lung butonul de redescărcare de pe pagina cu detalii pentru a afișa cardul de descărcare și a obține mai multe funcții
 - Modul incognito atunci când nu doriți să salvați istoricul descărcărilor sau jurnalele
@@ -129,7 +129,7 @@ Puteți folosi Intents pentru a trimite comenzi către aplicație pentru a rula 
 
 ### Un exemplu de descărcare a unui element audio în fundal cu Tasker
 
-1. Creați o sarcină de trimitere Intent 
+1. Creați o sarcină de trimitere Intent
 2. Acțiune: android.intent.action.SEND
 3. Cat: Inplicit
 4. MIME Type: text/\*

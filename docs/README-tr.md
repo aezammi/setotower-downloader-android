@@ -24,10 +24,10 @@
 [![Uptodown](https://custom-icon-badges.herokuapp.com/badge/UpToDown-green?style=for-the-badge&logo=download&logoColor=white)](https://setotower-downloader.en.uptodown.com/android/download)
 
 ![CI](https://github.com/aezammi/setotower-downloader-android/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
-[![Önizleme Sürümü](https://img.shields.io/github/release/deniscerri/setotower-downloader.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/aezammi/setotower-downloader-android/releases) 
-[![İndirmeler](https://img.shields.io/github/downloads/deniscerri/setotower-downloader/total?style=flat-square)](https://github.com/aezammi/setotower-downloader-android/releases) 
-[![Çeviri Durumu](https://downloader.setotower.com)](https://downloader.setotower.com?utm_source=widget) 
-[![topluluk](https://img.shields.io/badge/Discord-Setotower Downloader-blueviolet?style=flat-square&logo=discord)](https://discord.gg/WW3KYWxAPm) 
+[![Önizleme Sürümü](https://img.shields.io/github/release/aezammi/setotower-downloader.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/aezammi/setotower-downloader-android/releases)
+[![İndirmeler](https://img.shields.io/github/downloads/aezammi/setotower-downloader/total?style=flat-square)](https://github.com/aezammi/setotower-downloader-android/releases)
+[![Çeviri Durumu](https://downloader.setotower.com)](https://downloader.setotower.com?utm_source=widget)
+[![topluluk](https://img.shields.io/badge/Discord-Setotower Downloader-blueviolet?style=flat-square&logo=discord)](https://discord.gg/WW3KYWxAPm)
 [![topluluk](https://img.shields.io/badge/Telegram-Setotower Downloader-blue?style=flat-square&logo=telegram)](https://downloader.setotower.com)
 [![website](https://img.shields.io/badge/Website-orange?style=flat-square&logo=youtube)](https://downloader.setotower.com)
 [![topluluk](https://img.shields.io/badge/Telegram-Updates-red?style=flat-square&logo=telegram)](https://downloader.setotower.com)
@@ -54,12 +54,12 @@
 - Videoları zaman damgalarına ve video bölümlerine göre kesme (deneysel yt-dlp özelliği)
 	- Sınırsız kesinti yapabilirsiniz
 - SponsorBlock öğelerini indirilen öğelerden kaldırma
-	- Bunları videonuza bölüm olarak yerleştirin 
+	- Bunları videonuza bölüm olarak yerleştirin
 - Altyazıları/meta verileri/bölümleri vb. gömün
 - Başlık ve yazar gibi meta verileri değiştirin
 - Öğeyi bölümlerine göre ayrı dosyalara bölme
 - Farklı indirme formatları seçin
-- Alt kart doğrudan paylaşım menüsünden, uygulamayı açmaya gerek yok 
+- Alt kart doğrudan paylaşım menüsünden, uygulamayı açmaya gerek yok
 	- Bir txt dosyası oluşturabilir ve yeni bir satırla ayırarak bağlantılar / çalma listeleri / arama sorguları ile doldurabilirsiniz ve uygulama bunları işleyecektir
 - Uygulamadan bir bağlantı arama veya ekleme
 	- Aramaları aynı anda işleyebilmek için üst üste koyabilirsiniz

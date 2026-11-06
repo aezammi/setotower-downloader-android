@@ -24,16 +24,16 @@
 [![UpToDown](https://custom-icon-badges.herokuapp.com/badge/UpToDown-green?style=for-the-badge&logo=download&logoColor=white)](https://setotower-downloader.en.uptodown.com/android/download)
 
 ![CI](https://github.com/aezammi/setotower-downloader-android/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
-[![önizləmə buraxılışı](https://img.shields.io/github/release/deniscerri/setotower-downloader.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/aezammi/setotower-downloader-android/releases) 
-[![yükləyici](https://img.shields.io/github/downloads/deniscerri/setotower-downloader/total?style=flat-square)](https://github.com/aezammi/setotower-downloader-android/releases) 
-[![Tərcümə vəziyyəti](https://downloader.setotower.com)](https://downloader.setotower.com?utm_source=widget) 
-[![icma](https://img.shields.io/badge/Discord-Setotower Downloader-blueviolet?style=flat-square&logo=discord)](https://discord.gg/WW3KYWxAPm) 
+[![önizləmə buraxılışı](https://img.shields.io/github/release/aezammi/setotower-downloader.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/aezammi/setotower-downloader-android/releases)
+[![yükləyici](https://img.shields.io/github/downloads/aezammi/setotower-downloader/total?style=flat-square)](https://github.com/aezammi/setotower-downloader-android/releases)
+[![Tərcümə vəziyyəti](https://downloader.setotower.com)](https://downloader.setotower.com?utm_source=widget)
+[![icma](https://img.shields.io/badge/Discord-Setotower Downloader-blueviolet?style=flat-square&logo=discord)](https://discord.gg/WW3KYWxAPm)
 [![icma](https://img.shields.io/badge/Telegram-Setotower Downloader-blue?style=flat-square&logo=telegram)](https://downloader.setotower.com)
 [![icma](https://img.shields.io/badge/Telegram-Updates-red?style=flat-square&logo=telegram)](https://downloader.setotower.com)
 [![website](https://img.shields.io/badge/Website-orange?style=flat-square&logo=youtube)](https://downloader.setotower.com)
 ![GitHub Sponsor](https://img.shields.io/github/sponsors/deniscerri?label=Sponsor&logo=GitHub)
 
-### Yalnız yuxarıdakı keçidlər Setotower Downloader-in yeganə etibarlı mənbələridir. Qalan hər şey mənimlə əlaqəli deyil. 
+### Yalnız yuxarıdakı keçidlər Setotower Downloader-in yeganə etibarlı mənbələridir. Qalan hər şey mənimlə əlaqəli deyil.
 
 </div>
 
@@ -55,12 +55,12 @@
 - vaxt ştampları və video bölmələri əsasında videoları kəsin (Bu yt-dlp xüsusiyyəti orijinal layihədə təcrübidir)
 	- limitsiz kəsiklər hazırlaya bilərsiniz
 - elementdən SponsorBlock elementlərin təmizlə
-	- onları videonuzda bölmələr kimi yerləşdirin 
+	- onları videonuzda bölmələr kimi yerləşdirin
 - titrləri/üst məlumatı/bölmələri yerləşdirmək və s
 - başlıq və müəllif kimi üst məlumatı dəyişdir
 - onun bölmələrindən asılı olaraq elementi ayrı fayllara bölmək
 - müxtəlif yükləmə formatları seçin
-- Paylaş menyusundan düz alt kart, tətbiqi açmağa ehtiyac yoxdur 
+- Paylaş menyusundan düz alt kart, tətbiqi açmağa ehtiyac yoxdur
 	- siz txt faylı yarada və onu yeni sətirlə ayrıca bağlantılar/pleylistlər/axtarış sorğuları ilə doldura bilərsiniz və tətbiq onları emal edəcək
 - tətbiqdən bağlantı axtar və ya yerləşdir
 	- siz eyni vaxtda onları emal etmək üçün axtarışları toplaya bilərsiniz
@@ -149,7 +149,7 @@ Siz istifadəçi toxunuşu olmadan yükləmələri həyata keçirmək üçün t�
 <b>BACKGROUND</b> -> bu ola bilər: true,false. Əgər bu true olarsa, tətbiq istənilən halda yükləmə kartını göstərməyəcək və yükləməni arxa planda həyata keçirəcək <br/>
 
 ### Tasker ilə fonda səs elementin yüklənilməsi nümunəsi
-1. Göndərmə Intent tapşırığı yaradın 
+1. Göndərmə Intent tapşırığı yaradın
 2. Action (Fəaliyyət): android.intent.action.SEND
 3. Cat: İlkin (default)
 4. Mime Type: text/*
