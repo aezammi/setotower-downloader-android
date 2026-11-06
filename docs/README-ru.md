@@ -31,7 +31,6 @@
 [![community](https://img.shields.io/badge/Telegram-Setotower Downloader-blue?style=flat-square&logo=telegram)](https://downloader.setotower.com)
 [![community](https://img.shields.io/badge/Telegram-Updates-red?style=flat-square&logo=telegram)](https://downloader.setotower.com)
 [![website](https://img.shields.io/badge/Website-orange?style=flat-square&logo=youtube)](https://downloader.setotower.com)
-![GitHub Sponsor](https://img.shields.io/github/sponsors/deniscerri?label=Sponsor&logo=GitHub)
 
 ### Только перечисленные выше ссылки являются единственными официальными источниками Setotower Downloader. Всё остальное не имеет ко мне отношения.
 
@@ -163,13 +162,6 @@ Signer #1 certificate MD5 digest: 429d0c6315d2f99650f66cc44cf5a794
 [GNU GPL v3.0](https://github.com/aezammi/setotower-downloader-android/blob/main/LICENSE)
 
 За исключением исходного кода, распространяемого по лицензии GPLv3, иным лицам запрещено использовать название «Setotower Downloader» в качестве приложения для загрузки; то же касается производных от него продуктов. Производными считаются, в частности, форки и неофициальные сборки, однако этот список не является исчерпывающим.
-
-## 😁 Поддержать проект
-
-
-[<img src="https://raw.githubusercontent.com/WSTxda/WSTxda/main/images/BMC.svg"
-alt='Donate with BMC'
-height="80">](https://www.buymeacoffee.com/deniscerri)
 
 ## 🙏 Благодарности
 

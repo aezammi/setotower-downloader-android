@@ -31,7 +31,6 @@
 [![community](https://img.shields.io/badge/Telegram-Setotower Downloader-blue?style=flat-square&logo=telegram)](https://downloader.setotower.com)
 [![community](https://img.shields.io/badge/Telegram-Updates-red?style=flat-square&logo=telegram)](https://downloader.setotower.com)
 [![website](https://img.shields.io/badge/Website-orange?style=flat-square&logo=youtube)](https://downloader.setotower.com)
-![GitHub Sponsor](https://img.shields.io/github/sponsors/deniscerri?label=Sponsor&logo=GitHub)
 
 ### Vetëm linket e mësipërme janë burimet e besueshme të Setotower Downloader. Çdo gjë tjetër nuk ka lidhje me mua.
 
@@ -165,13 +164,6 @@ Variablat e pranuara:
 [GNU GPL v3.0](https://github.com/aezammi/setotower-downloader-android/blob/main/LICENSE)
 
 Përveç kodit burimor të licencuar sipas licencës GPLv3, të gjitha palët e tjera e kanë të ndaluar përdorimin e emrit "Setotower Downloader" si aplikacion shkarkimi, dhe e njëjta gjë vlen edhe për derivatet e tij. Derivatet përfshijnë, por nuk kufizohen në, forks dhe build-e jozyrtare.
-
-## 😁 Dhuro
-
-
-[<img src="https://raw.githubusercontent.com/WSTxda/WSTxda/main/images/BMC.svg"
-alt='Donate with BMC'
-height="80">](https://www.buymeacoffee.com/deniscerri)
 
 ## 🙏 Falenderimet
 

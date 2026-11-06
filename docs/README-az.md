@@ -31,7 +31,6 @@
 [![icma](https://img.shields.io/badge/Telegram-Setotower Downloader-blue?style=flat-square&logo=telegram)](https://downloader.setotower.com)
 [![icma](https://img.shields.io/badge/Telegram-Updates-red?style=flat-square&logo=telegram)](https://downloader.setotower.com)
 [![website](https://img.shields.io/badge/Website-orange?style=flat-square&logo=youtube)](https://downloader.setotower.com)
-![GitHub Sponsor](https://img.shields.io/github/sponsors/deniscerri?label=Sponsor&logo=GitHub)
 
 ### Yalnız yuxarıdakı keçidlər Setotower Downloader-in yeganə etibarlı mənbələridir. Qalan hər şey mənimlə əlaqəli deyil.
 
@@ -162,13 +161,6 @@ Siz istifadəçi toxunuşu olmadan yükləmələri həyata keçirmək üçün t�
 [GNU GPL v3.0](https://github.com/aezammi/setotower-downloader-android/blob/main/LICENSE)
 
 GPLv3 lisenziyası ilə lisenziyalaşdırılan mənbə kodu istisna olmaqla, bütün digər tərəflərə "Setotower Downloader" adın yükləyici tətbiq kimi istifadə etmək qadağandır və eynisi onun törəmələri üçün də keçərlidir. Törəmələrə fork-lar və qeyri-rəsmi quruluşlar daxildir, lakin bunlarla məhdudlaşmır.
-
-## 😁 İanə Edin
-
-
-[<img src="https://raw.githubusercontent.com/WSTxda/WSTxda/main/images/BMC.svg"
-alt='Donate with BMC'
-height="80">](https://www.buymeacoffee.com/deniscerri)
 
 ## 🙏 Təşəkkürlər
 

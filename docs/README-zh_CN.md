@@ -49,7 +49,6 @@
 [![community](https://img.shields.io/badge/Telegram-Setotower Downloader-blue?style=flat-square&logo=telegram)](https://downloader.setotower.com)
 [![community](https://img.shields.io/badge/Telegram-Updates-red?style=flat-square&logo=telegram)](https://downloader.setotower.com)
 [![website](https://img.shields.io/badge/Website-orange?style=flat-square&logo=youtube)](https://downloader.setotower.com)
-![GitHub Sponsor](https://img.shields.io/github/sponsors/deniscerri?label=Sponsor&logo=GitHub)
 
 ### 只有以上链接是 Setotower Downloader 的唯一可信来源。其他任何地方的版本都与作者无关。
 
@@ -180,13 +179,6 @@ Signer #1 certificate MD5 digest: 429d0c6315d2f99650f66cc44cf5a794
 [GNU GPL v3.0](https://github.com/aezammi/setotower-downloader-android/blob/main/LICENSE)
 
 除了在 GPLv3 许可证下的源代码外，禁止其他任何方以下载器应用的名义使用 "Setotower Downloader"，其衍生产品也不例外。衍生产品包括但不限于 fork 版本和非官方构建。
-
-## 😁 捐赠
-
-
-[<img src="https://raw.githubusercontent.com/WSTxda/WSTxda/main/images/BMC.svg"
-alt='通过 BMC 捐赠'
-height="80">](https://www.buymeacoffee.com/deniscerri)
 
 ## 🙏 致谢
 

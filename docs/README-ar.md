@@ -31,7 +31,6 @@
 [![المجتمع](https://img.shields.io/badge/Telegram-Setotower Downloader-أزرق?style=flat-square&logo=telegram)](https://downloader.setotower.com)
 [![المجتمع](https://img.shields.io/badge/Telegram-التحديثات-أحمر?style=flat-square&logo=telegram)](https://downloader.setotower.com)
 [![الموقع الإلكتروني](https://img.shields.io/badge/الموقع-برتقالي?style=flat-square&logo=youtube)](https://downloader.setotower.com)
-![راعي GitHub](https://img.shields.io/github/sponsors/deniscerri?label=راعي&logo=GitHub)
 
 ### الروابط أعلاه هي المصادر الموثوقة الوحيدة لتطبيق Setotower Downloader. أي شيء آخر لا علاقة لي به.
 
@@ -158,13 +157,6 @@ Signer #1 certificate MD5 digest: 429d0c6315d2f99650f66cc44cf5a794
 [GNU GPL v3.0](https://github.com/aezammi/setotower-downloader-android/blob/main/LICENSE)
 
 باستثناء كود المصدر المرخص بموجب ترخيص GPLv3، يُمنع جميع الأطراف الأخرى من استخدام اسم "Setotower Downloader" كتطبيق تنزيل، وكذلك الأمر بالنسبة لمشتقاته. تشمل المشتقات على سبيل المثال لا الحصر الانشقاقات (forks) والنسخ غير الرسمية.
-
-## 😁 تبرع
-
-
-[<img src="https://raw.githubusercontent.com/WSTxda/WSTxda/main/images/BMC.svg"
-alt='تبرع عبر BMC'
-height="80">](https://www.buymeacoffee.com/deniscerri)
 
 ## 🙏 شكر وتقدير
 
