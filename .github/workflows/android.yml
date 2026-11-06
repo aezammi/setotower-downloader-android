@@ -24,12 +24,15 @@ jobs:
         include:
           - flavor: github
             task: assembleGithubRelease
+            test_task: testGithubDebugUnitTest
             display_name: github
           - flavor: foss
             task: assembleFossRelease
+            test_task: testFossDebugUnitTest
             display_name: FOSS
           - flavor: izzy
             task: assembleIzzyRelease
+            test_task: testIzzyDebugUnitTest
             display_name: Izzy
 
     steps:
@@ -67,6 +70,9 @@ jobs:
           }
 
       # Build ONLY the specific flavor assigned to this matrix runner
+      - name: Run ${{ matrix.flavor }} unit tests
+        run: ./gradlew --no-daemon --max-workers=2 ${{ matrix.test_task }} --warning-mode all
+
       - name: Build ${{ matrix.flavor }} APK release
         run: ./gradlew --no-daemon --max-workers=2 ${{ matrix.task }} --warning-mode all
 
