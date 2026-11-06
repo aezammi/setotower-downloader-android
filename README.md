@@ -49,6 +49,15 @@
 
 </div>
 
+## Product scope
+
+Setotower Downloader for Android is the native phone client: it provides the
+mobile interface and performs downloads on the phone. Desktop users use the
+[Setotower Downloader web app](https://downloader.setotower.com) as their UI;
+the Windows and Linux companions are silent on-demand helpers rather than
+separate desktop graphical applications. The helpers are idle until the web
+app connects and never act as a permanent media cache.
+
 ## 💡 Features
 
 ### ⬇️ Downloading
