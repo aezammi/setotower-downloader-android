@@ -19,4 +19,11 @@ class ExampleInstrumentedTest {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         Assert.assertEquals("com.setotower.downloader", appContext.packageName)
     }
+
+    @Test
+    fun appIdentityIsSetotowerBranded() {
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        Assert.assertEquals("Setotower Downloader", appContext.getString(R.string.app_name))
+        Assert.assertFalse(appContext.applicationInfo.loadLabel(appContext.packageManager).toString().contains("YTDLnis"))
+    }
 }
