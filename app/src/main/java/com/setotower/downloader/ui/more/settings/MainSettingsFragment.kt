@@ -44,6 +44,7 @@ import com.setotower.downloader.util.FileUtil
 import com.setotower.downloader.util.ThemeUtil
 import com.setotower.downloader.util.UiUtil
 import com.setotower.downloader.util.UpdateUtil
+import com.setotower.downloader.util.SetotowerProductPolicy
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
@@ -101,7 +102,11 @@ class MainSettingsFragment : PreferenceFragmentCompat() {
         }
 
         val folders = findPreference<Preference>("folders")
-        folders?.summary = "${getString(R.string.music_directory)}$separator ${getString(R.string.video_directory)}$separator ${getString(R.string.command_directory)}"
+        folders?.summary = if (SetotowerProductPolicy.allowCommandDirectory) {
+            "${getString(R.string.music_directory)}$separator ${getString(R.string.video_directory)}$separator ${getString(R.string.command_directory)}"
+        } else {
+            "${getString(R.string.music_directory)}$separator ${getString(R.string.video_directory)}"
+        }
         folders?.setOnPreferenceClickListener {
             navController.navigate(R.id.action_mainSettingsFragment_to_folderSettingsFragment)
             true
@@ -122,7 +127,11 @@ class MainSettingsFragment : PreferenceFragmentCompat() {
         }
 
         val updating = findPreference<Preference>("updating")
-        updating?.summary = "${getString(R.string.update_ytdl)}$separator ${getString(R.string.update_app)}"
+        updating?.summary = if (SetotowerProductPolicy.allowEngineMaintenanceSettings) {
+            "${getString(R.string.update_ytdl)}$separator ${getString(R.string.update_app)}"
+        } else {
+            getString(R.string.update_app)
+        }
         updating?.setOnPreferenceClickListener {
             navController.navigate(R.id.action_mainSettingsFragment_to_updateSettingsFragment)
             true

@@ -10,6 +10,7 @@ import com.setotower.downloader.ui.more.settings.SettingHost
 import com.setotower.downloader.ui.more.settings.SettingModule
 import com.setotower.downloader.util.ApkInstallUtil
 import com.setotower.downloader.util.UiUtil
+import com.setotower.downloader.util.SetotowerProductPolicy
 import com.google.android.material.snackbar.Snackbar
 import java.io.File
 
@@ -22,6 +23,7 @@ object UpdateSettingsModule : SettingModule {
         when(pref.key) {
             "ytdlp_update_screen" -> {
                 pref.apply {
+                    isVisible = SetotowerProductPolicy.allowEngineMaintenanceSettings
                     val version = preferences.getString("ytdl-version", "")!!
                     val source = preferences.getString("ytdlp_source", "nightly")!!
 
@@ -49,6 +51,7 @@ object UpdateSettingsModule : SettingModule {
             }
             "packages" -> {
                 pref.apply {
+                    isVisible = SetotowerProductPolicy.allowEngineMaintenanceSettings
                     summary = "Python, FFmpeg, Aria2c, NodeJS, Deno"
                     setOnPreferenceClickListener {
                         host.requestNavigate(R.id.packagesFragment)
@@ -58,6 +61,7 @@ object UpdateSettingsModule : SettingModule {
             }
             "apk_install_method" -> {
                 pref.apply {
+                    isVisible = SetotowerProductPolicy.allowEngineMaintenanceSettings
                     setOnPreferenceChangeListener { _, newValue ->
                         var resp = true
                         if ((newValue as String) == "shizuku") {

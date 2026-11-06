@@ -23,6 +23,7 @@ import com.setotower.downloader.R
 import com.setotower.downloader.database.viewmodel.DownloadViewModel
 import com.setotower.downloader.ui.more.settings.BaseSettingsFragment
 import com.setotower.downloader.ui.more.settings.SettingsRegistry
+import com.setotower.downloader.util.SetotowerProductPolicy
 import com.setotower.downloader.util.FileUtil
 import com.setotower.downloader.util.UiUtil
 import com.setotower.downloader.work.MoveCacheFilesWorker
@@ -40,6 +41,8 @@ class FolderSettingsFragment : BaseSettingsFragment() {
         val preferenceXMLRes = R.xml.folders_preference
         setPreferencesFromResource(preferenceXMLRes, rootKey)
         SettingsRegistry.bindFragment(this, preferenceXMLRes)
+        findPreference<Preference>("command_path")?.isVisible =
+            SetotowerProductPolicy.allowCommandDirectory
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         editor = preferences.edit()

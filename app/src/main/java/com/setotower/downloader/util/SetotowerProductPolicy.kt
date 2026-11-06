@@ -7,4 +7,10 @@ object SetotowerProductPolicy {
 
     /** The customer app does not expose the upstream command-terminal editor. */
     const val allowCommandTemplates = false
+
+    /** Engine/package maintenance is handled by Setotower releases, not customers. */
+    const val allowEngineMaintenanceSettings = false
+
+    /** The phone app has no customer-facing terminal command directory. */
+    const val allowCommandDirectory = false
 }
