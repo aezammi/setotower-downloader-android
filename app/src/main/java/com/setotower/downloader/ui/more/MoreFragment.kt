@@ -58,6 +58,7 @@ class MoreFragment : Fragment() {
         mainSharedPreferencesEditor = mainSharedPreferences.edit()
         logs = view.findViewById(R.id.logs)
         commandTemplates = view.findViewById(R.id.command_templates)
+        commandTemplates.isVisible = SetotowerProductPolicy.allowCommandTemplates
         downloads = view.findViewById(R.id.downloads)
         downloadQueue = view.findViewById(R.id.download_queue)
         cookies = view.findViewById(R.id.cookies)
