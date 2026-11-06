@@ -39,7 +39,6 @@
 ## 💡 Veçoritë
 
 ### ⬇️ Shkarkimi
-- Shkarko audio, video ose ekzekuto komanda të personalizuara yt-dlp në [mbi 1000 website](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md)
 - Ndaj një link me aplikacionin dhe shkarko direkt nga karta e poshtme, pa pasur nevojë ta hapësh aplikacionin
 - Shkarkim i shpejtë që nis menjëherë pa pritur që të ngarkohen të dhënat
 - Lista dhe shkarkime në grup: modifiko çdo artikull veç e veç ose ndrysho njëherësh llojin, formatin, vendndodhjen dhe shabllonin e emrit për të gjithë, rendit sipas autorit, kohëzgjatjes, titullit ose datës
@@ -63,9 +62,7 @@
 - Shabllone emrash me parapamje live, ose nënfoldera të thjeshtë sipas listës, website-it ose llojit të shkarkimit
 
 ### 🧑‍💻 Për përdoruesit e avancuar
-- Terminal i plotë me bash, ku yt-dlp, Python, pip, FFmpeg dhe mjetet e tjera të përfshira janë gati për përdorim
 - Shabllone komandash me theksim sintakse që mund t'i ruash dhe t'i ndash me të tjerët
-- Mbështetje për cookies: hyr nga shfletuesi i integruar dhe shkarko përmbajtje private ose premium
 - Gjenero PO tokens për YouTube me ofruesin e integruar BGUtils ose brenda webview-t të aplikacionit
 - Zgjidh NewPipe ose yt-dlp për marrjen e të dhënave
 - Python me curl-cffi i përfshirë, plus JS runtimes (QuickJS, Deno, NodeJS) për sfidat e website-ve

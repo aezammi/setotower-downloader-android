@@ -46,9 +46,7 @@
 - antrekan unduhan dan jadwalkan berdasarkan tanggal dan waktu
 	- kamu juga bisa menjadwalkan beberapa butir sekaligus
 - unduh beberapa butir sekaligus
-- gunakan perintah kustom dan templat atau gunakan mode yt-dlp sepenuhnya dengan terminal bawaan (built-in)
 	- kamu bisa mencadangkan dan memulihkan templat, sehingga kamu bisa membagikannya dengan teman-temanmu
-- dukungan KUKI. Masuk dengan akunmu dan unduh video privat/tidak tersedia, buka penguncian format premium, dll.
 - potong video berdasarkan stempel waktu dan babak video (Fitur yt-dlp ini bersifat eksperimental pada proyek orisinalnya)
 	- kamu bisa melakukan pemotongan sebanyak yang kamu inginkan (tanpa batas jumlah)
 - hilangkan elemen sponsorblock dari butirnya

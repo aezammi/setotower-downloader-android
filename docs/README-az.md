@@ -50,7 +50,6 @@
 - eyni vaxtda çoxlu elementi yüklə
 - fərdi əmrlər və şablonlar istifadə edin və ya quraşdırılan konsol ilə tam yt-dlp rejiminə keçin
 	- Siz şablonları nüsxələyə və bərpa edə bilərsiniz, beləcə dostlarınızla paylaşa bilərsiniz
-- Məlumatlar bazası dəstəyi.Hesablarınızla daxil olun və şəxsi/əlçatmaz videoları yüklə, premium formatları kiliddən açın və s.
 - vaxt ştampları və video bölmələri əsasında videoları kəsin (Bu yt-dlp xüsusiyyəti orijinal layihədə təcrübidir)
 	- limitsiz kəsiklər hazırlaya bilərsiniz
 - elementdən SponsorBlock elementlərin təmizlə
