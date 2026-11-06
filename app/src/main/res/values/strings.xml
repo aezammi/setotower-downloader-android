@@ -377,7 +377,7 @@
     <string name="bitrate">Bitrate</string>
     <string name="save_auto_subs">Save automatic subtitles</string>
     <string name="not_deleted">Not deleted</string>
-    <string name="archive">Download archive [Use yt-dlp\'s download archive file to prevent duplicate downloads instead of the built in functionality]</string>
+    <string name="archive">Download archive [Prevent duplicate downloads using the app archive]</string>
     <string name="disabled">Disabled</string>
     <string name="swipe_gestures_download_card">Swipe gestures in download card</string>
     <string name="show_download_count">Show counts in the download queue screen</string>
@@ -457,7 +457,7 @@
     <string name="thumbnail">Thumbnail</string>
     <string name="data_fetching_extra_command_summary">Enable command templates to be used for data fetching as extra commands</string>
     <string name="disable_write_info_json">Disable write info json</string>
-    <string name="disable_write_info_json_summary">Every time you restart / resume the download, yt-dlp will re-download json data from the servers (not recommended)</string>
+    <string name="disable_write_info_json_summary">When you restart or resume a download, metadata will be fetched again</string>
     <string name="ytdlp_watch_later">yt-dlp YouTube watch later (needs cookies)</string>
     <string name="ytdlp_recommnedations">yt-dlp YouTube recommendations (needs cookies)</string>
     <string name="ytdlp_liked">yt-dlp YouTube liked videos (needs cookies)</string>
@@ -534,7 +534,7 @@
     <string name="bundled">Bundled</string>
     <string name="use_app_language_for_metadata_summary">If enabled, metadata fields will follow your app language and even affect format selection by preferring dubbed versions instead of original</string>
     <string name="installed">Installed</string>
-    <string name="auto_update_ytdlp_summary">It\'s recommended to keep this enabled as yt-dlp needs to be updated pretty often to stay working! The data is extracted from yt-dlp\'s GitHub Repository.</string>
+    <string name="auto_update_ytdlp_summary">Keep the bundled download engine current for the best source compatibility</string>
     <string name="save_subdirectory">Save to subdirectory</string>
     <string name="save_subdirectory_summary">Save files in folders based on metadata tags</string>
     <string name="trim_filenames">Trim filenames</string>
@@ -590,10 +590,10 @@
         <item quantity="one">Every minute</item>
         <item quantity="other">Every %d minutes</item>
     </plurals>
-    <string name="bgutils_info">A proof-of-origin token (POT) provider for yt-dlp.\nWith it enabled, Setotower Downloader hosts the HTTP server that generates the POT and installs the related plugin that yt-dlp uses.</string>
+    <string name="bgutils_info">An optional source-compatibility provider used by Setotower Downloader.</string>
     <string name="bgutils_pot_generation_script">Generation script</string>
     <string name="bgutils_pot_generation_server">HTTP server</string>
-    <string name="bgutils_pot_generation_script_summary">Every yt-dlp call incurs the overhead of spawning a new js runtime process to run the script. This method is not recommended for high concurrency usage.</string>
+    <string name="bgutils_pot_generation_script_summary">Each source check starts a small compatibility process, so it is not recommended for high concurrency usage.</string>
     <string name="bgutils_pot_server_summary">This is a JavaScript HTTP server, on port 4416. If down, it automatically starts the server when download queue starts executing, or observe sources is scheduled. To shut it down, you have to do it manually from notifications!</string>
     <string name="please_install_package">Please install package %s</string>
     <string name="please_install_package_or_package">Please install %1$s package or %2$s package</string>
@@ -603,7 +603,7 @@
     <string name="notset">Not set</string>
     <string name="external">External</string>
     <string name="exit">Exit</string>
-    <string name="packages_description">Packages are helper applications Setotower Downloader uses to help with yt-dlp commands. Some of them are already bundled, but you can install newer versions that are published without the need to update the app. The installed apk\'s replace the bundled version that the app uses.</string>
+    <string name="packages_description">Optional runtime components used by Setotower Downloader. Some are bundled with the app and can be updated independently.</string>
     <string name="bgutils_pot_generation_script_info">In order to use the BgUtils POT Provider, the app needs to download Brainicism/bgutil-ytdlp-pot-provider repo from github and initiate the installation. This might take a while to finish. Proceed now?</string>
     <string name="burn_subs">Burn subtitles</string>
     <string name="check_clipboard_home_summary">Automatically detect URLs in clipboard in the home screen</string>
@@ -641,20 +641,20 @@
     <string name="update_not_checked_yet">Not checked yet</string>
     <string name="update_channel">Update channel</string>
     <string name="custom_channels">Custom fork</string>
-    <string name="custom_channels_summary">Update from your own yt-dlp release repositories</string>
+    <string name="custom_channels_summary">Update from a custom download-engine release repository</string>
     <string name="channel_stable">Stable</string>
     <string name="channel_nightly">Nightly</string>
     <string name="channel_master">Master</string>
     <string name="channel_beta">Beta</string>
     <string name="ytdlp" translatable="false">yt-dlp</string>
     <string name="temporary_files">Temporary files</string>
-    <string name="temporary_files_description">Working files held by the app. Temporary configurations and other yt-dlp related data.</string>
+    <string name="temporary_files_description">Working files held temporarily by the app while preparing or resuming downloads.</string>
     <string name="unfinished_downloads">Unfinished downloads</string>
     <string name="unfinished_downloads_summary">Partial files of stopped or failed downloads, kept so they can be resumed</string>
     <string name="info_jsons">Info-JSONs</string>
-    <string name="info_jsons_summary">Saved video metadata so yt-dlp doesn\'t have to fetch it again</string>
-    <string name="ytdlp_cache">yt-dlp cache</string>
-    <string name="ytdlp_cache_summary">Data yt-dlp reuses between runs, like YouTube player signatures</string>
+    <string name="info_jsons_summary">Saved media metadata so the app does not have to fetch it again</string>
+    <string name="ytdlp_cache">Download engine cache</string>
+    <string name="ytdlp_cache_summary">Compatibility data reused between download runs</string>
     <string name="temporary_configurations">Temporary configurations</string>
     <string name="temporary_configurations_summary">Command configs, URL lists and other short-lived files</string>
     <string name="downloaded_apks">Downloaded APKs</string>
@@ -670,7 +670,7 @@
     <string name="retry">Retry</string>
     <string name="retry_all">Retry all</string>
     <string name="download_anyway">Download anyway</string>
-    <string name="write_ytdlp_terminal">Auto write yt-dlp in terminal</string>
+    <string name="write_ytdlp_terminal">Show download-engine commands in terminal</string>
     <string name="clear">Clear</string>
     <string name="welcome_title">Welcome to Setotower Downloader</string>
     <string name="welcome_subtitle">Download video and audio with Setotower. Let\'s get a few things set up first.</string>
@@ -679,7 +679,7 @@
     <string name="welcome_restore_failed">Could not restore this backup</string>
     <string name="welcome_restoring">Restoring backup…</string>
     <string name="welcome_guide_title">Read the guide</string>
-    <string name="welcome_guide_summary">The guide covers everything about the app, downloading, command templates and fixing common problems. You can open it any time from the website.</string>
+    <string name="welcome_guide_summary">The guide covers the app, downloads, format selection, and common problems.</string>
     <string name="welcome_open_guide">Open guide</string>
     <string name="welcome_permissions_title">Permissions</string>
     <string name="welcome_permissions_summary">Setotower Downloader needs these permissions to save downloads on this device.</string>
