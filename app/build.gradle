@@ -9,6 +9,7 @@ plugins {
 }
 
 def properties = new Properties()
+def hasPrivateSigning = false
 def versionMajor = 0
 def versionMinor = 1
 def versionPatch = 0
@@ -33,6 +34,7 @@ android {
         // release keystore is explicitly configured. Never pass null to
         // file(), because public CI intentionally has no signing secrets.
         debug { }
+        release { }
     }
 
     def propertiesFile = rootProject.file("keystore.properties")
@@ -43,12 +45,13 @@ android {
         def configuredAlias = properties["signingConfig.keyAlias"]
         def configuredKeyPassword = properties["signingConfig.keyPassword"]
         if ([configuredStore, configuredPassword, configuredAlias, configuredKeyPassword].every { it }) {
-            signingConfigs.debug {
+            signingConfigs.release {
                 storeFile file(configuredStore)
                 storePassword configuredPassword
                 keyAlias configuredAlias
                 keyPassword configuredKeyPassword
             }
+            hasPrivateSigning = true
         }
     }
     defaultConfig {
@@ -81,7 +84,7 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             debuggable false
-            signingConfig signingConfigs.debug
+            signingConfig hasPrivateSigning ? signingConfigs.release : signingConfigs.debug
         }
 
         debug {
