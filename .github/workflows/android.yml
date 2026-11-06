@@ -91,9 +91,14 @@ jobs:
         env:
           OUTPUT_DIR: ${{ env.main_project_module }}/build/outputs/apk/${{ matrix.flavor }}/release
         run: |
-          command -v apksigner
+          if command -v apksigner >/dev/null 2>&1; then
+            APKSIGNER="$(command -v apksigner)"
+          else
+            APKSIGNER="$(find "$ANDROID_HOME/build-tools" -type f -name apksigner -print -quit)"
+          fi
+          test -n "$APKSIGNER" && test -x "$APKSIGNER"
           for apk in "$OUTPUT_DIR"/*.apk; do
-            apksigner verify --verbose "$apk"
+            "$APKSIGNER" verify --verbose "$apk"
           done
           if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
             grep -qx 'signing=private-keystore' "$OUTPUT_DIR/BUILD-METADATA.txt"
