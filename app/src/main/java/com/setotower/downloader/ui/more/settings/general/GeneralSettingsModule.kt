@@ -266,6 +266,7 @@ object GeneralSettingsModule : SettingModule {
             }
             "show_terminal" -> {
                 (pref as SwitchPreferenceCompat).apply {
+                    isVisible = false
                     setOnPreferenceChangeListener { pref, _ ->
                         val packageManager = context.packageManager
                         val aliasComponentName =

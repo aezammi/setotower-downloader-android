@@ -15,6 +15,7 @@ import com.setotower.downloader.R
 import com.setotower.downloader.ui.adapter.SortableTextItemAdapter
 import com.setotower.downloader.ui.more.settings.SettingModule
 import com.setotower.downloader.ui.more.settings.SettingHost
+import com.setotower.downloader.util.SetotowerProductPolicy
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlin.collections.indexOf
 
@@ -31,6 +32,7 @@ object AdvancedSettingsModule : SettingModule {
                 }
             }
             "generate_po_tokens" -> {
+                pref.isVisible = SetotowerProductPolicy.allowInteractiveCookieLogin
                 pref.setOnPreferenceClickListener {
                     host.requestNavigate(R.id.generateYoutubePoTokensFragment)
                     false

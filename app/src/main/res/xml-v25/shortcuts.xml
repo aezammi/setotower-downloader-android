@@ -48,17 +48,4 @@
         </intent>
     </shortcut>
 
-    <shortcut
-        android:shortcutId="terminal"
-        android:enabled="true"
-        android:icon="@drawable/ic_terminal_red"
-        android:shortcutShortLabel="@string/terminal"
-        android:shortcutDisabledMessage="@string/terminal">
-        <intent
-            android:action="android.intent.category.DEFAULT"
-            android:targetPackage="com.setotower.downloader"
-            android:targetClass="com.setotower.downloader.ui.more.terminal.TerminalActivity">
-
-        </intent>
-    </shortcut>
 </shortcuts>

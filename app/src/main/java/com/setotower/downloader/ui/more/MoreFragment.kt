@@ -23,6 +23,7 @@ import com.setotower.downloader.R
 import com.setotower.downloader.database.viewmodel.DownloadViewModel
 import com.setotower.downloader.ui.more.settings.SettingsActivity
 import com.setotower.downloader.util.NavbarUtil
+import com.setotower.downloader.util.SetotowerProductPolicy
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
@@ -60,6 +61,7 @@ class MoreFragment : Fragment() {
         downloads = view.findViewById(R.id.downloads)
         downloadQueue = view.findViewById(R.id.download_queue)
         cookies = view.findViewById(R.id.cookies)
+        cookies.isVisible = SetotowerProductPolicy.allowInteractiveCookieLogin
         observeSources = view.findViewById(R.id.observe_sources)
         terminateApp = view.findViewById(R.id.terminate)
         settings = view.findViewById(R.id.settings)

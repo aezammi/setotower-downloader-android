@@ -15,7 +15,7 @@
     <string name="updating">Updating</string>
     <string name="open_file">Open file</string>
     <string name="ytdl_update_hint">Useful tip while downloading updates</string>
-    <string name="update_ytdl">Update yt-dlp to the new version</string>
+    <string name="update_ytdl">Update the download engine</string>
     <string name="about">About</string>
     <string name="source_code">Source code</string>
     <string name="search_hint">Search or insert URL</string>
@@ -23,9 +23,9 @@
     <string name="download_notification_channel_name">File downloads</string>
     <string name="download_notification_channel_description">Notification showing the progress of downloading audio and video files</string>
     <string name="you_are_in_latest_version">Using the latest version</string>
-    <string name="ytld_update_success">New yt-dlp version installed</string>
-    <string name="ytdl_already_updating">Installing new yt-dlp version</string>
-    <string name="ytdl_updating_started">Downloading new yt-dlp version</string>
+    <string name="ytld_update_success">New download engine version installed</string>
+    <string name="ytdl_already_updating">Installing the new download engine</string>
+    <string name="ytdl_updating_started">Downloading the new download engine</string>
     <string name="Remove">Remove</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
@@ -64,7 +64,7 @@
     <string name="cancel_task">Cancel task</string>
     <string name="run_command">Run command</string>
     <string name="command_download_notification_channel_name">Command downloads</string>
-    <string name="command_download_notification_channel_description">Notification showing the progress of downloading using a yt-dlp command</string>
+    <string name="command_download_notification_channel_description">Notification showing the progress of an advanced download</string>
     <string name="items_left">item(s) left</string>
     <string name="history_is_empty">History is empty</string>
     <string name="you_are_going_to_delete">Deleting</string>
@@ -182,7 +182,7 @@
     <string name="clear_temporary_files_summary">Delete cached files, infojsons and other temporary configurations</string>
     <string name="cache_cleared">Temporary files cleared</string>
     <string name="downloads_running_try_later">Download worker is running. Try again later</string>
-    <string name="ytdl_version">yt-dlp version</string>
+    <string name="ytdl_version">Download engine version</string>
     <string name="freespace">Free space</string>
     <string name="link_you_copied">Link you copied</string>
     <string name="restrict_filenames">Restrict filenames</string>
@@ -314,7 +314,7 @@
     <string name="all_artists_in_album_artist">Save all artists in Album Artist</string>
     <string name="all_artists_in_album_artist_summary">Use all artists for the Album Artist tag instead of only the first one</string>
     <string name="update_formats_background">Update formats in background</string>
-    <string name="auto_update_ytdlp">Auto-update yt-dlp</string>
+    <string name="auto_update_ytdlp">Auto-update the download engine</string>
     <string name="use_sponsorblock">Use SponsorBlock</string>
     <string name="cache_first">Cache downloads first</string>
     <string name="cache_first_summary">Cache files download to internal storage, then move to your chosen directory. Use this when you can\'t write directly to storage</string>
@@ -338,7 +338,7 @@
     <string name="ignore">Ignore</string>
     <string name="modify_download_card">Modify download card</string>
     <string name="export_file">Export file</string>
-    <string name="ytdl_source">yt-dlp source</string>
+    <string name="ytdl_source">Download engine source</string>
     <string name="buffer_size">Buffer size</string>
     <string name="buffer_size_summary">Size of download buffer, e.g. 1024 or 16K (default is 1024)</string>
     <string name="preferred_audio_language">Preferred audio language</string>
@@ -519,8 +519,8 @@
     <string name="chapters">Chapters</string>
     <string name="use_original_url_playlist">Use original url for playlist url</string>
     <string name="use_original_url_playlist_summary">Use playlist url given by user instead of the playlist_webpage_url tag from the json dump</string>
-    <string name="update_ytdlp_while_downloading">Update yt-dlp while downloading</string>
-    <string name="update_ytdlp_while_downloading_summary">Add -U to yt-dlp to update it to latest before downloading</string>
+    <string name="update_ytdlp_while_downloading">Update the engine while downloading</string>
+    <string name="update_ytdlp_while_downloading_summary">Refresh the download engine before starting a transfer</string>
     <string name="preview_filename">Preview filename</string>
     <string name="potoken_guide">Auth\n-----------------------\n1. Click \'Auth\' to open the sign in page in WebView.\n2. Sign in to your Google Account.\n3. Play any video that supports auto-translated subtitles.\n4. Turn on auto-translated subtitles and see if it works.\n\t4.1 If auto-translated subtitles don\'t work, switch to another video that supports auto-translated subtitles and try step 4 again.\n5. Click OK.\n\nNo Auth\n-----------------------\n1. Click \'No Auth\'.\n2. Write any youtube video url\n3. Wait for the video to load and play the video for at least 3 seconds.\n4. Click OK.</string>
     <string name="no_auth">No Auth</string>
@@ -673,7 +673,7 @@
     <string name="write_ytdlp_terminal">Auto write yt-dlp in terminal</string>
     <string name="clear">Clear</string>
     <string name="welcome_title">Welcome to Setotower Downloader</string>
-    <string name="welcome_subtitle">Download video and audio using yt-dlp. Let\'s get a few things set up first.</string>
+    <string name="welcome_subtitle">Download video and audio with Setotower. Let\'s get a few things set up first.</string>
     <string name="welcome_get_started">Get started</string>
     <string name="welcome_restore_backup">Restore from backup</string>
     <string name="welcome_restore_failed">Could not restore this backup</string>

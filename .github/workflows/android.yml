@@ -70,6 +70,23 @@ jobs:
       - name: Build ${{ matrix.flavor }} APK release
         run: ./gradlew --no-daemon --max-workers=2 ${{ matrix.task }} --warning-mode all
 
+      - name: Record release provenance and checksums
+        run: |
+          output_dir="${{ env.main_project_module }}/build/outputs/apk/${{ matrix.flavor }}/release"
+          test -d "$output_dir"
+          {
+            echo "commit=${GITHUB_SHA}"
+            echo "flavor=${{ matrix.flavor }}"
+            echo "workflow=${GITHUB_WORKFLOW}"
+            echo "run=${GITHUB_RUN_ID}"
+            if [ -f app/release_keystore.jks ] && [ -f keystore.properties ]; then
+              echo "signing=private-keystore"
+            else
+              echo "signing=debug-keystore-ci-only"
+            fi
+          } > "$output_dir/BUILD-METADATA.txt"
+          (cd "$output_dir" && sha256sum -- *.apk > SHA256SUMS)
+
       # Upload individual ABI artifacts for this runner's flavor
       - name: Upload arm64
         uses: actions/upload-artifact@v4

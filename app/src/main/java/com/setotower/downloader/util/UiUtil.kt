@@ -2216,7 +2216,7 @@ object UiUtil {
         }
 
         val cookieRelated = message.contains("cookie", true) || message.contains("sign in", true)
-        if (cookieRelated && !url.isNullOrBlank()) {
+        if (cookieRelated && !url.isNullOrBlank() && SetotowerProductPolicy.allowInteractiveCookieLogin) {
             errDialog.setNeutralButton(context.getString(R.string.get_cookies)) { d: DialogInterface?, _ : Int ->
                 cookieFetch()
             }
