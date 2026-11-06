@@ -16,6 +16,7 @@ import com.setotower.downloader.R
 import com.setotower.downloader.ui.adapter.SortableTextItemAdapter
 import com.setotower.downloader.ui.more.settings.BaseSettingsFragment
 import com.setotower.downloader.ui.more.settings.SettingsRegistry
+import com.setotower.downloader.util.SetotowerProductPolicy
 import com.setotower.downloader.util.UiUtil
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -27,6 +28,8 @@ class AdvancedSettingsFragment : BaseSettingsFragment() {
         val preferenceXMLRes = R.xml.advanced_preferences
         setPreferencesFromResource(preferenceXMLRes, rootKey)
         SettingsRegistry.bindFragment(this, preferenceXMLRes)
+        findPreference<Preference>("command_templates_category")?.isVisible =
+            SetotowerProductPolicy.allowCommandTemplates
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(requireActivity())
         val editor = prefs.edit()

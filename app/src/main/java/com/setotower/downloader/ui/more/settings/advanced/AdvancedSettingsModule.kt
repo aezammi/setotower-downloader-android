@@ -25,6 +25,11 @@ object AdvancedSettingsModule : SettingModule {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
         when(pref.key) {
+            "enable_data_fetching_extra_commands" -> {
+                // Command templates are an upstream power-user surface and are
+                // intentionally unavailable in the Setotower product UI.
+                pref.isVisible = SetotowerProductPolicy.allowCommandTemplates
+            }
             "yt_player_client" -> {
                 pref.setOnPreferenceClickListener {
                     host.requestNavigate(R.id.youtubePlayerClientFragment)
