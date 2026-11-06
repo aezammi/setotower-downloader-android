@@ -1,0 +1,30 @@
+<b>Setotower Downloader</b> is a free and open source Android downloader for media you are authorized to save. Paste a supported link, inspect the available title, thumbnail, formats and qualities, then download directly to your device.
+
+<b>Downloading</b>
+
+- download video or audio from supported public sources
+- choose the container, resolution and audio quality before starting
+- preserve audio and video together when the source provides separate streams
+- inspect Cineb movie and series pages with posters, episode names and HLS qualities
+- inspect magnet links and choose the torrent files you want to save
+- share links to Setotower Downloader from any app
+- pause, resume, cancel and retry downloads
+- receive progress notifications while downloads run in the background
+- save files in the device's Setotower download folder
+
+<b>Media tools</b>
+
+- merge compatible audio and video streams into a playable MP4
+- remux supported HLS VOD sources without keeping a server-side media copy
+- preserve the source title and use safe filenames
+- show actionable errors when a source is private, restricted, unavailable or unsupported
+
+<b>Privacy and safety</b>
+
+- downloads run on the device whenever the selected flow supports it
+- the Setotower service coordinates short-lived inspection metadata and does not act as a permanent media cache
+- private or login-restricted content is not bypassed
+- no account login is required for the Setotower app
+- third-party engine and license notices are included with the source and release artifacts
+
+Setotower Downloader only supports content you have permission to download. Availability and formats depend on the source provider.
