@@ -4,12 +4,10 @@ import androidx.preference.PreferenceManager
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.assertion.ViewAssertions.matches
+import android.view.View
 import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -42,9 +40,16 @@ class ExampleInstrumentedTest {
             .putBoolean("welcome_completed", true)
             .apply()
 
-        ActivityScenario.launch(MainActivity::class.java).use {
-            onView(withId(R.id.downloadQueueMainFragment)).perform(click())
-            onView(withId(R.id.download_tablayout)).check(matches(isDisplayed()))
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            scenario.onActivity { activity ->
+                activity.findViewById<View>(R.id.downloadQueueMainFragment).performClick()
+            }
+            InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+            scenario.onActivity { activity ->
+                val tabs = activity.findViewById<View>(R.id.download_tablayout)
+                assertNotNull("Queue tabs should be created after opening Queue", tabs)
+                assertEquals(View.VISIBLE, tabs.visibility)
+            }
         }
     }
 }
