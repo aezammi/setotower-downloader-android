@@ -3,11 +3,17 @@ name: Android instrumentation smoke
 on:
   workflow_dispatch:
   push:
+    branches:
+      - main
     tags:
       - "v*"
 
 permissions:
   contents: read
+
+concurrency:
+  group: android-instrumented-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   connected-test:

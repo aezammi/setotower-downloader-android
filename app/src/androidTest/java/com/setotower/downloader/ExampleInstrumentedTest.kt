@@ -59,6 +59,7 @@ class ExampleInstrumentedTest {
         PreferenceManager.getDefaultSharedPreferences(appContext)
             .edit()
             .putBoolean("welcome_completed", true)
+            .putString("navigation_bar", "0,1,-3,2")
             .apply()
 
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
@@ -74,6 +75,40 @@ class ExampleInstrumentedTest {
                 assertNotNull("Queue tabs should survive Activity recreation", tabs)
                 assertEquals(View.VISIBLE, tabs.visibility)
             }
+        }
+    }
+
+    @Test
+    fun queueOpensFromMoreWithoutCrashing() {
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        PreferenceManager.getDefaultSharedPreferences(appContext)
+            .edit()
+            .putBoolean("welcome_completed", true)
+            .apply()
+
+        try {
+            ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+                scenario.onActivity { activity ->
+                    activity.findViewById<View>(R.id.moreFragment).performClick()
+                }
+                InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+
+                scenario.onActivity { activity ->
+                    activity.findViewById<View>(R.id.download_queue).performClick()
+                }
+                InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+
+                scenario.onActivity { activity ->
+                    val tabs = activity.findViewById<View>(R.id.download_tablayout)
+                    assertNotNull("Queue tabs should be created from More", tabs)
+                    assertEquals(View.VISIBLE, tabs.visibility)
+                }
+            }
+        } finally {
+            PreferenceManager.getDefaultSharedPreferences(appContext)
+                .edit()
+                .remove("navigation_bar")
+                .apply()
         }
     }
 }

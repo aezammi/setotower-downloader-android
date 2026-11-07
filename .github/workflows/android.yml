@@ -11,6 +11,10 @@ on:
       - "**"
   workflow_call:
 
+concurrency:
+  group: android-ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
