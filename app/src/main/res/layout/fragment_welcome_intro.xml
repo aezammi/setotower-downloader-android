@@ -19,7 +19,7 @@
             android:contentDescription="@null"
             android:importantForAccessibility="no"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_app_icon" />
+            android:src="@drawable/setotower_mark" />
 
         <TextView
             android:layout_width="wrap_content"

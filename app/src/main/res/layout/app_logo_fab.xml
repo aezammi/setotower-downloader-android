@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:contentDescription="@string/more"
-    android:src="@drawable/ic_app_icon"
+    android:src="@drawable/setotower_mark"
     app:maxImageSize="70dp"
     app:tint="@color/icon_fg"
     android:backgroundTint="#00000000"

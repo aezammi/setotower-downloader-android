@@ -21,7 +21,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@drawable/ic_app_icon"
+                android:src="@drawable/setotower_mark"
+                android:background="@android:color/transparent"
                 android:scaleType="center" />
 
             <TextView
