@@ -52,4 +52,28 @@ class ExampleInstrumentedTest {
             }
         }
     }
+
+    @Test
+    fun queueTabSurvivesActivityRecreation() {
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        PreferenceManager.getDefaultSharedPreferences(appContext)
+            .edit()
+            .putBoolean("welcome_completed", true)
+            .apply()
+
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            scenario.onActivity { activity ->
+                activity.findViewById<View>(R.id.downloadQueueMainFragment).performClick()
+            }
+            InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+
+            scenario.recreate()
+            InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+            scenario.onActivity { activity ->
+                val tabs = activity.findViewById<View>(R.id.download_tablayout)
+                assertNotNull("Queue tabs should survive Activity recreation", tabs)
+                assertEquals(View.VISIBLE, tabs.visibility)
+            }
+        }
+    }
 }
