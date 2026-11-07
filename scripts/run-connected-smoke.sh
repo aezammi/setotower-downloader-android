@@ -1,24 +1,39 @@
 #!/usr/bin/env bash
 set -u
 
+recover_adb() {
+  adb kill-server >/dev/null 2>&1 || true
+  sleep 2
+  adb start-server >/dev/null 2>&1 || true
+  adb reconnect offline >/dev/null 2>&1 || true
+}
+
 wait_for_device() {
-  for _ in $(seq 1 60); do
+  for tick in $(seq 1 60); do
     if [ "$(adb get-state 2>/dev/null || true)" = "device" ]; then
       return 0
     fi
-    adb reconnect offline >/dev/null 2>&1 || true
+    if [ "$((tick % 8))" -eq 0 ]; then
+      recover_adb
+    else
+      adb reconnect offline >/dev/null 2>&1 || true
+    fi
     sleep 2
   done
   return 1
 }
 
 wait_for_android_services() {
-  for _ in $(seq 1 90); do
+  for tick in $(seq 1 90); do
     if [ "$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" = "1" ] && \
        timeout 10s adb shell cmd package list packages >/dev/null 2>&1; then
       return 0
     fi
-    adb reconnect offline >/dev/null 2>&1 || true
+    if [ "$((tick % 8))" -eq 0 ]; then
+      recover_adb
+    else
+      adb reconnect offline >/dev/null 2>&1 || true
+    fi
     sleep 2
   done
   return 1
@@ -60,6 +75,7 @@ for attempt in 1 2; do
   if [ "$attempt" -lt 2 ]; then
     echo "Smoke attempt ${attempt} failed; restarting the emulator before retry"
     adb reboot || true
+    recover_adb
     sleep 12
   fi
 done
