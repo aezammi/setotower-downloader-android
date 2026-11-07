@@ -12,8 +12,10 @@ import androidx.activity.OnBackPressedCallback
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import com.setotower.downloader.R
 import com.setotower.downloader.database.viewmodel.DownloadViewModel
@@ -146,22 +148,26 @@ class ActiveQueuedDownloadsFragment : Fragment() {
             updateSheet()
         }
 
-        lifecycleScope.launch {
-            downloadViewModel.activePausedDownloadsCount.collectLatest {
-                activeCount = it
-                updateSheet()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                downloadViewModel.activePausedDownloadsCount.collectLatest {
+                    activeCount = it
+                    updateSheet()
+                }
             }
         }
 
-        lifecycleScope.launch {
-            downloadViewModel.queuedDownloadsCount.collectLatest {
-                queueCount = it
-                reorderButton.isVisible = it > 1
-                queuedContainer.isVisible = it > 0
-                updateSubtitle()
-                applyPauseResumeState()
-                updateSheet()
-                updateFileSize()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                downloadViewModel.queuedDownloadsCount.collectLatest {
+                    queueCount = it
+                    reorderButton.isVisible = it > 1
+                    queuedContainer.isVisible = it > 0
+                    updateSubtitle()
+                    applyPauseResumeState()
+                    updateSheet()
+                    updateFileSize()
+                }
             }
         }
     }

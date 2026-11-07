@@ -9,8 +9,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
@@ -101,7 +103,7 @@ class DownloadQueueMainFragment : Fragment(){
 
         fragmentAdapter = DownloadListFragmentAdapter(
             childFragmentManager,
-            lifecycle,
+            viewLifecycleOwner.lifecycle,
             fragments
         )
 
@@ -168,41 +170,51 @@ class DownloadQueueMainFragment : Fragment(){
         arguments?.clear()
 
         if (sharedPreferences.getBoolean("show_count_downloads", false)){
-            lifecycleScope.launch {
-                combine(downloadViewModel.activeDownloadsCount, downloadViewModel.queuedDownloadsCount) { active, queued -> active + queued }
-                    .collectLatest {
-                        tabLayout.getTabAt(0)?.apply {
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    combine(downloadViewModel.activeDownloadsCount, downloadViewModel.queuedDownloadsCount) { active, queued -> active + queued }
+                        .collectLatest {
+                            tabLayout.getTabAt(0)?.apply {
+                                createBadge(it)
+                            }
+                        }
+                }
+            }
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    downloadViewModel.scheduledDownloadsCount.collectLatest {
+                        tabLayout.getTabAt(1)?.apply {
                             createBadge(it)
                         }
                     }
+                }
             }
-            lifecycleScope.launch {
-                downloadViewModel.scheduledDownloadsCount.collectLatest {
-                    tabLayout.getTabAt(1)?.apply {
-                        createBadge(it)
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    downloadViewModel.cancelledDownloadsCount.collectLatest {
+                        tabLayout.getTabAt(2)?.apply {
+                            createBadge(it)
+                        }
                     }
                 }
             }
-            lifecycleScope.launch {
-                downloadViewModel.cancelledDownloadsCount.collectLatest {
-                    tabLayout.getTabAt(2)?.apply {
-                        createBadge(it)
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    downloadViewModel.erroredDownloadsCount.collectLatest {
+                        tabLayout.getTabAt(3)?.apply {
+                            removeBadge()
+                            if (it > 0) createBadge(it)
+                        }
                     }
                 }
             }
-            lifecycleScope.launch {
-                downloadViewModel.erroredDownloadsCount.collectLatest {
-                    tabLayout.getTabAt(3)?.apply {
-                        removeBadge()
-                        if (it > 0) createBadge(it)
-                    }
-                }
-            }
-            lifecycleScope.launch {
-                downloadViewModel.savedDownloadsCount.collectLatest {
-                    tabLayout.getTabAt(4)?.apply {
-                        removeBadge()
-                        if (it > 0) createBadge(it)
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    downloadViewModel.savedDownloadsCount.collectLatest {
+                        tabLayout.getTabAt(4)?.apply {
+                            removeBadge()
+                            if (it > 0) createBadge(it)
+                        }
                     }
                 }
             }
