@@ -13,4 +13,14 @@ if matches=$(grep -RInE --exclude='*.png' --exclude='*.jpg' --exclude='*.webp' "
   exit 1
 fi
 
+# Keep the public repository preview aligned with the installed app icon.
+# The source mark is the same asset used by the Setotower web favicon.
+expected_mark='e7f9a4ca6e5f240e83329ada9e2ad81f1be1a63e74adad075aa858b8f9cc0e9c'
+metadata_icon='fastlane/metadata/android/en-US/images/icon.png'
+actual_mark=$(sha256sum "$metadata_icon" | awk '{print $1}')
+if [[ "$actual_mark" != "$expected_mark" ]]; then
+  echo "public metadata icon is not the Setotower mark: $metadata_icon" >&2
+  exit 1
+fi
+
 echo 'Setotower branding check passed'

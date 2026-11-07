@@ -13,4 +13,7 @@ object SetotowerProductPolicy {
 
     /** The phone app has no customer-facing terminal command directory. */
     const val allowCommandDirectory = false
+
+    /** Keep provider/debug tuning out of the customer-facing settings flow. */
+    const val allowAdvancedSettings = false
 }

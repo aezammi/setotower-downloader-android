@@ -138,6 +138,7 @@ class MainSettingsFragment : PreferenceFragmentCompat() {
         }
 
         val advanced = findPreference<Preference>("advanced")
+        advanced?.isVisible = SetotowerProductPolicy.allowAdvancedSettings
         advanced?.summary = "PO Token$separator ${getString(R.string.other_youtube_extractor_args)}"
         advanced?.setOnPreferenceClickListener {
             navController.navigate(R.id.action_mainSettingsFragment_to_advancedSettingsFragment)
