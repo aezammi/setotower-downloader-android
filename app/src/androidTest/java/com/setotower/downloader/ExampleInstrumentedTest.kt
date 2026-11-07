@@ -4,7 +4,10 @@ import androidx.preference.PreferenceManager
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import androidx.navigation.findNavController
 import android.view.View
+import com.google.android.material.navigation.NavigationView
+import com.google.android.material.navigation.NavigationBarView
 import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -18,6 +21,26 @@ import org.junit.runner.RunWith
  */
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTest {
+    private fun openQueue(activity: MainActivity) {
+        val bottomNavigation = activity.findViewById<NavigationBarView>(R.id.bottomNavigationView)
+        val bottomItem = bottomNavigation?.menu?.findItem(R.id.downloadQueueMainFragment)
+        if (bottomNavigation != null && bottomItem != null && bottomItem.isVisible) {
+            bottomNavigation.selectedItemId = R.id.downloadQueueMainFragment
+            return
+        }
+
+        val largeScreenNavigation = activity.findViewById<NavigationView>(R.id.navigationView)
+        val largeScreenItem = largeScreenNavigation?.menu?.findItem(R.id.downloadQueueMainFragment)
+        if (largeScreenNavigation != null && largeScreenItem != null && largeScreenItem.isVisible) {
+            largeScreenNavigation.menu.performIdentifierAction(R.id.downloadQueueMainFragment, 0)
+            return
+        }
+
+        // Queue may be intentionally hidden from the navigation bar. Use the same
+        // NavController route that the More screen uses in that configuration.
+        activity.findNavController(R.id.frame_layout).navigate(R.id.downloadQueueMainFragment)
+    }
+
     @Test
     fun useAppContext() {
         // Context of the app under test.
@@ -42,7 +65,7 @@ class ExampleInstrumentedTest {
 
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             scenario.onActivity { activity ->
-                activity.findViewById<View>(R.id.downloadQueueMainFragment).performClick()
+                openQueue(activity)
             }
             InstrumentationRegistry.getInstrumentation().waitForIdleSync()
             scenario.onActivity { activity ->
@@ -64,7 +87,7 @@ class ExampleInstrumentedTest {
 
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             scenario.onActivity { activity ->
-                activity.findViewById<View>(R.id.downloadQueueMainFragment).performClick()
+                openQueue(activity)
             }
             InstrumentationRegistry.getInstrumentation().waitForIdleSync()
 
