@@ -13,7 +13,6 @@
 	Setotower Downloader Android 7.0 və yuxarı üçün yt-dlp istifadə edən pulsuz və açıq mənbəli video/səs yükləyicidir.
 </h3>
 <h4 align="center">
-	Denis Çerri tərəfindən yaradılmışdır
 </h4>
 
 <div align="center">
@@ -166,7 +165,6 @@ GPLv3 lisenziyası ilə lisenziyalaşdırılan mənbə kodu istisna olmaqla, bü
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp) və bu aləti mümkün etmək üçün töhfəçilərə. Bunsuz bu tətbiq mövcud olmazdı.
 - [youtubedl-android](https://github.com/yausername/youtubedl-android) yt-dlp-ni Android-ə köçürmək üçün
 - [dvd](https://github.com/yausername/dvd) Sizə youtubedl-android alətin göstərmək üçün
-- [seal](https://github.com/JunkFood02/Seal) müəyyən dizayn elementləri və xüsusiyyətləri üçün bu tətbiqdə də istifadə etmək istədim
 - [decipher3114](https://github.com/decipher3114) tətbiq simvolu üçün
 
 və bir çox başqa internet forum yad adamlar.

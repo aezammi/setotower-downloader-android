@@ -13,7 +13,6 @@
 	Setotower Downloader — бесплатное приложение с открытым исходным кодом для загрузки видео и аудио на основе yt-dlp для Android 7.0 и новее.
 </h3>
 <h4 align="center">
-	Создано Denis Çerri
 </h4>
 
 <div align="center">
@@ -165,7 +164,6 @@ Signer #1 certificate MD5 digest: 429d0c6315d2f99650f66cc44cf5a794
 
 - [decipher3114](https://github.com/decipher3114) — значок приложения
 - [dvd](https://github.com/yausername/dvd) — пример реализации на базе youtubedl-android
-- [seal](https://github.com/JunkFood02/Seal) — отдельные элементы оформления и функции, которые я хотел видеть в этом приложении на этапе начала разработки
 - [youtubedl-android](https://github.com/yausername/youtubedl-android) — порт yt-dlp на Android
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp) и его участники — без них этот инструмент не был бы возможен, а приложение не существовало бы
 

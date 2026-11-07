@@ -125,7 +125,6 @@ Exceto para o código-fonte licenciado sob a licença GPLv3, todas as outras par
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp) e seus colaboradores por tornarem esta ferramenta possível. Sem ele este aplicativo não existiria.
 - [youtubedl-android](https://github.com/yausername/youtubedl-android) por disponibilizar o yt-dlp para o Android
 - [dvd](https://github.com/yausername/dvd) por mostrar como implementar o youtubedl-android
-- [seal](https://github.com/JunkFood02/Seal) por certos elementos e recursos de design que eu também queria usar neste aplicativo
 - [decipher3114](https://github.com/decipher3114) por disponibilizar o ícone do aplicativo
 
 e muitos outros estranhos do fórum da Internet.

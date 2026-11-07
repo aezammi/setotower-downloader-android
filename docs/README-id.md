@@ -126,7 +126,6 @@ Pengecualian untuk kode sumber yang dilisensikan di bawah lisensi GPLv3, semua p
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp) dan kontributornya karena memungkinkan alat ini ada. Tanpanya, aplikasi ini tidak akan demikian.
 - [youtubedl-android](https://github.com/yausername/youtubedl-android) karena mem-porting yt-dlp ke Android
 - [dvd](https://github.com/yausername/dvd) karena memperlihatkan bagaimana caranya mengimplementasikan youtubedl-android
-- [seal](https://github.com/JunkFood02/Seal) atas elemen desain dan fitur tertentu yang ingin aku gunakan juga pada aplikasi ini
 - [decipher3114](https://github.com/decipher3114) atas ikon aplikasinya
 
 dan banyak lagi orang asing lainnya yang ada di forum internet.

@@ -169,7 +169,6 @@ Except for the source code licensed under the GPLv3 license, all other parties a
 
 - [decipher3114](https://github.com/decipher3114) for the app's icon
 - [dvd](https://github.com/yausername/dvd) for being an example youtubedl-android implementation
-- [seal](https://github.com/JunkFood02/Seal) for certain design elements and features I wanted to have in this app when I started developing it
 - [youtubedl-android](https://github.com/yausername/youtubedl-android) for porting yt-dlp to Android
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp) and its contributors for making this tool possible. Without it this app wouldn't exist
 
