@@ -39,14 +39,4 @@ jobs:
           force-avd-creation: true
           emulator-options: -no-window -no-audio -no-boot-anim -no-snapshot -wipe-data -gpu swiftshader_indirect
           disable-animations: true
-          script: |
-            for attempt in 1 2; do
-              echo "Connected smoke attempt ${attempt}/2"
-              if ./gradlew --no-daemon --max-workers=2 connectedGithubDebugAndroidTest --warning-mode all; then
-                exit 0
-              fi
-              echo "Smoke attempt ${attempt} failed; restarting the emulator before retry"
-              adb reboot || true
-              sleep 12
-            done
-            exit 1
+          script: ./scripts/run-connected-smoke.sh
