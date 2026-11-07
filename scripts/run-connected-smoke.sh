@@ -1,8 +1,24 @@
 #!/usr/bin/env bash
 set -u
 
+wait_for_device() {
+  for _ in $(seq 1 60); do
+    if [ "$(adb get-state 2>/dev/null || true)" = "device" ]; then
+      return 0
+    fi
+    adb reconnect offline >/dev/null 2>&1 || true
+    sleep 2
+  done
+  return 1
+}
+
 for attempt in 1 2; do
   echo "Connected smoke attempt ${attempt}/2"
+  if ! wait_for_device; then
+    echo "Android emulator did not become ready before attempt ${attempt}"
+    exit 1
+  fi
+
   if timeout --foreground 10m ./gradlew --no-daemon --max-workers=2 connectedGithubDebugAndroidTest --warning-mode all; then
     exit 0
   fi
