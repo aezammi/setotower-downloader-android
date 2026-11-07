@@ -646,7 +646,7 @@
     <string name="channel_nightly">Nightly</string>
     <string name="channel_master">Master</string>
     <string name="channel_beta">Beta</string>
-    <string name="ytdlp" translatable="false">yt-dlp</string>
+    <string name="ytdlp" translatable="false">Setotower download engine</string>
     <string name="temporary_files">Temporary files</string>
     <string name="temporary_files_description">Working files held temporarily by the app while preparing or resuming downloads.</string>
     <string name="unfinished_downloads">Unfinished downloads</string>
