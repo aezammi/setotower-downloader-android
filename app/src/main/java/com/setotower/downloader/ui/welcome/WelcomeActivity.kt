@@ -134,9 +134,10 @@ class WelcomeActivity : AppCompatActivity() {
 
     fun scheduleUpdateCheckWorker() {
         val checkUpdatesApp = preferences.getBoolean("update_app", true)
-        val checkUpdatesYTDL = preferences.getBoolean("auto_update_ytdlp", true)
 
-        if (checkUpdatesApp || checkUpdatesYTDL) {
+        // The phone client may check for app releases, but engine/package
+        // maintenance is shipped by Setotower and is not user-managed.
+        if (checkUpdatesApp) {
             UpdateCheckWorker.schedule(applicationContext)
         }
     }

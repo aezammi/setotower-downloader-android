@@ -18,6 +18,7 @@ import com.setotower.downloader.database.DBManager
 import com.setotower.downloader.database.dao.ResultDao
 import com.setotower.downloader.BuildConfig
 import com.setotower.downloader.core.RuntimeManager
+import com.setotower.downloader.util.SetotowerProductPolicy
 import com.setotower.downloader.core.packages.PackageBase
 import com.setotower.downloader.database.models.GithubRelease
 import com.setotower.downloader.database.models.PackageItem
@@ -120,27 +121,31 @@ class ResultViewModel(private val application: Application) : AndroidViewModel(a
                 }
             }
 
-            val skipRemindingPackageUpdate = sharedPreferences.getStringSet("skip_reminding_package_update", setOf())!!.toMutableSet()
+            // Package/runtime maintenance is internal to the Setotower client.
+            // Do not expose or poll it as a customer-facing updater surface.
+            if (SetotowerProductPolicy.allowEngineMaintenanceSettings) {
+                val skipRemindingPackageUpdate = sharedPreferences.getStringSet("skip_reminding_package_update", setOf())!!.toMutableSet()
 
-            RuntimeManager.getInstance().assertInit()
-            RuntimeManager.packages.forEach { pkg ->
-                val instance = pkg.plugin.getInstance()
-                if (instance.bundledVersion.isNullOrBlank() && instance.downloadedVersion.isNullOrBlank()) return@forEach
+                RuntimeManager.getInstance().assertInit()
+                RuntimeManager.packages.forEach { pkg ->
+                    val instance = pkg.plugin.getInstance()
+                    if (instance.bundledVersion.isNullOrBlank() && instance.downloadedVersion.isNullOrBlank()) return@forEach
 
-                val releases = instance.getReleases().getOrElse { listOf() }
-                if (releases.isEmpty()) return@forEach
+                    val releases = instance.getReleases().getOrElse { listOf() }
+                    if (releases.isEmpty()) return@forEach
 
-                val latestRelease = releases.first()
-                if (latestRelease.isBundled || latestRelease.isInstalled) return@forEach
-                if (latestRelease.oldVersion) return@forEach
-                if (skipRemindingPackageUpdate.contains(latestRelease.tag_name)) return@forEach
+                    val latestRelease = releases.first()
+                    if (latestRelease.isBundled || latestRelease.isInstalled) return@forEach
+                    if (latestRelease.oldVersion) return@forEach
+                    if (skipRemindingPackageUpdate.contains(latestRelease.tag_name)) return@forEach
 
-                availableUpdates.update { list ->
-                    list.filterNot { it is AvailableUpdate.Package && it.item.title == pkg.title } + AvailableUpdate.Package(latestRelease, pkg)
+                    availableUpdates.update { list ->
+                        list.filterNot { it is AvailableUpdate.Package && it.item.title == pkg.title } + AvailableUpdate.Package(latestRelease, pkg)
+                    }
+
+                    skipRemindingPackageUpdate.add(latestRelease.tag_name)
+                    sharedPreferences.edit().putStringSet("skip_reminding_package_update", skipRemindingPackageUpdate).apply()
                 }
-
-                skipRemindingPackageUpdate.add(latestRelease.tag_name)
-                sharedPreferences.edit().putStringSet("skip_reminding_package_update", skipRemindingPackageUpdate).apply()
             }
         }
     }

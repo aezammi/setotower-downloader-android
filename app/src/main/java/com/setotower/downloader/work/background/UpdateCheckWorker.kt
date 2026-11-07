@@ -15,6 +15,7 @@ import com.setotower.downloader.R
 import com.setotower.downloader.core.RuntimeManager
 import com.setotower.downloader.util.FileUtil
 import com.setotower.downloader.util.NotificationUtil
+import com.setotower.downloader.util.SetotowerProductPolicy
 import com.setotower.downloader.util.UpdateUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -39,33 +40,35 @@ class UpdateCheckWorker(
                 notificationUtil.showNewAppUpdate(newRelease.getOrNull()!!.tag_name)
             }
 
-            val skipRemindingPackageUpdate = sharedPreferences.getStringSet("skip_reminding_package_update", setOf())!!.toMutableSet()
-            RuntimeManager.packages.forEach { pkg ->
-                val instance = pkg.plugin.getInstance()
-                if (instance.bundledVersion.isNullOrBlank() && instance.downloadedVersion.isNullOrBlank()) return@forEach
-                val biggestVersionPresent : Int? = listOf(instance.downloadedVersion, instance.bundledVersion)
-                    .map { it?.replace("v", "")?.toInt() }.sortedByDescending { it }.first()
+            if (SetotowerProductPolicy.allowEngineMaintenanceSettings) {
+                val skipRemindingPackageUpdate = sharedPreferences.getStringSet("skip_reminding_package_update", setOf())!!.toMutableSet()
+                RuntimeManager.packages.forEach { pkg ->
+                    val instance = pkg.plugin.getInstance()
+                    if (instance.bundledVersion.isNullOrBlank() && instance.downloadedVersion.isNullOrBlank()) return@forEach
+                    val biggestVersionPresent : Int? = listOf(instance.downloadedVersion, instance.bundledVersion)
+                        .map { it?.replace("v", "")?.toInt() }.sortedByDescending { it }.first()
 
-                instance.getReleases().apply {
-                    val releases = this.getOrElse { listOf() }
-                    if (releases.isEmpty()) return@apply
+                    instance.getReleases().apply {
+                        val releases = this.getOrElse { listOf() }
+                        if (releases.isEmpty()) return@apply
 
-                    val latestRelease = releases.first()
-                    if (latestRelease.isBundled || latestRelease.isInstalled) return@apply
-                    if (skipRemindingPackageUpdate.contains(latestRelease.tag_name)) return@apply
+                        val latestRelease = releases.first()
+                        if (latestRelease.isBundled || latestRelease.isInstalled) return@apply
+                        if (skipRemindingPackageUpdate.contains(latestRelease.tag_name)) return@apply
 
-                    if (biggestVersionPresent != null && latestRelease.tag_name.split("-")[1].toInt() <= biggestVersionPresent) {
-                        return@apply
+                        if (biggestVersionPresent != null && latestRelease.tag_name.split("-")[1].toInt() <= biggestVersionPresent) {
+                            return@apply
+                        }
+                        notificationUtil.showNewPackageUpdate(pkg.title, latestRelease.tag_name)
+
+                        skipRemindingPackageUpdate.add(latestRelease.tag_name)
+                        sharedPreferences.edit().putStringSet("skip_reminding_package_update", skipRemindingPackageUpdate).apply()
                     }
-                    notificationUtil.showNewPackageUpdate(pkg.title, latestRelease.tag_name)
-
-                    skipRemindingPackageUpdate.add(latestRelease.tag_name)
-                    sharedPreferences.edit().putStringSet("skip_reminding_package_update", skipRemindingPackageUpdate).apply()
                 }
             }
         }
 
-        if (checkUpdatesYTDL) {
+        if (checkUpdatesYTDL && SetotowerProductPolicy.allowEngineMaintenanceSettings) {
             val res = updateUtil.updateYTDL()
             when (res.status) {
                 UpdateUtil.YTDLPUpdateStatus.DONE -> {
