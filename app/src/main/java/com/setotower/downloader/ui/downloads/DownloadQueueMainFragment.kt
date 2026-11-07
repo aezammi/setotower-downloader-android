@@ -45,6 +45,8 @@ class DownloadQueueMainFragment : Fragment(){
     private lateinit var mainActivity: MainActivity
     private lateinit var notificationUtil: NotificationUtil
     private lateinit var sharedPreferences: SharedPreferences
+    private var tabMediator: TabLayoutMediator? = null
+    private var pageChangeCallback: ViewPager2.OnPageChangeCallback? = null
 
     private var selectedTabIndex = 0
 
@@ -53,7 +55,8 @@ class DownloadQueueMainFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mainActivity = activity as MainActivity
+        mainActivity = activity as? MainActivity
+            ?: return inflater.inflate(R.layout.fragment_download_queue_main_screen, container, false)
         notificationUtil = NotificationUtil(mainActivity)
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         return inflater.inflate(R.layout.fragment_download_queue_main_screen, container, false)
@@ -105,7 +108,7 @@ class DownloadQueueMainFragment : Fragment(){
         viewPager2.adapter = fragmentAdapter
         viewPager2.isSaveFromParentEnabled = false
 
-        TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
+        tabMediator = TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
             when (position) {
                 0 -> tab.text = getString(R.string.running)
                 1 -> tab.text = getString(R.string.scheduled)
@@ -113,11 +116,11 @@ class DownloadQueueMainFragment : Fragment(){
                 3 -> tab.text = getString(R.string.errored)
                 4 -> tab.text = getString(R.string.saved)
             }
-        }.attach()
+        }.also { it.attach() }
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                viewPager2.setCurrentItem(tab!!.position, true)
+                tab?.let { viewPager2.setCurrentItem(it.position, true) }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -127,18 +130,18 @@ class DownloadQueueMainFragment : Fragment(){
             }
         })
 
-        viewPager2.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
+        pageChangeCallback = object: ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                tabLayout.selectTab(tabLayout.getTabAt(position))
+                tabLayout.getTabAt(position)?.let { tabLayout.selectTab(it) }
                 initMenu()
                 selectedTabIndex = position
             }
-        })
-        viewPager2.setCurrentItem(selectedTabIndex, false)
+        }.also { viewPager2.registerOnPageChangeCallback(it) }
+        viewPager2.setCurrentItem(selectedTabIndex.coerceIn(0, fragments.lastIndex), false)
         initMenu()
 
         if (arguments?.getString("tab") != null){
-            tabLayout.getTabAt(3)!!.select()
+            tabLayout.getTabAt(3)?.select()
             viewPager2.postDelayed( {
                 viewPager2.setCurrentItem(3, false)
                 val reconfigureID = arguments?.getLong("reconfigure")
@@ -232,8 +235,17 @@ class DownloadQueueMainFragment : Fragment(){
     }
 
     fun scrollToActive(){
-        tabLayout.getTabAt(0)!!.select()
+        tabLayout.getTabAt(0)?.select()
         viewPager2.setCurrentItem(0, true)
+    }
+
+    override fun onDestroyView() {
+        pageChangeCallback?.let { viewPager2.unregisterOnPageChangeCallback(it) }
+        pageChangeCallback = null
+        tabMediator?.detach()
+        tabMediator = null
+        viewPager2.adapter = null
+        super.onDestroyView()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
