@@ -22,8 +22,10 @@ import androidx.appcompat.view.ActionMode
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
@@ -108,9 +110,11 @@ class QueuedDownloadsFragment : Fragment(), QueuedDownloadAdapter.OnItemClickLis
         DragSelectTouchListener.attach(queuedRecyclerView)
         queuedRecyclerView.layoutManager = SafeGridLayoutManager(requireContext(), resources.getInteger(R.integer.grid_size))
 
-        lifecycleScope.launch {
-            downloadViewModel.queuedDownloads.collectLatest {
-                adapter.submitData(it)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                downloadViewModel.queuedDownloads.collectLatest {
+                    adapter.submitData(it)
+                }
             }
         }
 

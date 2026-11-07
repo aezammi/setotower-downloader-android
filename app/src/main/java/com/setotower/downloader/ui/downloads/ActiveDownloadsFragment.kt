@@ -86,26 +86,28 @@ class ActiveDownloadsFragment : Fragment(), ActiveDownloadAdapter.OnItemClickLis
             }
         }
 
-        lifecycleScope.launch {
-            downloadViewModel.activePausedDownloads.collectLatest {
-                noResults.isVisible = it.isEmpty()
-                activeDownloads.submitList(it)
-                activeRecyclerView.scrollTo(0,0)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                downloadViewModel.activePausedDownloads.collectLatest {
+                    noResults.isVisible = it.isEmpty()
+                    activeDownloads.submitList(it)
+                    activeRecyclerView.scrollTo(0,0)
 
-                if (it.isEmpty()) {
-                    requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-                } else {
-                    requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                    if (it.isEmpty()) {
+                        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                    } else {
+                        requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                    }
                 }
             }
         }
 
 
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 WorkerEventBus.events.collectLatest { event ->
-                    val progressBar = requireView().findViewWithTag<LinearProgressIndicator>("${event.downloadItemID}##progress")
-                    val outputText = requireView().findViewWithTag<TextView>("${event.downloadItemID}##output")
+                    val progressBar = view.findViewWithTag<LinearProgressIndicator>("${event.downloadItemID}##progress")
+                    val outputText = view.findViewWithTag<TextView>("${event.downloadItemID}##output")
 
                     requireActivity().runOnUiThread {
                         try {
