@@ -3,7 +3,7 @@ set -u
 
 for attempt in 1 2; do
   echo "Connected smoke attempt ${attempt}/2"
-  if ./gradlew --no-daemon --max-workers=2 connectedGithubDebugAndroidTest --warning-mode all; then
+  if timeout --foreground 10m ./gradlew --no-daemon --max-workers=2 connectedGithubDebugAndroidTest --warning-mode all; then
     exit 0
   fi
 
