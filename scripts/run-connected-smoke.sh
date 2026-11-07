@@ -12,10 +12,26 @@ wait_for_device() {
   return 1
 }
 
+wait_for_android_services() {
+  for _ in $(seq 1 90); do
+    if [ "$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" = "1" ] && \
+       timeout 10s adb shell cmd package list packages >/dev/null 2>&1; then
+      return 0
+    fi
+    adb reconnect offline >/dev/null 2>&1 || true
+    sleep 2
+  done
+  return 1
+}
+
 for attempt in 1 2; do
   echo "Connected smoke attempt ${attempt}/2"
   if ! wait_for_device; then
     echo "Android emulator did not become ready before attempt ${attempt}"
+    exit 1
+  fi
+  if ! wait_for_android_services; then
+    echo "Android package service did not become ready before attempt ${attempt}"
     exit 1
   fi
 
