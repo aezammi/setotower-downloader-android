@@ -24,6 +24,16 @@ wait_for_android_services() {
   return 1
 }
 
+remove_installation() {
+  if adb uninstall com.setotower.downloader >/dev/null 2>&1; then
+    return 0
+  fi
+  if adb shell pm uninstall --user 0 com.setotower.downloader 2>/dev/null | grep -q 'Success'; then
+    return 0
+  fi
+  ! adb shell pm list packages 2>/dev/null | grep -q '^package:com\.setotower\.downloader$'
+}
+
 for attempt in 1 2; do
   echo "Connected smoke attempt ${attempt}/2"
   if ! wait_for_device; then
@@ -36,11 +46,11 @@ for attempt in 1 2; do
   fi
 
   echo "Removing any previous Setotower installation before attempt ${attempt}"
-  adb uninstall com.setotower.downloader >/dev/null 2>&1 || true
+  remove_installation || true
 
   if timeout --foreground 10m ./gradlew --no-daemon --max-workers=2 connectedGithubDebugAndroidTest --warning-mode all; then
     echo "Verifying clean uninstall after successful smoke"
-    if ! adb uninstall com.setotower.downloader; then
+    if ! remove_installation; then
       echo "Setotower uninstall verification failed"
       exit 1
     fi
