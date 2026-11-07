@@ -240,11 +240,15 @@ class DownloadQueueMainFragment : Fragment(){
     }
 
     override fun onDestroyView() {
-        pageChangeCallback?.let { viewPager2.unregisterOnPageChangeCallback(it) }
+        if (::viewPager2.isInitialized) {
+            pageChangeCallback?.let { viewPager2.unregisterOnPageChangeCallback(it) }
+        }
         pageChangeCallback = null
         tabMediator?.detach()
         tabMediator = null
-        viewPager2.adapter = null
+        if (::viewPager2.isInitialized) {
+            viewPager2.adapter = null
+        }
         super.onDestroyView()
     }
 
