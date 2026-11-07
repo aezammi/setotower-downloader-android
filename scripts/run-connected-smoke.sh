@@ -19,7 +19,15 @@ for attempt in 1 2; do
     exit 1
   fi
 
+  echo "Removing any previous Setotower installation before attempt ${attempt}"
+  adb uninstall com.setotower.downloader >/dev/null 2>&1 || true
+
   if timeout --foreground 10m ./gradlew --no-daemon --max-workers=2 connectedGithubDebugAndroidTest --warning-mode all; then
+    echo "Verifying clean uninstall after successful smoke"
+    if ! adb uninstall com.setotower.downloader; then
+      echo "Setotower uninstall verification failed"
+      exit 1
+    fi
     exit 0
   fi
 
