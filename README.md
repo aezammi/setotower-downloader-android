@@ -56,7 +56,10 @@ mobile interface and performs downloads on the phone. Desktop users use the
 [Setotower Downloader web app](https://downloader.setotower.com) as their UI;
 the Windows and Linux companions are silent on-demand helpers rather than
 separate desktop graphical applications. The helpers are idle until the web
-app connects and never act as a permanent media cache.
+app connects and never act as a permanent media cache. This Android app is a
+downloader client, not a general-purpose installer: its required download
+runtime is bundled and managed internally, with no customer-facing package,
+terminal, or engine-maintenance workflow.
 
 ## 💡 Features
 
@@ -95,17 +98,6 @@ app connects and never act as a permanent media cache.
 - Download logs, search history and a detailed download history with different card layouts
 - Backup and restore almost everything, right from the welcome screen too
 - Files manager to clear caches and leftovers
-
-## 🧩 Plugin Support
-
-Setotower Downloader orchestrates plugins so users can freely upgrade and downgrade components such as:
-- Python
-- JS Runtimes (NodeJS, Deno)
-- FFmpeg
-- Aria2c
-
-You can install Setotower Downloader packages from this repository [Setotower Downloader-packages](https://github.com/aezammi/setotower-downloader-android-packages/) or through the updating section in the application.
-<br>For more information refer to the repo's README.
 
 ## 📲 Screenshots
 
