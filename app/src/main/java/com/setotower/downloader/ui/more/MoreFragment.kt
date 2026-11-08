@@ -65,7 +65,7 @@ class MoreFragment : Fragment() {
             )
         )
         sessionAction.setOnClickListener {
-            if (loggedIn) confirmLogout() else openUrl("https://canvas.setotower.com/login")
+            if (loggedIn) confirmLogout() else openUrl("https://cineb.setotower.com/auth/login?return=/")
         }
     }
 
