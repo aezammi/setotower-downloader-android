@@ -1,164 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?attr/colorSurface">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/profile_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="@string/profile" />
 
     <ScrollView
+        android:id="@+id/profile_scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:clipToPadding="false">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="top"
             android:orientation="vertical"
-            tools:ignore="MissingConstraints">
+            android:padding="16dp"
+            android:paddingBottom="28dp">
 
-            <ImageView
-                android:id="@+id/app_icon"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_margin="20dp"
-                android:layout_gravity="center"
-                android:src="@drawable/baseline_person_24"
-                android:background="@drawable/circle"
-                android:padding="16dp"
-                android:scaleType="center" />
-
-            <TextView
-                android:id="@+id/logs"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/logs"
-                android:textStyle="bold"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:paddingHorizontal="15dp"
-                android:paddingVertical="15dp"
-                android:drawablePadding="35dp"
-                android:textSize="16sp"
-                app:drawableStartCompat="@drawable/ic_baseline_file_open_24" />
-
-
-            <TextView
-                android:id="@+id/command_templates"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="35dp"
-                android:textSize="16sp"
-                android:paddingVertical="15dp"
-                android:text="@string/command_templates"
-                android:textStyle="bold"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:paddingHorizontal="15dp"
-                app:drawableStartCompat="@drawable/ic_baseline_keyboard_arrow_right_24" />
-
-            <TextView
-                android:id="@+id/downloads"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="35dp"
-                android:textSize="16sp"
-                android:paddingVertical="15dp"
-                android:text="@string/downloads"
-                android:textStyle="bold"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:paddingHorizontal="15dp"
-                app:drawableTint="?android:colorAccent"
-                app:drawableStartCompat="@drawable/ic_downloads" />
+                app:cardCornerRadius="18dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+                    <ImageView
+                        android:id="@+id/app_icon"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:background="@drawable/circle"
+                        android:padding="12dp"
+                        android:src="@mipmap/ic_launcher"
+                        android:contentDescription="@string/app_name" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="16dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/profile_display_name"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/profile_handle"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
-                android:id="@+id/download_queue"
+                style="@style/TextAppearance.Material3.TitleMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawablePadding="35dp"
-                android:textSize="16sp"
-                android:paddingVertical="15dp"
-                android:text="@string/download_queue"
-                android:textStyle="bold"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:paddingHorizontal="15dp"
-                app:drawableTint="?android:colorAccent"
-                app:drawableStartCompat="@drawable/baseline_downloading_24" />
+                android:layout_marginTop="28dp"
+                android:paddingStart="2dp"
+                android:text="@string/history" />
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:scrollbars="none">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView style="@style/ProfileRailCard" android:layout_width="132dp" android:layout_height="110dp" android:text="@string/no_watch_history" />
+                    <TextView style="@style/ProfileRailCard" android:layout_width="132dp" android:layout_height="110dp" android:text="@string/no_watch_history" />
+                    <TextView style="@style/ProfileRailCard" android:layout_width="132dp" android:layout_height="110dp" android:text="@string/no_watch_history" />
+                </LinearLayout>
+            </HorizontalScrollView>
 
             <TextView
-                android:id="@+id/cookies"
+                style="@style/TextAppearance.Material3.TitleMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawablePadding="35dp"
-                android:textSize="16sp"
-                android:paddingVertical="15dp"
-                android:text="@string/cookies"
-                android:textStyle="bold"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:paddingHorizontal="15dp"
-                app:drawableStartCompat="@drawable/baseline_cookie_24" />
-
-            <TextView
-                android:id="@+id/observe_sources"
+                android:layout_marginTop="28dp"
+                android:paddingStart="2dp"
+                android:text="@string/saved" />
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawablePadding="35dp"
-                android:textSize="16sp"
-                android:paddingVertical="15dp"
-                android:text="@string/observe_sources"
-                android:textStyle="bold"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:paddingHorizontal="15dp"
-                app:drawableStartCompat="@drawable/baseline_calendar_month_24" />
+                android:layout_marginTop="10dp"
+                android:scrollbars="none">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView style="@style/ProfileRailCard" android:layout_width="132dp" android:layout_height="110dp" android:text="@string/no_saved_items" />
+                    <TextView style="@style/ProfileRailCard" android:layout_width="132dp" android:layout_height="110dp" android:text="@string/no_saved_items" />
+                    <TextView style="@style/ProfileRailCard" android:layout_width="132dp" android:layout_height="110dp" android:text="@string/no_saved_items" />
+                </LinearLayout>
+            </HorizontalScrollView>
 
-            <TextView
-                android:id="@+id/terminate"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawablePadding="35dp"
-                android:textSize="16sp"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:paddingVertical="15dp"
-                android:text="@string/kill_app"
-                android:textStyle="bold"
-                android:paddingHorizontal="15dp"
-                android:visibility="gone"
-                app:drawableStartCompat="@drawable/ic_power" />
+                android:layout_marginTop="28dp"
+                app:cardCornerRadius="18dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView android:id="@+id/profile_setotower" style="@style/ProfileRow" android:text="@string/setotower" />
+                    <TextView android:id="@+id/profile_canvas" style="@style/ProfileRow" android:text="@string/canvas" />
+                    <TextView android:id="@+id/profile_omail" style="@style/ProfileRow" android:text="@string/omail" />
+                    <TextView android:id="@+id/profile_live_tv" style="@style/ProfileRow" android:text="@string/live_tv" />
+                    <TextView android:id="@+id/profile_discord" style="@style/ProfileRow" android:text="@string/join_discord" />
+                    <TextView android:id="@+id/settings" style="@style/ProfileRow" android:text="@string/settings" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-
-            <View
-                android:layout_margin="0dp"
-                style="@style/Divider.Horizontal" />
-
-            <TextView
-                android:id="@+id/settings"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawablePadding="35dp"
-                android:textSize="16sp"
-                android:paddingVertical="15dp"
-                android:text="@string/settings"
-                android:textStyle="bold"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:paddingHorizontal="15dp"
-                app:drawableStartCompat="@drawable/ic_settings" />
-
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="18dp">
+                <TextView
+                    android:id="@+id/profile_logout"
+                    style="@style/ProfileRow"
+                    android:text="@string/logout"
+                    android:textColor="?attr/colorError" />
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
-
     </ScrollView>
-
-
-</RelativeLayout>
+</LinearLayout>

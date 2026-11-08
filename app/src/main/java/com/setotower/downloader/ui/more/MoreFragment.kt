@@ -2,179 +2,73 @@ package com.setotower.downloader.ui.more
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Build
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
-import com.setotower.downloader.MainActivity
-import com.setotower.downloader.R
-import com.setotower.downloader.database.viewmodel.DownloadViewModel
-import com.setotower.downloader.ui.more.settings.SettingsActivity
-import com.setotower.downloader.util.NavbarUtil
-import com.setotower.downloader.util.SetotowerProductPolicy
-import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.setotower.downloader.R
+import com.setotower.downloader.ui.more.settings.SettingsActivity
 import kotlinx.coroutines.launch
-import kotlin.system.exitProcess
 
 class MoreFragment : Fragment() {
-    private lateinit var mainSharedPreferences: SharedPreferences
-    private lateinit var mainSharedPreferencesEditor: SharedPreferences.Editor
-    private lateinit var logs: TextView
-    private lateinit var commandTemplates: TextView
-    private lateinit var downloadQueue: TextView
-    private lateinit var downloads: TextView
-    private lateinit var cookies: TextView
-    private lateinit var observeSources: TextView
-    private lateinit var terminateApp: TextView
-    private lateinit var settings: TextView
-    private lateinit var mainActivity: MainActivity
-    private lateinit var downloadViewModel: DownloadViewModel
+    private lateinit var preferences: SharedPreferences
+    private lateinit var profileScroll: android.widget.ScrollView
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        mainActivity = activity as MainActivity
-        downloadViewModel = ViewModelProvider(this)[DownloadViewModel::class.java]
-        return inflater.inflate(R.layout.fragment_more, container, false)
-    }
+    ): View = inflater.inflate(R.layout.fragment_more, container, false)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        profileScroll = view.findViewById(R.id.profile_scroll)
 
-        mainSharedPreferences =  PreferenceManager.getDefaultSharedPreferences(requireContext())
-        mainSharedPreferencesEditor = mainSharedPreferences.edit()
-        logs = view.findViewById(R.id.logs)
-        // Keep internal diagnostics out of the client-facing account page.
-        logs.isVisible = false
-        commandTemplates = view.findViewById(R.id.command_templates)
-        commandTemplates.isVisible = SetotowerProductPolicy.allowCommandTemplates
-        downloads = view.findViewById(R.id.downloads)
-        downloadQueue = view.findViewById(R.id.download_queue)
-        cookies = view.findViewById(R.id.cookies)
-        cookies.isVisible = SetotowerProductPolicy.allowInteractiveCookieLogin
-        observeSources = view.findViewById(R.id.observe_sources)
-        observeSources.isVisible = false
-        terminateApp = view.findViewById(R.id.terminate)
-        settings = view.findViewById(R.id.settings)
-
-        val appIcon = view.findViewById<ImageView>(R.id.app_icon)
-        if (mainSharedPreferences.getString("theme_accent", "red") == "Default" && Build.VERSION.SDK_INT >= 32) {
-            appIcon.backgroundTintList = MaterialColors.getColorStateList(requireContext(), R.attr.colorPrimary, ContextCompat.getColorStateList(requireContext(), R.color.icon_fg)!!)
-        } else {
-            appIcon.backgroundTintList = null
+        view.findViewById<View>(R.id.settings).setOnClickListener {
+            startActivity(Intent(requireContext(), SettingsActivity::class.java))
         }
-
-        var showingDownloads = false
-        var showingDownloadQueue = false
-
-        NavbarUtil.getNavBarItems(requireContext()).apply {
-            showingDownloads = any { n -> n.itemId == R.id.historyFragment && n.isVisible }
-            showingDownloadQueue = any { n -> n.itemId == R.id.downloadQueueMainFragment && n.isVisible }
+        view.findViewById<View>(R.id.profile_setotower).setOnClickListener {
+            openUrl("https://downloader.setotower.com")
         }
-
-        downloads.isVisible = !showingDownloads
-        downloadQueue.isVisible = !showingDownloadQueue
-
-        logs.setOnClickListener {
-            findNavController().navigate(R.id.downloadLogListFragment)
+        view.findViewById<View>(R.id.profile_discord).setOnClickListener {
+            openUrl("https://discord.gg/qgh7CNe7Su")
         }
-
-        commandTemplates.setOnClickListener {
-            findNavController().navigate(R.id.commandTemplatesFragment)
-        }
-
-        downloads.setOnClickListener {
-            findNavController().navigate(R.id.historyFragment)
-        }
-
-        downloadQueue.setOnClickListener {
-            findNavController().navigate(R.id.downloadQueueMainFragment)
-        }
-
-        cookies.setOnClickListener {
-            findNavController().navigate(R.id.cookiesFragment)
-        }
-
-        observeSources.setOnClickListener {
-            findNavController().navigate(R.id.observeSourcesFragment)
-        }
-
-        terminateApp.setOnClickListener {
-            showTerminateConfirmationDialog()
-        }
-        terminateApp.setOnLongClickListener {
-            showTerminateConfirmationDialog(skipPreference = true)
-            true
-        }
-
-        settings.setOnClickListener {
-            val intent = Intent(context, SettingsActivity::class.java)
-            startActivity(intent)
-        }
-
-    }
-
-    fun showTerminateConfirmationDialog(skipPreference: Boolean = false) {
-        val shouldAskToTerminate = mainSharedPreferences.getBoolean("ask_terminate_app", true)
-        if (!shouldAskToTerminate && !skipPreference) {
-            terminateApp.isEnabled = false
-            terminateApp()
-            return
-        }
-
-        var doNotShowAgainFinalState = !shouldAskToTerminate
-
-        lateinit var dialog: AlertDialog
-        val terminateDialog = MaterialAlertDialogBuilder(requireContext())
-        terminateDialog.setTitle(getString(R.string.kill_app))
-        val dialogView = layoutInflater.inflate(R.layout.dialog_terminate_app, null)
-        val checkbox = dialogView.findViewById<CheckBox>(R.id.doNotShowAgain)
-        terminateDialog.setView(dialogView)
-
-        checkbox.isChecked = doNotShowAgainFinalState
-        checkbox.setOnCheckedChangeListener { _, isChecked ->
-            doNotShowAgainFinalState = isChecked
-        }
-
-        terminateDialog.setNegativeButton(getString(R.string.cancel)) { dialogInterface, _ ->
-            dialogInterface.cancel()
-        }
-
-        terminateDialog.setPositiveButton(getString(R.string.ok), null)
-        dialog = terminateDialog.show()
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-            dialog.setCanceledOnTouchOutside(false)
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = false
-            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).isEnabled = false
-            mainSharedPreferencesEditor.putBoolean("ask_terminate_app", !doNotShowAgainFinalState).commit()
-            terminateApp()
+        view.findViewById<View>(R.id.profile_logout).setOnClickListener {
+            confirmLogout()
         }
     }
 
-    fun terminateApp() {
-        lifecycleScope.launch {
-            downloadViewModel.pauseAllDownloads()
-            mainActivity.finishAndRemoveTask()
-            mainActivity.finishAffinity()
-            exitProcess(0)
-        }
+    private fun openUrl(url: String) {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
     }
 
-    companion object {
-        const val TAG = "MoreFragment"
+    private fun confirmLogout() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.logout)
+            .setMessage(R.string.logout_confirmation)
+            .setNegativeButton(R.string.cancel, null)
+            .setPositiveButton(R.string.logout) { _, _ ->
+                lifecycleScope.launch {
+                    // Keep downloads/settings; remove only optional account session keys.
+                    preferences.edit()
+                        .remove("auth_token")
+                        .remove("session_token")
+                        .remove("logged_in")
+                        .apply()
+                    Toast.makeText(requireContext(), R.string.logged_out, Toast.LENGTH_SHORT).show()
+                }
+            }
+            .show()
     }
 
+    fun scrollToTop() {
+        if (::profileScroll.isInitialized) profileScroll.smoothScrollTo(0, 0)
+    }
 }

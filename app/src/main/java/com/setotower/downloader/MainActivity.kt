@@ -46,6 +46,7 @@ import com.setotower.downloader.ui.BaseActivity
 import com.setotower.downloader.ui.home.HomeFragment
 import com.setotower.downloader.ui.movies.MoviesFragment
 import com.setotower.downloader.ui.downloads.HistoryFragment
+import com.setotower.downloader.ui.more.MoreFragment
 import com.setotower.downloader.ui.more.settings.SettingsActivity
 import com.setotower.downloader.ui.welcome.WelcomeActivity
 import com.setotower.downloader.util.ApkInstallUtil
@@ -181,8 +182,9 @@ class MainActivity : BaseActivity() {
                         }
                     }
                     R.id.moreFragment -> {
-                        val intent = Intent(context, SettingsActivity::class.java)
-                        startActivity(intent)
+                        kotlin.runCatching {
+                            (navHostFragment.childFragmentManager.primaryNavigationFragment!! as MoreFragment).scrollToTop()
+                        }
                     }
                 }
             }
