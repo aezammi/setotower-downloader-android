@@ -792,17 +792,11 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener, SearchSuggesti
 
     @SuppressLint("ResourceType")
     override fun onButtonClick(item: ResultItem, type: DownloadType?) {
-        if (sharedPreferences!!.getBoolean("download_card", true)) {
-            showSingleDownloadSheet(item, type!!)
-        } else {
-            lifecycleScope.launch{
-                val downloadItem = withContext(Dispatchers.IO){
-                    downloadViewModel.createDownloadItemFromResult(
-                        result = item,
-                        givenType = type!!)
-                }
-                downloadViewModel.queueDownloads(listOf(downloadItem))
-            }
+        // Open the in-app preview first. Audio/video download configuration is
+        // available from the preview, so a result tap never starts a download
+        // or jumps straight into a fragile bottom sheet.
+        if (parentFragmentManager.findFragmentByTag("resultDetails") == null) {
+            findNavController().navigate(R.id.resultCardDetailsDialog, bundleOf("result" to item))
         }
     }
 
