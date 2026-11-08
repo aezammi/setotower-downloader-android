@@ -38,7 +38,7 @@
 
 <div align="center">
 
-[![GitHub Releases](https://custom-icon-badges.herokuapp.com/badge/Download-blue?style=for-the-badge&logo=download&logoColor=white)](https://github.com/aezammi/setotower-downloader-android/releases/latest)
+[![Download universal APK](https://custom-icon-badges.herokuapp.com/badge/Download-blue?style=for-the-badge&logo=download&logoColor=white)](https://github.com/aezammi/setotower-downloader-android/releases/download/v0.1.0/Setotower-Downloader-0.1.0.1-foss-universal-release.apk)
 
 ![CI](https://github.com/aezammi/setotower-downloader-android/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
 [![Preview release](https://img.shields.io/github/release/aezammi/setotower-downloader-android.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/aezammi/setotower-downloader-android/releases)
