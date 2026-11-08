@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Keep a generous buffer around the MCNP mark so adaptive-icon masks do not crop it. -->
+    <!-- Keep the mark near 50% of the icon so the adaptive background remains visible. -->
     <item
         android:drawable="@drawable/mcnplogo"
-        android:insetLeft="27dp"
-        android:insetTop="27dp"
-        android:insetRight="27dp"
-        android:insetBottom="27dp" />
+        android:insetLeft="40dp"
+        android:insetTop="40dp"
+        android:insetRight="40dp"
+        android:insetBottom="40dp" />
 </layer-list>
