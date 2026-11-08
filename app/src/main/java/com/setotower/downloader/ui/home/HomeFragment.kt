@@ -511,13 +511,10 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener, SearchSuggesti
                     }
                 }
 
-                if (Patterns.WEB_URL.matcher(searchBar!!.text.toString()).matches() && searchBar!!.text.isNotBlank()){
-                    providersChipGroup?.visibility = GONE
-                    chipGroupDivider?.visibility = GONE
-                }else{
-                    providersChipGroup?.visibility = VISIBLE
-                    chipGroupDivider?.visibility = VISIBLE
-                }
+                // The app uses its own resolver. Provider choices do not belong
+                // below the search field, so this row stays hidden for every query.
+                providersChipGroup?.visibility = GONE
+                chipGroupDivider?.visibility = GONE
 
                 updateSearchViewItems(searchView!!.editText.text.toString())
             }
@@ -715,13 +712,8 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener, SearchSuggesti
 //            }
 //            searchSuggestionsLinearLayout!!.isVisible = suggestions.isNotEmpty()
 
-            if (Patterns.WEB_URL.matcher(searchView!!.editText.text).matches()){
-                providersChipGroup?.visibility = GONE
-                chipGroupDivider?.visibility = GONE
-            }else{
-                providersChipGroup?.visibility = VISIBLE
-                chipGroupDivider?.visibility = VISIBLE
-            }
+            providersChipGroup?.visibility = GONE
+            chipGroupDivider?.visibility = GONE
         }
 
     }

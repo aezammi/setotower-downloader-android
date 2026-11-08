@@ -2,20 +2,19 @@ package com.setotower.downloader.ui.movies
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebChromeClient
-import android.webkit.WebSettings
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
+import com.squareup.picasso.Picasso
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
@@ -28,7 +27,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class CinebPlayerFragment : Fragment() {
-    private lateinit var webPlayer: WebView
+    private lateinit var nativePlayerView: androidx.media3.ui.PlayerView
+    private var player: ExoPlayer? = null
     private lateinit var sourceGroup: ChipGroup
     private lateinit var titleView: TextView
     private lateinit var metaView: TextView
@@ -59,9 +59,15 @@ class CinebPlayerFragment : Fragment() {
         titleView = view.findViewById(R.id.player_title)
         metaView = view.findViewById(R.id.player_meta)
         sourceGroup = view.findViewById(R.id.player_sources)
-        webPlayer = view.findViewById(R.id.cineb_web_player)
+        nativePlayerView = view.findViewById(R.id.cineb_native_player)
         titleView.text = media.title
         metaView.text = "${media.releaseDate.take(4).ifBlank { "Cineb" }}  •  ${media.voteCount} votes  •  ${"%.1f".format(media.voteAverage)} rating"
+
+        val backdrop = view.findViewById<ImageView>(R.id.player_backdrop)
+        val artworkUrl = media.backdropUrl.ifBlank { media.posterUrl }
+        if (artworkUrl.isNotBlank()) {
+            Picasso.get().load(artworkUrl).fit().centerCrop().into(backdrop)
+        }
 
         view.findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.player_toolbar)
             .setNavigationOnClickListener { findNavController().navigateUp() }
@@ -75,13 +81,16 @@ class CinebPlayerFragment : Fragment() {
     }
 
     private fun configurePlayer() {
-        webPlayer.settings.javaScriptEnabled = true
-        webPlayer.settings.domStorageEnabled = true
-        webPlayer.settings.mediaPlaybackRequiresUserGesture = true
-        webPlayer.settings.mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
-        webPlayer.webChromeClient = WebChromeClient()
-        webPlayer.webViewClient = WebViewClient()
-        webPlayer.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.black))
+        player = ExoPlayer.Builder(requireContext()).build().also { exoPlayer ->
+            nativePlayerView.player = exoPlayer
+            exoPlayer.addListener(object : Player.Listener {
+                override fun onPlaybackStateChanged(playbackState: Int) {
+                    if (playbackState == Player.STATE_READY) {
+                        view?.findViewById<ImageView>(R.id.player_backdrop)?.visibility = View.GONE
+                    }
+                }
+            })
+        }
     }
 
     private fun loadSources() {
@@ -95,10 +104,7 @@ class CinebPlayerFragment : Fragment() {
                         addSourceChip("No sources available", null, true)
                     } else {
                         sources.forEachIndexed { index, source ->
-                            val decoded = runCatching {
-                                String(Base64.decode(source.encodedUrl, Base64.DEFAULT), Charsets.UTF_8)
-                            }.getOrNull()
-                            addSourceChip(source.name, decoded, index == 0)
+                            addSourceChip(source.name, source.encodedUrl, index == 0)
                         }
                     }
                 }
@@ -122,10 +128,16 @@ class CinebPlayerFragment : Fragment() {
         if (checked && !url.isNullOrBlank()) loadProvider(url)
     }
 
-    private fun loadProvider(url: String) {
-        if (url == selectedUrl) return
-        selectedUrl = url
-        webPlayer.loadUrl(url)
+    private fun loadProvider(encodedSource: String) {
+        val streamUrl = CinebCatalogApi.streamUrl(media, encodedSource)
+        if (streamUrl == selectedUrl) return
+        selectedUrl = streamUrl
+        val exoPlayer = player ?: return
+        // Cineb resolves the provider through its short-lived server-side
+        // helper. Media3 receives the resulting MP4 stream directly.
+        exoPlayer.setMediaItem(MediaItem.fromUri(streamUrl))
+        exoPlayer.prepare()
+        exoPlayer.playWhenReady = false
     }
 
     private fun showDescription() {
@@ -138,9 +150,20 @@ class CinebPlayerFragment : Fragment() {
             textSize = 20f
             setPadding(0, 0, 0, 16)
         })
+        if (media.posterUrl.isNotBlank()) {
+            content.addView(ImageView(requireContext()).apply {
+                layoutParams = LinearLayout.LayoutParams(
+                    (140 * resources.displayMetrics.density).toInt(),
+                    (210 * resources.displayMetrics.density).toInt()
+                ).apply { gravity = android.view.Gravity.CENTER }
+                scaleType = ImageView.ScaleType.CENTER_CROP
+                Picasso.get().load(media.posterUrl).fit().centerCrop().into(this)
+            })
+        }
         content.addView(TextView(requireContext()).apply {
             text = media.overview.ifBlank { "No description available." }
             textSize = 16f
+            setPadding(0, 16, 0, 0)
         })
         BottomSheetDialog(requireContext()).apply {
             setContentView(content)
@@ -193,8 +216,9 @@ class CinebPlayerFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        webPlayer.stopLoading()
-        webPlayer.destroy()
+        nativePlayerView.player = null
+        player?.release()
+        player = null
         super.onDestroyView()
     }
 }

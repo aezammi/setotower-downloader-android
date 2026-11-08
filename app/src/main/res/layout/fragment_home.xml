@@ -17,10 +17,12 @@
             android:orientation="vertical">
 
             <HorizontalScrollView
+                android:id="@+id/search_provider_options"
                 android:layout_width="wrap_content"
                 android:scrollbars="none"
                 android:paddingHorizontal="10dp"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="gone">
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/providers"
@@ -37,6 +39,7 @@
                 android:id="@+id/chipGroupDivider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:visibility="gone"
                 style="@style/Divider.Vertical"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout

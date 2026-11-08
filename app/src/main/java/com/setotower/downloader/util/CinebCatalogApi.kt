@@ -57,6 +57,19 @@ object CinebCatalogApi {
         }.orEmpty()
     }
 
+    /** The short-lived Cineb server pipe consumed by the native Media3 player. */
+    fun streamUrl(media: CinebMedia, encodedSource: String, season: Int = 1, episode: Int = 1): String {
+        return BASE_URL.toHttpUrl().newBuilder()
+            .addQueryParameter("action", "download_stream")
+            .addQueryParameter("source", encodedSource)
+            .addQueryParameter("type", media.type)
+            .addQueryParameter("s", season.toString())
+            .addQueryParameter("e", episode.toString())
+            .addQueryParameter("title", media.title)
+            .build()
+            .toString()
+    }
+
     suspend fun seasonEpisodes(media: CinebMedia, season: Int): List<CinebEpisode> = withContext(Dispatchers.IO) {
         val json = request("season_details", mapOf("id" to media.id.toString(), "s" to season.toString()))
         json.array("episodes")?.map { item ->

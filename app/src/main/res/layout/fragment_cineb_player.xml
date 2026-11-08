@@ -13,11 +13,29 @@
         android:title="Player"
         app:navigationIcon="@drawable/ic_back" />
 
-    <android.webkit.WebView
-        android:id="@+id/cineb_web_player"
+    <FrameLayout
+        android:id="@+id/cineb_player_surface"
         android:layout_width="match_parent"
         android:layout_height="220dp"
-        android:background="@color/black" />
+        android:background="@color/black">
+
+        <ImageView
+            android:id="@+id/player_backdrop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop" />
+
+        <androidx.media3.ui.PlayerView
+            android:id="@+id/cineb_native_player"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:keepScreenOn="true"
+            app:show_buffering="when_playing"
+            app:shutter_background_color="@android:color/transparent"
+            app:use_controller="true" />
+    </FrameLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
