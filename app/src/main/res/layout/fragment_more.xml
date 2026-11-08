@@ -67,54 +67,10 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <TextView
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:paddingStart="2dp"
-                android:text="@string/history" />
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:scrollbars="none">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView style="@style/ProfileRailCard" android:layout_width="132dp" android:layout_height="110dp" android:text="@string/no_watch_history" />
-                    <TextView style="@style/ProfileRailCard" android:layout_width="132dp" android:layout_height="110dp" android:text="@string/no_watch_history" />
-                    <TextView style="@style/ProfileRailCard" android:layout_width="132dp" android:layout_height="110dp" android:text="@string/no_watch_history" />
-                </LinearLayout>
-            </HorizontalScrollView>
-
-            <TextView
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:paddingStart="2dp"
-                android:text="@string/saved" />
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:scrollbars="none">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView style="@style/ProfileRailCard" android:layout_width="132dp" android:layout_height="110dp" android:text="@string/no_saved_items" />
-                    <TextView style="@style/ProfileRailCard" android:layout_width="132dp" android:layout_height="110dp" android:text="@string/no_saved_items" />
-                    <TextView style="@style/ProfileRailCard" android:layout_width="132dp" android:layout_height="110dp" android:text="@string/no_saved_items" />
-                </LinearLayout>
-            </HorizontalScrollView>
-
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="16dp"
                 app:cardCornerRadius="18dp">
                 <LinearLayout
                     android:layout_width="match_parent"
