@@ -498,25 +498,12 @@ class MainActivity : BaseActivity() {
                     val hasActiveQueuedDownloads = DBManager.getInstance(this@MainActivity).downloadDao.getDownloadsCountByStatus(listOf("Active", "Queued")) > 0
                     if (hasActiveQueuedDownloads) return@launch
 
-                    if (firstRun) {
-                        Snackbar.make(findViewById(R.id.frame_layout), context.getString(R.string.ytdl_updating_started), Snackbar.LENGTH_LONG).apply {
-                            anchorView = navigationBarView
-                            show()
-                        }
-                    }
-
                     val updateRes = withContext(Dispatchers.IO) {
                         UpdateUtil(this@MainActivity).updateYTDL()
                     }
-
-                    if (updateRes.status == UpdateUtil.YTDLPUpdateStatus.DONE) {
-                        val version = RuntimeManager.getInstance().version(context)
-                        val message = this@MainActivity.getString(R.string.ytld_update_success) + " [${version}]"
-                        Snackbar.make(findViewById(R.id.frame_layout), message, Snackbar.LENGTH_LONG).apply {
-                            anchorView = navigationBarView
-                            show()
-                        }
-                    }
+                    // Engine maintenance is intentionally silent during startup.
+                    // The engine remains available to downloads without drawing
+                    // attention to background installation/update work.
                 } catch (err: Exception) {}
             }
         }
