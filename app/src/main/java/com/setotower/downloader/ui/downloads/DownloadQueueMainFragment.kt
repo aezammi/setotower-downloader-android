@@ -75,7 +75,12 @@ class DownloadQueueMainFragment : Fragment(){
         }
 
         topAppBar = view.findViewById(R.id.downloads_toolbar)
-        val isInNavBar = NavbarUtil.getNavBarItems(requireActivity()).any { n -> n.itemId == R.id.downloadQueueMainFragment && n.isVisible }
+        // Downloads is represented by historyFragment in the bottom bar.  The
+        // downloadQueueMainFragment id belongs to Movies, so checking only that
+        // id incorrectly treats the Downloads tab as a secondary screen.
+        val isInNavBar = NavbarUtil.getNavBarItems(requireActivity()).any { n ->
+            n.isVisible && (n.itemId == R.id.historyFragment || n.itemId == R.id.downloadQueueMainFragment)
+        }
         if (isInNavBar) {
             topAppBar.navigationIcon = null
         }else{

@@ -134,4 +134,30 @@ class ExampleInstrumentedTest {
                 .apply()
         }
     }
+
+    @Test
+    fun downloadsAndMoviesTabsOpenWithoutCrashing() {
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        PreferenceManager.getDefaultSharedPreferences(appContext)
+            .edit()
+            .putBoolean("welcome_completed", true)
+            .apply()
+
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            scenario.onActivity { activity ->
+                val bottomNavigation = activity.findViewById<NavigationBarView>(R.id.bottomNavigationView)
+                bottomNavigation.selectedItemId = R.id.historyFragment
+            }
+            InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+            scenario.onActivity { activity ->
+                assertNotNull(activity.findViewById<View>(R.id.download_tablayout))
+                activity.findViewById<NavigationBarView>(R.id.bottomNavigationView)
+                    .selectedItemId = R.id.downloadQueueMainFragment
+            }
+            InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+            scenario.onActivity { activity ->
+                assertNotNull(activity.findViewById<View>(R.id.movies_scroll))
+            }
+        }
+    }
 }
