@@ -66,15 +66,17 @@ object NavbarUtil {
         MenuInflater(context).inflate(R.menu.bottom_nav_menu, p.menu)
 
         if (prefItems.size == p.menu.size()) {
-            val navBarItems = mutableListOf<MenuItem>()
-            prefItems.forEach {
-                navBarItems.add(
-                    p.menu[it.replace("-", "").toInt()].apply {
-                        this.isVisible = !it.contains("-")
-                    }
-                )
+            val navBarItems = prefItems.mapNotNull { value ->
+                val index = value.removePrefix("-").toIntOrNull()
+                if (index == null || index !in 0 until p.menu.size()) return@mapNotNull null
+                p.menu[index].apply { isVisible = !value.startsWith("-") }
             }
-            return navBarItems
+            // Preferences survive upgrades. If an older build left an invalid
+            // index or duplicate entry, fall back to the current menu instead
+            // of letting navigation crash while rebuilding the bar.
+            if (navBarItems.size == p.menu.size() &&
+                navBarItems.map { it.itemId }.distinct().size == p.menu.size()
+            ) return navBarItems
         }
         return getDefaultNavBarItems(context)
     }
