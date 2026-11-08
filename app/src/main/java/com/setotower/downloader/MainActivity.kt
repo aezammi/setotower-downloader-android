@@ -464,7 +464,7 @@ class MainActivity : BaseActivity() {
                     }
                     navController.navigate(R.id.historyFragment)
                 }
-                "Queue" -> {
+                "Movies", "Queue" -> {
                     if (navbarItems.any { n -> n.itemId == R.id.downloadQueueMainFragment && n.isVisible }) {
                         navController.popBackStack(navController.graph.startDestinationId, true)
                     }

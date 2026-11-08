@@ -33,17 +33,17 @@
     </shortcut>
 
     <shortcut
-        android:shortcutId="queue"
+        android:shortcutId="movies"
         android:enabled="true"
         android:icon="@drawable/baseline_downloading_red"
-        android:shortcutShortLabel="@string/download_queue"
-        android:shortcutDisabledMessage="@string/download_queue">
+        android:shortcutShortLabel="@string/movies"
+        android:shortcutDisabledMessage="@string/movies">
         <intent
             android:action="android.intent.action.VIEW"
             android:targetPackage="com.setotower.downloader"
             android:targetClass="com.setotower.downloader.MainActivity">
 
-            <extra android:name="destination" android:value="Queue" />
+            <extra android:name="destination" android:value="Movies" />
 
         </intent>
     </shortcut>
