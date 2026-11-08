@@ -784,11 +784,19 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener, SearchSuggesti
 
     @SuppressLint("ResourceType")
     override fun onButtonClick(item: ResultItem, type: DownloadType?) {
-        // Open the in-app preview first. Audio/video download configuration is
-        // available from the preview, so a result tap never starts a download
-        // or jumps straight into a fragile bottom sheet.
-        if (parentFragmentManager.findFragmentByTag("resultDetails") == null) {
-            findNavController().navigate(R.id.resultCardDetailsDialog, bundleOf("result" to item))
+        val selectedType = type ?: return
+        if (sharedPreferences!!.getBoolean("download_card", true)) {
+            showSingleDownloadSheet(item, selectedType)
+        } else {
+            lifecycleScope.launch {
+                val downloadItem = withContext(Dispatchers.IO) {
+                    downloadViewModel.createDownloadItemFromResult(
+                        result = item,
+                        givenType = selectedType
+                    )
+                }
+                downloadViewModel.queueDownloads(listOf(downloadItem))
+            }
         }
     }
 
@@ -959,10 +967,14 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener, SearchSuggesti
     }
 
     override fun onCardDetailsClick(item: ResultItem) {
-        if (parentFragmentManager.findFragmentByTag("resultDetails") == null){
-            val bundle = Bundle()
-            bundle.putParcelable("result", item)
-            findNavController().navigate(R.id.resultCardDetailsDialog, bundle)
+        val navController = findNavController()
+        if (navController.currentDestination?.id != R.id.homeFragment) return
+        if (parentFragmentManager.findFragmentByTag("resultDetails") != null) return
+        runCatching {
+            navController.navigate(
+                R.id.action_homeFragment_to_resultCardDetailsDialog,
+                bundleOf("result" to item)
+            )
         }
     }
 

@@ -135,9 +135,13 @@ class CinebPlayerFragment : Fragment() {
         val exoPlayer = player ?: return
         // Cineb resolves the provider through its short-lived server-side
         // helper. Media3 receives the resulting MP4 stream directly.
-        exoPlayer.setMediaItem(MediaItem.fromUri(streamUrl))
-        exoPlayer.prepare()
-        exoPlayer.playWhenReady = false
+        runCatching {
+            exoPlayer.setMediaItem(MediaItem.fromUri(streamUrl))
+            exoPlayer.prepare()
+            exoPlayer.playWhenReady = false
+        }.onFailure {
+            selectedUrl = null
+        }
     }
 
     private fun showDescription() {

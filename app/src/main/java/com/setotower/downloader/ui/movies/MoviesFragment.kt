@@ -147,20 +147,24 @@ class MoviesFragment : Fragment() {
     }
 
     private fun openMedia(media: CinebMedia) {
-        findNavController().navigate(
-            R.id.action_downloadQueueMainFragment_to_cinebPlayerFragment,
-            bundleOf(
-                "media_id" to media.id,
-                "media_title" to media.title,
-                "media_type" to media.type,
-                "media_overview" to media.overview,
-                "media_poster" to media.posterPath,
-                "media_backdrop" to media.backdropPath,
-                "media_release" to media.releaseDate,
-                "media_rating" to media.voteAverage,
-                "media_votes" to media.voteCount
+        val navController = findNavController()
+        if (navController.currentDestination?.id != R.id.downloadQueueMainFragment) return
+        runCatching {
+            navController.navigate(
+                R.id.action_downloadQueueMainFragment_to_cinebPlayerFragment,
+                bundleOf(
+                    "media_id" to media.id,
+                    "media_title" to media.title,
+                    "media_type" to media.type,
+                    "media_overview" to media.overview,
+                    "media_poster" to media.posterPath,
+                    "media_backdrop" to media.backdropPath,
+                    "media_release" to media.releaseDate,
+                    "media_rating" to media.voteAverage,
+                    "media_votes" to media.voteCount
+                )
             )
-        )
+        }
     }
 
     fun scrollToTop() {
