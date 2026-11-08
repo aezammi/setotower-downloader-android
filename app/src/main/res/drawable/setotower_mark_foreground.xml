@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Keep a generous green buffer around the mark so adaptive-icon masks do not crop it. -->
+    <!-- Keep a generous buffer around the MCNP mark so adaptive-icon masks do not crop it. -->
     <item
-        android:drawable="@drawable/setotower_mark"
+        android:drawable="@drawable/mcnplogo"
         android:insetLeft="27dp"
         android:insetTop="27dp"
         android:insetRight="27dp"
