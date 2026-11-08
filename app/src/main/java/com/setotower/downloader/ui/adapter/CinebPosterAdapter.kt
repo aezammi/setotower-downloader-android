@@ -12,7 +12,8 @@ import com.squareup.picasso.Picasso
 
 class CinebPosterAdapter(
     private var items: List<CinebMedia>,
-    private val onClick: (CinebMedia) -> Unit
+    private val onClick: (CinebMedia) -> Unit,
+    private val gridMode: Boolean = false
 ) : RecyclerView.Adapter<CinebPosterAdapter.Holder>() {
 
     class Holder(view: View) : RecyclerView.ViewHolder(view) {
@@ -21,9 +22,16 @@ class CinebPosterAdapter(
         val meta: TextView = view.findViewById(R.id.cineb_poster_meta)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder = Holder(
-        LayoutInflater.from(parent.context).inflate(R.layout.cineb_poster_card, parent, false)
-    )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
+        val itemView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.cineb_poster_card, parent, false)
+        if (gridMode) {
+            itemView.layoutParams = itemView.layoutParams.apply {
+                width = ViewGroup.LayoutParams.MATCH_PARENT
+            }
+        }
+        return Holder(itemView)
+    }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val item = items[position]

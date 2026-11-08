@@ -49,8 +49,8 @@ class MoviesFragment : Fragment() {
         configureRail(view.findViewById(R.id.movies_tv_list))
 
         val moreList: RecyclerView = view.findViewById(R.id.movies_more_list)
-        moreAdapter = CinebPosterAdapter(emptyList(), ::openMedia)
-        moreList.layoutManager = GridLayoutManager(requireContext(), 2)
+        moreAdapter = CinebPosterAdapter(emptyList(), ::openMedia, gridMode = true)
+        moreList.layoutManager = GridLayoutManager(requireContext(), 3)
         moreList.adapter = moreAdapter
 
         search.setOnEditorActionListener { _, actionId, event ->
