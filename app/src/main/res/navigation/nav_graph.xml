@@ -28,6 +28,9 @@
             android:id="@+id/action_homeFragment_to_resultCardDetailsDialog"
             app:destination="@id/resultCardDetailsDialog" />
         <action
+            android:id="@+id/action_homeFragment_to_resultPlayerFragment"
+            app:destination="@id/resultPlayerFragment" />
+        <action
             android:id="@+id/action_homeFragment_to_downloadBottomSheetDialog"
             app:destination="@id/downloadBottomSheetDialog" />
         <action
@@ -116,6 +119,11 @@
         android:id="@+id/resultCardDetailsDialog"
         android:name="com.setotower.downloader.ui.downloadcard.ResultCardDetailsDialog"
         android:label="ResultCardDetailsDialog" />
+    <fragment
+        android:id="@+id/resultPlayerFragment"
+        android:name="com.setotower.downloader.ui.home.ResultPlayerFragment"
+        android:label="Player"
+        tools:layout="@layout/fragment_result_player" />
     <navigation android:id="@+id/settingsNav">
         <fragment
             android:id="@+id/folderSettingsFragment"

@@ -972,7 +972,7 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener, SearchSuggesti
         if (parentFragmentManager.findFragmentByTag("resultDetails") != null) return
         runCatching {
             navController.navigate(
-                R.id.action_homeFragment_to_resultCardDetailsDialog,
+                R.id.action_homeFragment_to_resultPlayerFragment,
                 bundleOf("result" to item)
             )
         }
