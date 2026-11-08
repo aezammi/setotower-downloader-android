@@ -428,6 +428,7 @@
     <string name="sync_with_source">Sync with source</string>
     <string name="sync_with_source_desc">Delete downloaded items if they are missing in the source</string>
     <string name="queue">Queue</string>
+    <string name="movies">Movies</string>
     <string name="reset">Factory Reset</string>
     <string name="restore_info">Press \'Restore\' to merge the saved data with your current data.\nPress \'Reset\' to erase and only use the saved data in the file.</string>
     <string name="use_alarm_manager">Use AlarmManager instead of WorkManager for scheduling</string>

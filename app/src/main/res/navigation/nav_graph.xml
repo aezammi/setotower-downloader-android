@@ -88,13 +88,18 @@
         android:label="CommandTemplatesFragment" />
     <fragment
         android:id="@+id/downloadQueueMainFragment"
-        android:name="com.setotower.downloader.ui.downloads.DownloadQueueMainFragment"
-        tools:layout="@layout/fragment_download_queue_main_screen"
-        android:label="DownloadQueueMainFragment" >
+        android:name="com.setotower.downloader.ui.movies.MoviesFragment"
+        tools:layout="@layout/fragment_movies"
+        android:label="Movies" >
         <action
-            android:id="@+id/action_downloadQueueMainFragment_to_downloadLogFragment"
-            app:destination="@id/downloadLogFragment" />
+            android:id="@+id/action_downloadQueueMainFragment_to_cinebPlayerFragment"
+            app:destination="@id/cinebPlayerFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/cinebPlayerFragment"
+        android:name="com.setotower.downloader.ui.movies.CinebPlayerFragment"
+        android:label="Player"
+        tools:layout="@layout/fragment_cineb_player" />
     <fragment
         android:id="@+id/downloadLogListFragment"
         android:name="com.setotower.downloader.ui.more.downloadLogs.DownloadLogListFragment"

@@ -26,6 +26,7 @@ object NavbarUtil {
         "Home" to R.id.homeFragment,
         "History" to R.id.historyFragment,
         "Queue" to R.id.downloadQueueMainFragment,
+        "Movies" to R.id.downloadQueueMainFragment,
         "More" to R.id.moreFragment
     )
 

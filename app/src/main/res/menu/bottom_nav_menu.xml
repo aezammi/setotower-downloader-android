@@ -9,7 +9,7 @@
         android:icon="@drawable/ic_downloads"
         android:id="@+id/historyFragment"/>
 
-    <item android:title="@string/queue"
+    <item android:title="@string/movies"
         android:icon="@drawable/baseline_downloading_24"
         android:visible="true"
         android:id="@+id/downloadQueueMainFragment"/>

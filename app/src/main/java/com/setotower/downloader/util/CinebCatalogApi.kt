@@ -1,0 +1,113 @@
+package com.setotower.downloader.util
+
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import okhttp3.HttpUrl.Companion.toHttpUrl
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import java.io.IOException
+import java.util.concurrent.TimeUnit
+
+data class CinebMedia(
+    val id: Int,
+    val title: String,
+    val type: String,
+    val overview: String = "",
+    val posterPath: String? = null,
+    val backdropPath: String? = null,
+    val releaseDate: String = "",
+    val voteAverage: Double = 0.0,
+    val voteCount: Int = 0,
+    val runtime: Int = 0,
+    val seasons: Int = 0
+) {
+    val posterUrl: String get() = posterPath?.let { "https://image.tmdb.org/t/p/w342$it" }.orEmpty()
+    val backdropUrl: String get() = backdropPath?.let { "https://image.tmdb.org/t/p/w780$it" }.orEmpty()
+    val cinebUrl: String
+        get() = "https://cineb.setotower.com/${if (type == "tv") "series" else "movie"}/${slugify(title)}-$id/"
+}
+
+data class CinebSource(val name: String, val label: String, val encodedUrl: String)
+
+object CinebCatalogApi {
+    private const val BASE_URL = "https://cineb.setotower.com/DualEngineAPI.php"
+    private val client = OkHttpClient.Builder()
+        .callTimeout(30, TimeUnit.SECONDS)
+        .build()
+
+    suspend fun discover(type: String, page: Int = 1): List<CinebMedia> = request("discover", mapOf("type" to type, "page" to page.toString())).mediaResults(type)
+
+    suspend fun search(query: String): List<CinebMedia> = request("search", mapOf("query" to query)).mediaResults("movie")
+
+    suspend fun details(media: CinebMedia): CinebMedia = request("details", mapOf("id" to media.id.toString(), "type" to media.type)).toMedia(media.type)
+
+    suspend fun sources(media: CinebMedia, season: Int = 1, episode: Int = 1): List<CinebSource> = withContext(Dispatchers.IO) {
+        val json = request("stream_sources", mapOf("id" to media.id.toString(), "type" to media.type, "s" to season.toString(), "e" to episode.toString()))
+        json.array("servers")?.mapNotNull { item ->
+            val server = item.asJsonObject
+            val encoded = server.string("data") ?: return@mapNotNull null
+            CinebSource(
+                name = server.string("name") ?: "Source",
+                label = server.string("label") ?: server.string("name") ?: "Source",
+                encodedUrl = encoded
+            )
+        }.orEmpty()
+    }
+
+    suspend fun seasonEpisodes(media: CinebMedia, season: Int): List<CinebEpisode> = withContext(Dispatchers.IO) {
+        val json = request("season_details", mapOf("id" to media.id.toString(), "s" to season.toString()))
+        json.array("episodes")?.map { item ->
+            val episode = item.asJsonObject
+            CinebEpisode(
+                number = episode.int("episode_number"),
+                title = episode.string("name") ?: "Episode ${episode.int("episode_number")}",
+                overview = episode.string("overview").orEmpty(),
+                stillPath = episode.string("still_path")
+            )
+        }.orEmpty()
+    }
+
+    private suspend fun request(action: String, params: Map<String, String>): JsonObject = withContext(Dispatchers.IO) {
+        val builder = BASE_URL.toHttpUrl().newBuilder().addQueryParameter("action", action)
+        params.forEach { (key, value) -> builder.addQueryParameter(key, value) }
+        val response = client.newCall(Request.Builder().url(builder.build()).get().build()).execute()
+        response.use {
+            val body = it.body?.string().orEmpty()
+            if (!it.isSuccessful) throw IOException("Cineb returned HTTP ${it.code}.")
+            val json = JsonParser.parseString(body).asJsonObject
+            if (json.string("status") == "error") throw IOException(json.string("message") ?: "Cineb request failed.")
+            json
+        }
+    }
+
+    private fun JsonObject.mediaResults(fallbackType: String): List<CinebMedia> = array("results")?.map { it.asJsonObject.toMedia(it.string("media_type") ?: fallbackType) }.orEmpty()
+
+    private fun JsonObject.toMedia(fallbackType: String): CinebMedia = CinebMedia(
+        id = int("id"),
+        title = string("title") ?: string("name") ?: "Untitled",
+        type = string("media_type") ?: fallbackType,
+        overview = string("overview").orEmpty(),
+        posterPath = string("poster_path"),
+        backdropPath = string("backdrop_path"),
+        releaseDate = string("release_date") ?: string("first_air_date") ?: "",
+        voteAverage = number("vote_average"),
+        voteCount = int("vote_count"),
+        runtime = int("runtime"),
+        seasons = int("number_of_seasons")
+    )
+
+    private fun JsonObject.string(key: String): String? = get(key)?.takeUnless { it.isJsonNull }?.asString
+    private fun JsonObject.int(key: String): Int = get(key)?.takeUnless { it.isJsonNull }?.asInt ?: 0
+    private fun JsonObject.number(key: String): Double = get(key)?.takeUnless { it.isJsonNull }?.asDouble ?: 0.0
+    private fun JsonObject.array(key: String): JsonArray? = get(key)?.takeUnless { it.isJsonNull }?.asJsonArray
+}
+
+data class CinebEpisode(val number: Int, val title: String, val overview: String, val stillPath: String?)
+
+private fun slugify(value: String): String = value.lowercase()
+    .replace(Regex("[^a-z0-9]+"), "-")
+    .trim('-')
+    .ifBlank { "title" }

@@ -44,7 +44,7 @@ import com.setotower.downloader.database.viewmodel.ResultViewModel
 import com.setotower.downloader.database.viewmodel.SettingsViewModel
 import com.setotower.downloader.ui.BaseActivity
 import com.setotower.downloader.ui.home.HomeFragment
-import com.setotower.downloader.ui.downloads.DownloadQueueMainFragment
+import com.setotower.downloader.ui.movies.MoviesFragment
 import com.setotower.downloader.ui.downloads.HistoryFragment
 import com.setotower.downloader.ui.more.settings.SettingsActivity
 import com.setotower.downloader.ui.welcome.WelcomeActivity
@@ -177,7 +177,7 @@ class MainActivity : BaseActivity() {
                     }
                     R.id.downloadQueueMainFragment -> {
                         kotlin.runCatching {
-                            (navHostFragment.childFragmentManager.primaryNavigationFragment!! as DownloadQueueMainFragment).scrollToActive()
+                            (navHostFragment.childFragmentManager.primaryNavigationFragment!! as MoviesFragment).scrollToTop()
                         }
                     }
                     R.id.moreFragment -> {
