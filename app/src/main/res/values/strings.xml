@@ -686,6 +686,8 @@
     <string name="welcome_open_guide">Open guide</string>
     <string name="welcome_permissions_title">Permissions</string>
     <string name="welcome_permissions_summary">Setotower Downloader needs these permissions to save downloads on this device.</string>
+    <string name="welcome_updates_title">Updates</string>
+    <string name="welcome_updates_summary">Setotower Downloader stays updated automatically.</string>
     <string name="welcome_perm_storage">Storage access</string>
     <string name="welcome_perm_storage_summary">Needed to save your downloads to the device.</string>
     <string name="welcome_perm_notifications">Notifications</string>
