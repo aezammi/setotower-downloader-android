@@ -83,7 +83,10 @@ object CinebCatalogApi {
         }
     }
 
-    private fun JsonObject.mediaResults(fallbackType: String): List<CinebMedia> = array("results")?.map { it.asJsonObject.toMedia(it.string("media_type") ?: fallbackType) }.orEmpty()
+    private fun JsonObject.mediaResults(fallbackType: String): List<CinebMedia> = array("results")?.map {
+        val item = it.asJsonObject
+        item.toMedia(item.string("media_type") ?: fallbackType)
+    }.orEmpty()
 
     private fun JsonObject.toMedia(fallbackType: String): CinebMedia = CinebMedia(
         id = int("id"),
