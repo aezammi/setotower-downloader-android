@@ -347,6 +347,7 @@
     <string name="omail">Omail</string>
     <string name="live_tv">Live TV</string>
     <string name="logout">Log out</string>
+    <string name="login">Log in</string>
     <string name="logout_confirmation">Log out of this Setotower account?</string>
     <string name="logged_out">You are logged out.</string>
     <string name="license">License</string>

@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.color.MaterialColors
 import com.setotower.downloader.R
 import com.setotower.downloader.ui.more.settings.SettingsActivity
 import kotlinx.coroutines.launch
@@ -32,6 +33,10 @@ class MoreFragment : Fragment() {
         preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         profileScroll = view.findViewById(R.id.profile_scroll)
 
+        val loggedIn = preferences.getBoolean("logged_in", false) ||
+            !preferences.getString("auth_token", null).isNullOrBlank() ||
+            !preferences.getString("session_token", null).isNullOrBlank()
+
         val displayName = preferences.getString("profile_name", "")?.takeIf { it.isNotBlank() }
             ?: preferences.getString("username", "")?.takeIf { it.isNotBlank() }
             ?: getString(R.string.you)
@@ -50,8 +55,17 @@ class MoreFragment : Fragment() {
         view.findViewById<View>(R.id.profile_discord).setOnClickListener {
             openUrl("https://discord.gg/qgh7CNe7Su")
         }
-        view.findViewById<View>(R.id.profile_logout).setOnClickListener {
-            confirmLogout()
+        val sessionAction = view.findViewById<TextView>(R.id.profile_session_action)
+        sessionAction.text = if (loggedIn) R.string.logout else R.string.login
+        sessionAction.setTextColor(
+            MaterialColors.getColor(
+                sessionAction,
+                if (loggedIn) com.google.android.material.R.attr.colorError
+                else com.google.android.material.R.attr.colorPrimary
+            )
+        )
+        sessionAction.setOnClickListener {
+            if (loggedIn) confirmLogout() else openUrl("https://canvas.setotower.com/login")
         }
     }
 
