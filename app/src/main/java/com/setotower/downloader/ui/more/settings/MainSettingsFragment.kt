@@ -54,6 +54,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import kotlin.system.exitProcess
 
 
 class MainSettingsFragment : PreferenceFragmentCompat() {
@@ -142,6 +143,20 @@ class MainSettingsFragment : PreferenceFragmentCompat() {
         advanced?.summary = "PO Token$separator ${getString(R.string.other_youtube_extractor_args)}"
         advanced?.setOnPreferenceClickListener {
             navController.navigate(R.id.action_mainSettingsFragment_to_advancedSettingsFragment)
+            true
+        }
+
+        findPreference<Preference>("terminate_app")?.setOnPreferenceClickListener {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.kill_app)
+                .setMessage(R.string.confirm_terminate)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.ok) { _, _ ->
+                    requireActivity().finishAndRemoveTask()
+                    requireActivity().finishAffinity()
+                    exitProcess(0)
+                }
+                .show()
             true
         }
 

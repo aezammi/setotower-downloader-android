@@ -31,33 +31,6 @@
         app:icon="@drawable/baseline_settings_suggest_24"
         android:title="@string/advanced"/>
 
-    <PreferenceCategory android:title="@string/backup_restore">
-        <Preference
-            app:icon="@drawable/baseline_save_alt_24"
-            app:key="backup"
-            app:title="@string/backup"/>
-
-        <Preference
-            app:icon="@drawable/baseline_restore_page_24"
-            app:key="restore"
-            app:title="@string/restore"/>
-
-        <SwitchPreferenceCompat
-            android:widgetLayout="@layout/preferece_material_switch"
-            app:defaultValue="true"
-            app:icon="@drawable/ic_clock"
-            app:key="automatic_backup"
-            android:summary="@string/automatic_backup_summary"
-            app:title="@string/automatic_backup" />
-
-        <Preference
-            app:icon="@drawable/baseline_folder_24"
-            android:summary=""
-            app:key="backup_path"
-            app:title="@string/backup_path" />
-
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="@string/about" >
         <Preference
             app:icon="@drawable/baseline_exit_to_app_24"
@@ -99,6 +72,12 @@
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/aezammi/setotower-downloader-android" />
         </Preference>
+
+        <Preference
+            app:icon="@drawable/ic_power"
+            app:key="terminate_app"
+            app:summary="Stop downloads and close Setotower Downloader"
+            app:title="@string/kill_app" />
 
 
     </PreferenceCategory>

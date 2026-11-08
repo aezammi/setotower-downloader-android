@@ -57,6 +57,8 @@ class MoreFragment : Fragment() {
         mainSharedPreferences =  PreferenceManager.getDefaultSharedPreferences(requireContext())
         mainSharedPreferencesEditor = mainSharedPreferences.edit()
         logs = view.findViewById(R.id.logs)
+        // Keep internal diagnostics out of the client-facing account page.
+        logs.isVisible = false
         commandTemplates = view.findViewById(R.id.command_templates)
         commandTemplates.isVisible = SetotowerProductPolicy.allowCommandTemplates
         downloads = view.findViewById(R.id.downloads)
@@ -64,6 +66,7 @@ class MoreFragment : Fragment() {
         cookies = view.findViewById(R.id.cookies)
         cookies.isVisible = SetotowerProductPolicy.allowInteractiveCookieLogin
         observeSources = view.findViewById(R.id.observe_sources)
+        observeSources.isVisible = false
         terminateApp = view.findViewById(R.id.terminate)
         settings = view.findViewById(R.id.settings)
 

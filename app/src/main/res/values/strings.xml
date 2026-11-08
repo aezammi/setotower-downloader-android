@@ -672,8 +672,8 @@
     <string name="download_anyway">Download anyway</string>
     <string name="write_ytdlp_terminal">Show download-engine commands in terminal</string>
     <string name="clear">Clear</string>
-    <string name="welcome_title">Welcome to Setotower Downloader</string>
-    <string name="welcome_subtitle">Download video and audio with Setotower. Let\'s get a few things set up first.</string>
+    <string name="welcome_title">Download with no headache.</string>
+    <string name="welcome_subtitle">Setotower Downloader keeps downloads simple and saves them directly on this device.</string>
     <string name="welcome_get_started">Get started</string>
     <string name="welcome_restore_backup">Restore from backup</string>
     <string name="welcome_restore_failed">Could not restore this backup</string>
@@ -696,8 +696,9 @@
     <string name="welcome_required">Required</string>
     <string name="welcome_perm_folders_header">Restored folders</string>
     <string name="welcome_perm_folders_summary">Your backup uses these folders, but the app lost access to them. Allow each one again, or pick a different folder to use instead.</string>
-    <string name="welcome_updates_title">Updates</string>
-    <string name="welcome_updates_summary">Choose how Setotower Downloader stays up to date.</string>
+    <string name="welcome_ready_title">You are good to go</string>
+    <string name="welcome_ready_summary">Keep smiling Keep downloading.</string>
+    <string name="welcome_ready_ads">Fuck Ads</string>
     <string name="welcome_next">Next</string>
     <string name="welcome_finish">Finish</string>
     <string name="lyrics">Lyrics</string>

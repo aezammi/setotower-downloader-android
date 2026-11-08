@@ -18,11 +18,13 @@
 
             <ImageView
                 android:id="@+id/app_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_margin="20dp"
                 android:layout_gravity="center"
-                android:src="@drawable/setotower_mark"
-                android:background="@android:color/transparent"
+                android:src="@drawable/baseline_person_24"
+                android:background="@drawable/circle"
+                android:padding="16dp"
                 android:scaleType="center" />
 
             <TextView
@@ -131,6 +133,7 @@
                 android:text="@string/kill_app"
                 android:textStyle="bold"
                 android:paddingHorizontal="15dp"
+                android:visibility="gone"
                 app:drawableStartCompat="@drawable/ic_power" />
 
 

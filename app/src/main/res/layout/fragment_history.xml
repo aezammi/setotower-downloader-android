@@ -40,6 +40,66 @@
                     android:layout_height="wrap_content">
 
                     <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/download_category_chips"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:singleSelection="true"
+                        app:selectionRequired="true">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/category_all"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:text="All"
+                            app:ensureMinTouchTargetSize="false" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/category_photo"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Photo"
+                            app:ensureMinTouchTargetSize="false" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/category_video"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Video"
+                            app:ensureMinTouchTargetSize="false" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/category_documents"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Documents"
+                            app:ensureMinTouchTargetSize="false" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/category_apps"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Apps"
+                            app:ensureMinTouchTargetSize="false" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/category_others"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Others"
+                            app:ensureMinTouchTargetSize="false" />
+                    </com.google.android.material.chip.ChipGroup>
+
+                    <View style="@style/Divider.Vertical" />
+
+                    <com.google.android.material.chip.ChipGroup
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:selectionRequired="false"
@@ -80,9 +140,11 @@
                     <View style="@style/Divider.Vertical"/>
 
                     <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/legacy_format_chips"
                         android:layout_width="wrap_content"
                         app:selectionRequired="false"
                         app:singleSelection="true"
+                        android:visibility="gone"
                         android:layout_height="wrap_content">
 
                         <com.google.android.material.chip.Chip

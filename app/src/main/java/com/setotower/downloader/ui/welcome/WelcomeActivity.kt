@@ -22,7 +22,7 @@ import com.google.android.material.elevation.SurfaceColors
 import com.google.android.material.progressindicator.LinearProgressIndicator
 
 /**
- * First-run flow: intro (with backup restore), guide, permissions and update preferences.
+ * First-run flow: intro, guide, permissions and a short ready screen.
  * [MainActivity] hands over to it until [PREF_COMPLETED] is set.
  */
 class WelcomeActivity : AppCompatActivity() {
@@ -102,16 +102,12 @@ class WelcomeActivity : AppCompatActivity() {
 
     /** Saves the choices from the last page, marks the flow as done and opens the app. */
     private fun finishWelcome() {
-        val channels = resources.getStringArray(R.array.ytdlp_source)
-        val channelValues = resources.getStringArray(R.array.ytdlp_source_values)
-        val builtIn = channelValues.indexOf(viewModel.ytdlpSource)
-        val label = if (builtIn >= 0) channels[builtIn] else viewModel.ytdlpSourceLabel
-
         preferences.edit(commit = true) {
-            putBoolean("update_app", viewModel.updateApp)
-            putBoolean("auto_update_ytdlp", viewModel.autoUpdateYtdlp)
-            putString("ytdlp_source", viewModel.ytdlpSource)
-            putString("ytdlp_source_label", label)
+            // Engine maintenance is automatic. There is no update channel to choose.
+            putBoolean("update_app", false)
+            putBoolean("auto_update_ytdlp", true)
+            putString("ytdlp_source", "nightly")
+            putString("ytdlp_source_label", "Nightly")
             putBoolean("asked_auto_update_preferences", true)
             putBoolean(PREF_COMPLETED, true)
         }
@@ -156,9 +152,7 @@ class WelcomeActivity : AppCompatActivity() {
         const val EXTRA_FROM_WELCOME = "from_welcome"
         private const val LAST_PAGE = 3
 
-        /** Users who already answered the old update dialog have been through setup, so they skip this. */
         fun isNeeded(preferences: SharedPreferences): Boolean =
-            !preferences.getBoolean(PREF_COMPLETED, false) &&
-                    !preferences.getBoolean("asked_auto_update_preferences", false)
+            !preferences.getBoolean(PREF_COMPLETED, false)
     }
 }

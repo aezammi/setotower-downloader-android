@@ -13,41 +13,22 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/welcome_updates_title"
+            android:text="@string/welcome_ready_title"
             android:textAppearance="?attr/textAppearanceHeadlineMedium" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/welcome_updates_summary"
+            android:text="@string/welcome_ready_summary"
             android:textAppearance="?attr/textAppearanceBodyLarge" />
 
-        <include
-            android:id="@+id/update_app"
-            layout="@layout/preference_search_result_switch" />
-
-        <include
-            android:id="@+id/update_ytdl"
-            layout="@layout/preference_search_result_switch" />
-
-        <!-- same widgets as the yt-dlp update settings -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/update_channel"
-            android:textAppearance="?attr/textAppearanceTitleSmall"
-            android:textColor="?android:attr/colorAccent"
-            android:textStyle="bold" />
-
-        <include
-            android:id="@+id/channel_picker"
-            layout="@layout/preference_update_channel" />
-
-        <include
-            android:id="@+id/custom_source"
-            layout="@layout/preference_search_result_regular" />
+            android:layout_marginTop="28dp"
+            android:gravity="center"
+            android:text="@string/welcome_ready_ads"
+            android:textAppearance="?attr/textAppearanceTitleLarge" />
     </LinearLayout>
 </ScrollView>
