@@ -1,5 +1,7 @@
 package com.setotower.downloader.util
 
+import android.content.Context
+import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
@@ -10,6 +12,9 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
 import java.util.concurrent.TimeUnit
+
+private const val CINEB_HOME_CACHE = "cineb_home_snapshot"
+private const val CINEB_HOME_CACHE_TTL_MS = 30 * 60 * 1000L
 
 data class CinebMedia(
     val id: Int,
@@ -32,6 +37,36 @@ data class CinebMedia(
 
 data class CinebSource(val name: String, val label: String, val encodedUrl: String)
 
+data class CinebHomeSnapshot(
+    val fetchedAt: Long,
+    val groups: List<List<CinebMedia>>
+)
+
+object CinebCatalogCache {
+    @Volatile private var memory: CinebHomeSnapshot? = null
+
+    fun read(context: Context): CinebHomeSnapshot? {
+        memory?.let { return it }
+        val raw = context.getSharedPreferences("cineb_cache", Context.MODE_PRIVATE)
+            .getString(CINEB_HOME_CACHE, null)
+            ?: return null
+        return runCatching { Gson().fromJson(raw, CinebHomeSnapshot::class.java) }
+            .getOrNull()
+            ?.also { memory = it }
+    }
+
+    fun write(context: Context, snapshot: CinebHomeSnapshot) {
+        memory = snapshot
+        context.getSharedPreferences("cineb_cache", Context.MODE_PRIVATE)
+            .edit()
+            .putString(CINEB_HOME_CACHE, Gson().toJson(snapshot))
+            .apply()
+    }
+
+    fun isFresh(snapshot: CinebHomeSnapshot): Boolean =
+        System.currentTimeMillis() - snapshot.fetchedAt < CINEB_HOME_CACHE_TTL_MS
+}
+
 object CinebCatalogApi {
     private const val BASE_URL = "https://cineb.setotower.com/DualEngineAPI.php"
     private val client = OkHttpClient.Builder()
@@ -39,6 +74,20 @@ object CinebCatalogApi {
         .build()
 
     suspend fun discover(type: String, page: Int = 1): List<CinebMedia> = request("discover", mapOf("type" to type, "page" to page.toString())).mediaResults(type)
+
+    suspend fun prefetchHome(context: Context): CinebHomeSnapshot? = withContext(Dispatchers.IO) {
+        CinebCatalogCache.read(context)?.takeIf { CinebCatalogCache.isFresh(it) }?.let { return@withContext it }
+        runCatching {
+            val popular = discover("movie")
+            val tv = discover("tv")
+            val trending = discover("movie", 2)
+            val recommended = (popular.drop(4) + tv.take(10)).distinctBy { it.id to it.type }
+            CinebHomeSnapshot(
+                fetchedAt = System.currentTimeMillis(),
+                groups = listOf(popular, recommended, trending, tv, popular + tv)
+            ).also { CinebCatalogCache.write(context, it) }
+        }.getOrNull()
+    }
 
     suspend fun search(query: String): List<CinebMedia> = request("search", mapOf("query" to query)).mediaResults("movie")
 

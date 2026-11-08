@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.setotower.downloader.R
 import com.setotower.downloader.ui.adapter.CinebPosterAdapter
 import com.setotower.downloader.util.CinebCatalogApi
+import com.setotower.downloader.util.CinebCatalogCache
 import com.setotower.downloader.util.CinebMedia
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.Dispatchers
@@ -60,7 +61,9 @@ class MoviesFragment : Fragment() {
             } else false
         }
 
-        loadHome()
+        val cached = CinebCatalogCache.read(requireContext())
+        cached?.let { renderHome(it.groups) }
+        loadHome(cached)
     }
 
     private fun configureRail(list: RecyclerView) {
@@ -72,35 +75,44 @@ class MoviesFragment : Fragment() {
         list.itemAnimator = null
     }
 
-    private fun loadHome() {
-        setLoading(true)
+    private fun loadHome(cached: com.setotower.downloader.util.CinebHomeSnapshot? = null) {
+        val shouldRefresh = cached == null || !CinebCatalogCache.isFresh(cached)
+        if (!shouldRefresh) {
+            setLoading(false)
+            return
+        }
+        if (cached == null) setLoading(true) else status.visibility = View.GONE
         viewLifecycleOwner.lifecycleScope.launch {
-            runCatching {
-                withContext(Dispatchers.IO) {
-                    val popular = CinebCatalogApi.discover("movie")
-                    val tv = CinebCatalogApi.discover("tv")
-                    val trending = CinebCatalogApi.discover("movie", 2)
-                    val recommended = (popular.drop(4) + tv.take(10)).distinctBy { it.id to it.type }
-                    listOf(popular, recommended, trending, tv, popular + tv)
+            runCatching { CinebCatalogApi.prefetchHome(requireContext()) }
+                .onSuccess { snapshot ->
+                    snapshot?.let { renderHome(it.groups) }
+                    setLoading(false)
                 }
-            }.onSuccess { groups ->
-                updateRail(R.id.movies_featured_list, groups[0])
-                updateRail(R.id.movies_recommended_list, groups[1])
-                updateRail(R.id.movies_trending_list, groups[2])
-                updateRail(R.id.movies_tv_list, groups[3])
-                moreAdapter.submitList(groups[4])
-                setLoading(false)
-            }.onFailure {
-                status.text = "Movies are temporarily unavailable. Try again."
-                status.visibility = View.VISIBLE
-                setLoading(false)
-            }
+                .onFailure {
+                    if (cached == null) {
+                        status.text = "Movies are temporarily unavailable. Try again."
+                        status.visibility = View.VISIBLE
+                    }
+                    setLoading(false)
+                }
+        }
+    }
+
+    private fun renderHome(groups: List<List<CinebMedia>>) {
+        if (groups.size >= 5) {
+            updateRail(R.id.movies_featured_list, groups[0])
+            updateRail(R.id.movies_recommended_list, groups[1])
+            updateRail(R.id.movies_trending_list, groups[2])
+            updateRail(R.id.movies_tv_list, groups[3])
+            moreAdapter.submitList(groups[4])
         }
     }
 
     private fun searchFor(query: String) {
         if (query.isBlank()) {
-            loadHome()
+            val cached = CinebCatalogCache.read(requireContext())
+            cached?.let { renderHome(it.groups) }
+            loadHome(cached)
             return
         }
         setLoading(true)

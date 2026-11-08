@@ -53,6 +53,7 @@ import com.setotower.downloader.util.ApkInstallUtil
 import com.setotower.downloader.util.BgUtilsPoTokenGeneratorUtil
 import com.setotower.downloader.util.CrashListener
 import com.setotower.downloader.util.NavbarUtil
+import com.setotower.downloader.util.CinebCatalogApi
 import com.setotower.downloader.util.NavbarUtil.applyNavBarStyle
 import com.setotower.downloader.util.ThemeUtil
 import com.setotower.downloader.util.UpdateUtil
@@ -306,6 +307,11 @@ class MainActivity : BaseActivity() {
         handleIntents(intent)
 
         callAutoUpdates(firstRun = intent.getBooleanExtra(WelcomeActivity.EXTRA_FROM_WELCOME, false))
+        // Warm the Movies cache after the main UI is ready. The tab can render
+        // the saved snapshot instantly on the next visit.
+        lifecycleScope.launch(Dispatchers.IO) {
+            CinebCatalogApi.prefetchHome(this@MainActivity)
+        }
     }
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         super.onSaveInstanceState(savedInstanceState)
