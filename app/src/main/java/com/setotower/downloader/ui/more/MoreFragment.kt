@@ -56,7 +56,7 @@ class MoreFragment : Fragment() {
             openUrl("https://discord.gg/qgh7CNe7Su")
         }
         val sessionAction = view.findViewById<TextView>(R.id.profile_session_action)
-        sessionAction.text = if (loggedIn) R.string.logout else R.string.login
+        sessionAction.text = getString(if (loggedIn) R.string.logout else R.string.login)
         sessionAction.setTextColor(
             MaterialColors.getColor(
                 sessionAction,
