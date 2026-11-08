@@ -147,11 +147,6 @@ object AppUpdateSettingsModule : SettingModule {
     private fun showUpdateDialog(release: GithubRelease, updateUtil: UpdateUtil, host: SettingHost, preferences: SharedPreferences) {
         val settingsViewModel = ViewModelProvider(host.hostViewModelStoreOwner)[SettingsViewModel::class.java]
         host.hostLifecycleOwner.lifecycleScope.launch {
-            if (preferences.getBoolean("automatic_backup", false)) {
-                withContext(Dispatchers.IO){
-                    settingsViewModel.backup()
-                }
-            }
             UiUtil.showNewAppUpdateDialog(release, host.getHostContext(), updateUtil, host.hostLifecycleOwner, preferences, host.getAppInstallLauncher())
         }
     }

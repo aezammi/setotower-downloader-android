@@ -489,9 +489,6 @@ class MainActivity : BaseActivity() {
 
     private fun callAutoUpdates(firstRun : Boolean = false) {
         resultViewModel.checkForUpdates { //on app update found
-            if (preferences.getBoolean("automatic_backup", false)) {
-                settingsViewModel.backup()
-            }
         }
         if (preferences.getBoolean("auto_update_ytdlp", false)){
             CoroutineScope(SupervisorJob()).launch {

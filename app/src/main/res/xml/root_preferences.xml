@@ -22,34 +22,37 @@
         android:title="@string/processing"/>
 
     <Preference
-        android:key="updating"
-        app:icon="@drawable/ic_update"
-        android:title="@string/updating"/>
-
-    <Preference
         android:key="advanced"
         app:icon="@drawable/baseline_settings_suggest_24"
         android:title="@string/advanced"/>
 
     <PreferenceCategory android:title="@string/about" >
         <Preference
-            app:icon="@drawable/baseline_exit_to_app_24"
-            app:key="package_name"
-            app:title="@string/package_name" />
-        <Preference
-            app:icon="@drawable/ic_translate"
-            app:key="translators"
-            app:summary="@string/translators_summary"
-            app:title="@string/translators" />
-
-        <Preference
             app:icon="@drawable/baseline_security_24"
             app:key="security"
-            app:summary="🔐 Setotower Downloader - Privacy Policy"
-            app:title="@string/security">
+            app:summary="@string/privacy_policy"
+            app:title="@string/privacy_policy">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/aezammi/setotower-downloader-android/blob/main/SECURITY.md" />
+        </Preference>
+
+        <Preference
+            app:icon="@drawable/ic_link"
+            app:key="visit_website"
+            app:title="@string/visit_website">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://downloader.setotower.com" />
+        </Preference>
+
+        <Preference
+            app:icon="@drawable/ic_discord"
+            app:key="join_discord"
+            app:title="@string/join_discord">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://discord.gg/qgh7CNe7Su" />
         </Preference>
 
         <Preference

@@ -332,6 +332,9 @@
     <string name="user_agent_header">User-Agent header</string>
     <string name="length">Length</string>
     <string name="security">Security</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="visit_website">Visit website</string>
+    <string name="join_discord">Join Discord</string>
     <string name="license">License</string>
     <string name="download_already_exists_summary">Do you still want to  download?</string>
     <string name="schedule">Schedule</string>
