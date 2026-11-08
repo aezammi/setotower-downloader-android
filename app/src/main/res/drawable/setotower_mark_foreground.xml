@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Keep the mark near 50% of the icon so the adaptive background remains visible. -->
+    <!-- Keep the mark centered and compact so the adaptive background fills the icon. -->
     <item
         android:drawable="@drawable/mcnplogo"
-        android:insetLeft="40dp"
-        android:insetTop="40dp"
-        android:insetRight="40dp"
-        android:insetBottom="40dp" />
+        android:width="44dp"
+        android:height="44dp"
+        android:gravity="center" />
 </layer-list>
