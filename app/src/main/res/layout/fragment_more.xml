@@ -10,7 +10,7 @@
         android:id="@+id/profile_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:title="@string/profile" />
+        android:title="@string/you" />
 
     <ScrollView
         android:id="@+id/profile_scroll"
@@ -50,12 +50,14 @@
                         android:layout_marginStart="16dp"
                         android:orientation="vertical">
                         <TextView
+                            android:id="@+id/profile_name_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/profile_display_name"
                             android:textSize="20sp"
                             android:textStyle="bold" />
                         <TextView
+                            android:id="@+id/profile_handle_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"

@@ -160,6 +160,10 @@ class MainActivity : BaseActivity() {
             val showingDownloadQueue = NavbarUtil.getNavBarItems(this@MainActivity).any { n -> n.itemId == R.id.downloadQueueMainFragment && n.isVisible }
 
             setupWithNavController(navController)
+            navigationBarView?.menu?.findItem(R.id.moreFragment)?.title =
+                preferences.getString("profile_name", "")?.takeIf { it.isNotBlank() }
+                    ?: preferences.getString("username", "")?.takeIf { it.isNotBlank() }
+                    ?: getString(R.string.you)
             setOnItemReselectedListener {
                 when (it.itemId) {
                     R.id.homeFragment -> {
@@ -389,6 +393,10 @@ class MainActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         window.statusBarColor = getColor(android.R.color.transparent)
+        navigationBarView?.menu?.findItem(R.id.moreFragment)?.title =
+            preferences.getString("profile_name", "")?.takeIf { it.isNotBlank() }
+                ?: preferences.getString("username", "")?.takeIf { it.isNotBlank() }
+                ?: getString(R.string.you)
     }
 
     override fun onNewIntent(intent: Intent) {

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -30,6 +31,15 @@ class MoreFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         profileScroll = view.findViewById(R.id.profile_scroll)
+
+        val displayName = preferences.getString("profile_name", "")?.takeIf { it.isNotBlank() }
+            ?: preferences.getString("username", "")?.takeIf { it.isNotBlank() }
+            ?: getString(R.string.you)
+        view.findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.profile_toolbar).title = displayName
+        view.findViewById<TextView>(R.id.profile_name_text).text = displayName
+        view.findViewById<TextView>(R.id.profile_handle_text).text =
+            preferences.getString("profile_handle", "")?.takeIf { it.isNotBlank() }
+                ?: if (displayName == getString(R.string.you)) getString(R.string.profile_handle) else "@$displayName"
 
         view.findViewById<View>(R.id.settings).setOnClickListener {
             startActivity(Intent(requireContext(), SettingsActivity::class.java))
