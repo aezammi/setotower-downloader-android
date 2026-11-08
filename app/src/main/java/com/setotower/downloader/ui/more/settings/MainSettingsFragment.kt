@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
 import android.util.LayoutDirection
 import android.util.Log
@@ -96,7 +95,7 @@ class MainSettingsFragment : PreferenceFragmentCompat() {
 
         val appearance = findPreference<Preference>("appearance")
         val separator = if (LocaleUtil.currentLocale().layoutDirection == LayoutDirection.RTL) "،" else ","
-        appearance?.summary = "${if (Build.VERSION.SDK_INT < 33) getString(R.string.language) + "$separator " else ""}${getString(R.string.Theme)}$separator ${getString(R.string.accents)}$separator ${getString(R.string.preferred_search_engine)}"
+        appearance?.summary = "${getString(R.string.Theme)}$separator ${getString(R.string.accents)}"
         appearance?.setOnPreferenceClickListener {
             navController.navigate(R.id.action_mainSettingsFragment_to_appearanceSettingsFragment)
             true
@@ -114,7 +113,7 @@ class MainSettingsFragment : PreferenceFragmentCompat() {
         }
 
         val downloading = findPreference<Preference>("downloading")
-        downloading?.summary = "${getString(R.string.quick_download)}$separator ${getString(R.string.concurrent_downloads)}$separator ${getString(R.string.limit_rate)}"
+        downloading?.summary = "${getString(R.string.quick_download)}$separator ${getString(R.string.concurrent_downloads)}"
         downloading?.setOnPreferenceClickListener {
             navController.navigate(R.id.action_mainSettingsFragment_to_downloadSettingsFragment)
             true

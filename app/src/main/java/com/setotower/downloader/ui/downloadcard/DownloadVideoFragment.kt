@@ -402,8 +402,6 @@ class DownloadVideoFragment(private var resultItem: ResultItem? = null, private 
 
                                 if (it.isNotBlank()){
                                     downloadItem.customFileNameTemplate = downloadItem.customFileNameTemplate.applyFilenameTemplateForCuts()
-                                }else{
-                                    downloadItem.customFileNameTemplate = downloadViewModel.applySubdirectoryPreferences(sharedPreferences.getString("file_name_template", "%(uploader).30B - %(title).170B")!!)
                                 }
                             },
                             mergeCutsChanged = { mergeCuts ->
@@ -448,9 +446,6 @@ class DownloadVideoFragment(private var resultItem: ResultItem? = null, private 
                                 if (it.isNotBlank()) {
                                     downloadItem.videoPreferences.recodeVideo = false
                                 }
-                            },
-                            filenameTemplateSet = {
-                                downloadItem.customFileNameTemplate = it
                             },
                             saveSubtitlesClicked = {
                                 downloadItem.videoPreferences.writeSubs = it

@@ -236,25 +236,6 @@ object DownloadSettingsModule : SettingModule {
                     true
                 }
             }
-            "proxy" -> {
-                (pref as EditTextPreference).apply {
-                    val s = context.getString(R.string.socks5_proxy_summary)
-                    summary = if (text.isNullOrBlank()) {
-                        s
-                    }else {
-                        "${s}\n[${text}]"
-                    }
-                    setOnPreferenceChangeListener { _, newValue ->
-                        summary = if ((newValue as String?).isNullOrBlank()) {
-                            s
-                        }else {
-                            "${s}\n[${newValue}]"
-                        }
-                        host.refreshUI()
-                        true
-                    }
-                }
-            }
             "preferred_download_type" -> {
                 (pref as ListPreference).apply {
                     val s = context.getString(R.string.preferred_download_type_summary)
@@ -269,44 +250,6 @@ object DownloadSettingsModule : SettingModule {
                             s
                         }else {
                             "${s}\n[${entries[entryValues.indexOf(newValue)]}]"
-                        }
-                        host.refreshUI()
-                        true
-                    }
-                }
-            }
-            "buffer_size" -> {
-                (pref as EditTextPreference).apply {
-                    val s = context.getString(R.string.buffer_size_summary)
-                    summary = if (text.isNullOrBlank()) {
-                        s
-                    }else {
-                        "${s}\n[${text}]"
-                    }
-                    setOnPreferenceChangeListener { _, newValue ->
-                        summary = if ((newValue as String?).isNullOrBlank()) {
-                            s
-                        }else {
-                            "${s}\n[${newValue}]"
-                        }
-                        host.refreshUI()
-                        true
-                    }
-                }
-            }
-            "socket_timeout" -> {
-                (pref as EditTextPreference).apply {
-                    val s = context.getString(R.string.socket_timeout_description)
-                    summary = if (text.isNullOrBlank()) {
-                        s
-                    }else {
-                        "${s}\n[${text}]"
-                    }
-                    setOnPreferenceChangeListener { _, newValue ->
-                        summary = if ((newValue as String?).isNullOrBlank()) {
-                            s
-                        }else {
-                            "${s}\n[${newValue}]"
                         }
                         host.refreshUI()
                         true

@@ -170,11 +170,6 @@ class TerminalFragment : Fragment() {
                         }
                     }
                 }
-                R.id.filename_template -> {
-                    UiUtil.showFilenameTemplateDialog(requireActivity(), "") { filenameSelected ->
-                        writeSpaced("\"$filenameSelected\" ")
-                    }
-                }
                 R.id.folder -> {
                     val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
                     intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)

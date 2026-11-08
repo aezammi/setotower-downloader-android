@@ -65,18 +65,10 @@ class FolderSettingsFragment : BaseSettingsFragment() {
         super.onResume()
 
         val allFilesPref = findPreference<Preference>("access_all_files")
-        val cachePref = findPreference<Preference>("cache_downloads")
-        val cachePath = findPreference<Preference>("cache_path")
-
         if (FileUtil.hasAllFilesAccess()) {
             allFilesPref?.isVisible = false
-            cachePref?.isEnabled = true
-            cachePath?.isEnabled = true
         } else {
-            editor.putBoolean("cache_downloads", true).apply()
             allFilesPref?.isVisible = true
-            cachePref?.isEnabled = false
-            cachePath?.isEnabled = false
         }
 
         // sizes may have changed in the temporary files screen

@@ -157,7 +157,7 @@
     <string name="select">Select</string>
     <string name="selected">Selected</string>
     <string name="all_items_selected">All items selected</string>
-    <string name="access_all_directories">Allow access to all directories</string>
+    <string name="access_all_directories">Allow Files Permissions</string>
     <string name="access_all_directories_summary">Let the app download on directories that are restricted by default</string>
     <string name="redownload">Redownload</string>
     <string name="in_queue">In queue</string>
@@ -193,7 +193,7 @@
     <string name="end">End</string>
     <string name="start">Start</string>
     <string name="update_formats_summary">Fetch the formats as soon as the download card appears</string>
-    <string name="ignore_battery_optimization">Ignore battery optimization</string>
+    <string name="ignore_battery_optimization">Grant battery Permission</string>
     <string name="cut">Cut</string>
     <string name="new_cut">New cut</string>
     <string name="crop">Crop</string>
@@ -425,7 +425,7 @@
     <string name="sync_with_source">Sync with source</string>
     <string name="sync_with_source_desc">Delete downloaded items if they are missing in the source</string>
     <string name="queue">Queue</string>
-    <string name="reset">Reset</string>
+    <string name="reset">Factory Reset</string>
     <string name="restore_info">Press \'Restore\' to merge the saved data with your current data.\nPress \'Reset\' to erase and only use the saved data in the file.</string>
     <string name="use_alarm_manager">Use AlarmManager instead of WorkManager for scheduling</string>
     <string name="use_alarm_manager_summary">Enable this if WorkManager is restricted by your device vendor or scheduled jobs are not too precise</string>

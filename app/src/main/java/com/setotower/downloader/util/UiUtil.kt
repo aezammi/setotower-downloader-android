@@ -1347,7 +1347,6 @@ object UiUtil {
         cropClicked: (VideoCropListener) -> Unit,
         cropValueChanged: (String) -> Unit,
         cropDisabledClicked: () -> Unit,
-        filenameTemplateSet: (String) -> Unit,
         saveSubtitlesClicked: (Boolean) -> Unit,
         saveAutoSubtitlesClicked: (Boolean) -> Unit,
         burnSubtitlesClicked: (Boolean) -> Unit,
@@ -1877,19 +1876,6 @@ object UiUtil {
             }
         }
 
-        val filenameTemplate = view.findViewById<Chip>(R.id.filename_template)
-        filenameTemplate.setOnClickListener {
-            val currentFilename = if (items.size == 1 || items.all { it.customFileNameTemplate == items[0].customFileNameTemplate }){
-                items[0].customFileNameTemplate
-            }else {
-                ""
-            }
-            val itemContext = if (items.size == 1) items.first() else null
-            showFilenameTemplateDialog(context, currentFilename, ytdlpViewModel = ytdlpViewModel, itemContext = itemContext) {
-                filenameTemplateSet(it)
-            }
-        }
-
         val extraCommands = view.findViewById<Chip>(R.id.extra_commands)
         if (items.size == 1) {
             extraCommands.createBadge(context, if (items.first().extraCommands.isNotBlank()) 1 else 0)
@@ -1918,7 +1904,6 @@ object UiUtil {
         cropThumbClicked: (Boolean) -> Unit,
         splitByChaptersClicked: (Boolean) -> Unit,
         bitrateSet: (String) -> Unit,
-        filenameTemplateSet: (String) -> Unit,
         sponsorBlockItemsSet: (Array<String>, List<Boolean>) -> Unit,
         cutClicked: (VideoCutListener) -> Unit,
         cutDisabledClicked: () -> Unit,
@@ -2049,19 +2034,6 @@ object UiUtil {
                     text = newText
                     bitrateSet(it)
                 }
-            }
-        }
-
-        val filenameTemplate = view.findViewById<Chip>(R.id.filename_template)
-        filenameTemplate.setOnClickListener {
-            val currentFilename = if (items.size == 1 || items.all { it.customFileNameTemplate == items[0].customFileNameTemplate }){
-                items[0].customFileNameTemplate
-            }else {
-                ""
-            }
-            val itemContext = if (items.size == 1) items.first() else null
-            showFilenameTemplateDialog(context, currentFilename, ytdlpViewModel = ytdlpViewModel, itemContext = itemContext) {
-                filenameTemplateSet(it)
             }
         }
 

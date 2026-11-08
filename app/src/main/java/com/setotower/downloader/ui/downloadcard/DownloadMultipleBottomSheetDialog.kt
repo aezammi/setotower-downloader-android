@@ -604,15 +604,6 @@ class DownloadMultipleBottomSheetDialog : BottomSheetDialogFragment(), Configure
                                             }
                                             bottomSheet.dismiss()
                                         },
-                                        filenameTemplateSet = {template ->
-                                            items.forEach {
-                                                it.customFileNameTemplate = template
-                                            }
-                                            requireActivity().lifecycleScope.launch {
-                                                items.forEach { downloadViewModel.updateDownload(it) }
-                                            }
-                                            bottomSheet.dismiss()
-                                        },
                                         sponsorBlockItemsSet = { values, checkedItems ->
                                             items.forEach { it.audioPreferences.sponsorBlockFilters.clear() }
                                             for (i in checkedItems.indices) {
@@ -723,10 +714,6 @@ class DownloadMultipleBottomSheetDialog : BottomSheetDialogFragment(), Configure
                                         cropClicked = {},
                                         cropDisabledClicked = {},
                                         cropValueChanged = {},
-                                        filenameTemplateSet = { checked ->
-                                            items.forEach { it.customFileNameTemplate = checked }
-                                            CoroutineScope(Dispatchers.IO).launch { items.forEach { downloadViewModel.updateDownload(it) } }
-                                        },
                                         saveSubtitlesClicked = {checked ->
                                             items.forEach { it.videoPreferences.writeSubs = checked }
                                             CoroutineScope(Dispatchers.IO).launch { items.forEach { downloadViewModel.updateDownload(it) } }

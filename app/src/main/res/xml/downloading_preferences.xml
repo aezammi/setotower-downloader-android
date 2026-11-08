@@ -58,22 +58,6 @@
             app:summary="@string/download_over_metered_networks_summary"
             app:title="@string/download_over_metered_networks" />
 
-        <SwitchPreferenceCompat
-            android:widgetLayout="@layout/preferece_material_switch"
-            app:defaultValue="false"
-            android:icon="@drawable/ic_ipv4"
-            android:key="force_ipv4"
-            app:summary="@string/force_ipv4_desc"
-            app:title="@string/force_ipv4" />
-
-
-        <EditTextPreference
-            android:icon="@drawable/baseline_network_locked_24"
-            app:key="proxy"
-            app:defaultValue=""
-            app:summary="@string/socks5_proxy_summary"
-            app:title="@string/socks5_proxy" />
-
         <ListPreference
             android:defaultValue="auto"
             android:entries="@array/download_types"
@@ -98,16 +82,6 @@
 
         <SeekBarPreference
             android:defaultValue="1"
-            android:icon="@drawable/ic_lines"
-            android:max="25"
-            app:key="concurrent_fragments"
-            app:min="1"
-            app:showSeekBarValue="true"
-            app:summary="@string/concurrent_fragments_summary"
-            app:title="@string/concurrent_fragments" />
-
-        <SeekBarPreference
-            android:defaultValue="1"
             android:icon="@drawable/ic_concurrent_downloads"
             android:max="10"
             app:key="concurrent_downloads"
@@ -116,43 +90,8 @@
             app:summary="@string/concurrent_downloads_summary"
             app:title="@string/concurrent_downloads" />
 
-        <EditTextPreference
-            android:icon="@drawable/ic_limitrate"
-            app:key="limit_rate"
-            app:summary="@string/limit_rate_summary"
-            app:title="@string/limit_rate" />
-
-        <EditTextPreference
-            android:icon="@drawable/baseline_settings_input_component_24"
-            app:key="buffer_size"
-            app:summary="@string/buffer_size_summary"
-            app:title="@string/buffer_size" />
-
-        <EditTextPreference
-            android:icon="@drawable/ic_clock"
-            app:key="socket_timeout"
-            android:summary="@string/socket_timeout_description"
-            app:title="@string/socket_timeout"/>
-
-        <SwitchPreferenceCompat
-            android:widgetLayout="@layout/preferece_material_switch"
-            app:defaultValue="false"
-            android:icon="@drawable/ic_speed"
-            android:key="aria2"
-            app:summary="@string/aria2_summary"
-            android:disableDependentsState="true"
-            app:title="aria2c" />
-
-        <SwitchPreferenceCompat
-            android:widgetLayout="@layout/preferece_material_switch"
-            app:defaultValue="false"
-            android:icon="@drawable/ic_baseline_file_open_24"
-            android:key="log_downloads"
-            app:summary="@string/log_downloads_summary"
-            app:title="@string/log_downloads" />
-
         <ListPreference
-            android:defaultValue=""
+            android:defaultValue="daily"
             android:entries="@array/cleanup_leftover_downloads"
             android:entryValues="@array/cleanup_leftover_downloads_values"
             android:icon="@drawable/ic_folder_delete"
@@ -160,19 +99,6 @@
             app:useSimpleSummaryProvider="true"
             app:title="@string/cleanup_leftover_downloads" />
 
-        <EditTextPreference
-            app:key="retries"
-            android:icon="@drawable/ic_retries"
-            android:defaultValue=""
-            app:useSimpleSummaryProvider="true"
-            app:title="@string/retries" />
-
-        <EditTextPreference
-            app:key="fragment_retries"
-            android:icon="@drawable/ic_retries"
-            android:defaultValue=""
-            app:useSimpleSummaryProvider="true"
-            app:title="@string/fragment_retries" />
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/scheduling">

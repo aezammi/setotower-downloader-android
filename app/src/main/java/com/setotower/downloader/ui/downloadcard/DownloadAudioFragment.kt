@@ -320,9 +320,6 @@ class DownloadAudioFragment(private var resultItem: ResultItem? = null, private 
                             bitrateSet = {
                                 downloadItem.audioPreferences.bitrate = it
                             },
-                            filenameTemplateSet = {
-                                downloadItem.customFileNameTemplate = it
-                            },
                             sponsorBlockItemsSet = { values, checkedItems ->
                                 downloadItem.audioPreferences.sponsorBlockFilters.clear()
                                 for (i in checkedItems.indices) {
@@ -366,10 +363,6 @@ class DownloadAudioFragment(private var resultItem: ResultItem? = null, private 
 
                                 if (it.isNotBlank()){
                                     downloadItem.customFileNameTemplate = downloadItem.customFileNameTemplate.applyFilenameTemplateForCuts()
-                                }else{
-                                    downloadItem.customFileNameTemplate = downloadViewModel.applySubdirectoryPreferences(
-                                        sharedPreferences.getString("file_name_template_audio", "%(uploader).30B - %(title).170B")!!
-                                    )
                                 }
 
                             },

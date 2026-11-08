@@ -11,10 +11,6 @@
         android:icon="@drawable/ic_shortcut"
         app:showAsAction="always"
         android:id="@+id/shortcuts"/>
-    <item android:title="@string/file_name_template"
-        android:icon="@drawable/ic_edit"
-        app:showAsAction="always"
-        android:id="@+id/filename_template"/>
     <item
         android:id="@+id/folder"
         android:title="@string/command_directory"

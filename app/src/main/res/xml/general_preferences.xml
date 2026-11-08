@@ -3,13 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory android:title="@string/appearance">
-        <Preference
-            android:icon="@drawable/baseline_translate_24"
-            app:key="app_language"
-            app:persistent="false"
-            app:summary=""
-            app:title="@string/language" />
-
         <ListPreference
             android:entries="@array/themes"
             android:entryValues="@array/themes_values"
@@ -51,15 +44,6 @@
             app:entryValues="@array/hide_thumbnail_values"
             app:key="hide_thumbnails"
             app:title="@string/hide_thumbnails" />
-
-        <MultiSelectListPreference
-            app:icon="@drawable/ic_card"
-            android:dialogTitle="@string/modify_download_card"
-            android:entries="@array/modify_download_card"
-            android:entryValues="@array/modify_download_card_values"
-            android:defaultValue="@array/modify_download_card_values"
-            app:key="modify_download_card"
-            app:title="@string/modify_download_card" />
 
         <SwitchPreferenceCompat
             android:widgetLayout="@layout/preferece_material_switch"
@@ -133,23 +117,6 @@
             app:key="history_quick_action"
             app:title="@string/history_quick_action" />
 
-        <ListPreference
-            android:defaultValue=""
-            android:entries="@array/countries"
-            android:entryValues="@array/countries_values"
-            app:icon="@drawable/ic_language"
-            app:useSimpleSummaryProvider="true"
-            app:key="locale"
-            app:title="@string/preferred_locale" />
-
-        <Preference
-            android:defaultValue="Home"
-            app:icon="@drawable/baseline_add_to_home_screen_24"
-            app:useSimpleSummaryProvider="true"
-            app:key="start_destination"
-            app:isPreferenceVisible="false"
-            app:title="@string/preferred_home_screen" />
-
         <Preference
             android:defaultValue="Home,History,Queue,More"
             android:icon="@drawable/baseline_home_filled_24"
@@ -164,16 +131,6 @@
             app:key="label_visibility"
             app:useSimpleSummaryProvider="true"
             app:title="@string/label_visibility" />
-
-        <ListPreference
-            android:defaultValue="ytsearch"
-            android:entries="@array/search_engines"
-            android:entryValues="@array/search_engines_values"
-            android:icon="@drawable/baseline_manage_search_24"
-            app:key="search_engine"
-            app:summary="@string/preferred_search_engine_summary"
-            app:title="@string/preferred_search_engine" />
-
 
         <SwitchPreferenceCompat
             android:widgetLayout="@layout/preferece_material_switch"
