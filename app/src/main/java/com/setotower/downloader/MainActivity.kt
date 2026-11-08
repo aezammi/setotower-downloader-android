@@ -45,7 +45,7 @@ import com.setotower.downloader.database.viewmodel.SettingsViewModel
 import com.setotower.downloader.ui.BaseActivity
 import com.setotower.downloader.ui.home.HomeFragment
 import com.setotower.downloader.ui.movies.MoviesFragment
-import com.setotower.downloader.ui.downloads.HistoryFragment
+import com.setotower.downloader.ui.downloads.DownloadQueueMainFragment
 import com.setotower.downloader.ui.more.MoreFragment
 import com.setotower.downloader.ui.more.settings.SettingsActivity
 import com.setotower.downloader.ui.welcome.WelcomeActivity
@@ -158,8 +158,6 @@ class MainActivity : BaseActivity() {
             }
             applyNavBarStyle()
 
-            val showingDownloadQueue = NavbarUtil.getNavBarItems(this@MainActivity).any { n -> n.itemId == R.id.downloadQueueMainFragment && n.isVisible }
-
             setupWithNavController(navController)
             navigationBarView?.menu?.findItem(R.id.moreFragment)?.title =
                 preferences.getString("profile_name", "")?.takeIf { it.isNotBlank() }
@@ -173,12 +171,8 @@ class MainActivity : BaseActivity() {
                         }
                     }
                     R.id.historyFragment -> {
-                        if(!showingDownloadQueue) {
-                            navController.navigate(R.id.downloadQueueMainFragment)
-                        }else{
-                            kotlin.runCatching {
-                                (navHostFragment.childFragmentManager.primaryNavigationFragment!! as HistoryFragment).openSearchView()
-                            }
+                        kotlin.runCatching {
+                            (navHostFragment.childFragmentManager.primaryNavigationFragment!! as DownloadQueueMainFragment).scrollToActive()
                         }
                     }
                     R.id.downloadQueueMainFragment -> {
@@ -194,11 +188,7 @@ class MainActivity : BaseActivity() {
                 }
             }
 
-            val activeDownloadsBadge = if (showingDownloadQueue) {
-                getOrCreateBadge(R.id.downloadQueueMainFragment)
-            }else{
-                getOrCreateBadge(R.id.historyFragment)
-            }
+            val activeDownloadsBadge = getOrCreateBadge(R.id.historyFragment)
             lifecycleScope.launch {
                 downloadViewModel.activePausedDownloadsCount.collectLatest {
                     if (it == 0) {
