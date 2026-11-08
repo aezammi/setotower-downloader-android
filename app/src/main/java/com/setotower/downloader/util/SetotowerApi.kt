@@ -13,6 +13,8 @@ import kotlinx.coroutines.withContext
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.Response
 import java.io.IOException
 import java.io.BufferedInputStream
@@ -34,6 +36,28 @@ object SetotowerApi {
         .connectTimeout(20, TimeUnit.SECONDS)
         .readTimeout(45, TimeUnit.SECONDS)
         .build()
+
+    data class AuthResult(val token: String, val name: String, val email: String)
+
+    suspend fun exchangeDownloaderLogin(code: String): AuthResult = withContext(Dispatchers.IO) {
+        val request = Request.Builder()
+            .url("$BASE_URL/auth/mobile/exchange")
+            .post("{\"code\":${com.google.gson.Gson().toJson(code)}}".toRequestBody("application/json".toMediaType()))
+            .build()
+        executeWithRetry(client, request).use { response ->
+            val body = response.body?.string().orEmpty()
+            if (!response.isSuccessful) {
+                val message = runCatching { JsonParser.parseString(body).asJsonObject.get("error")?.asString }.getOrNull()
+                throw IOException(message ?: "Setotower login could not be completed.")
+            }
+            val json = JsonParser.parseString(body).asJsonObject
+            AuthResult(
+                token = json.get("access_token")?.asString ?: throw IOException("Setotower login returned no session."),
+                name = json.getAsJsonObject("user")?.get("name")?.asString.orEmpty(),
+                email = json.getAsJsonObject("user")?.get("email")?.asString.orEmpty()
+            )
+        }
+    }
 
     suspend fun inspectCineb(url: String): ResultItem = withContext(Dispatchers.IO) {
         val endpoint = "$BASE_URL/api/info".toHttpUrl().newBuilder()

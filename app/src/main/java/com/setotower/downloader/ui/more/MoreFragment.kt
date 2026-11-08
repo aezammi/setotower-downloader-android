@@ -16,6 +16,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.color.MaterialColors
 import com.setotower.downloader.R
 import com.setotower.downloader.ui.more.settings.SettingsActivity
+import com.setotower.downloader.util.SetotowerAuth
 import kotlinx.coroutines.launch
 
 class MoreFragment : Fragment() {
@@ -65,7 +66,7 @@ class MoreFragment : Fragment() {
             )
         )
         sessionAction.setOnClickListener {
-            if (loggedIn) confirmLogout() else openUrl("https://cineb.setotower.com/auth/login?return=/")
+            if (loggedIn) confirmLogout() else SetotowerAuth.startLogin(requireContext())
         }
     }
 

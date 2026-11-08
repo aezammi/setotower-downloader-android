@@ -54,6 +54,7 @@ import com.setotower.downloader.util.BgUtilsPoTokenGeneratorUtil
 import com.setotower.downloader.util.CrashListener
 import com.setotower.downloader.util.NavbarUtil
 import com.setotower.downloader.util.CinebCatalogApi
+import com.setotower.downloader.util.SetotowerApi
 import com.setotower.downloader.util.NavbarUtil.applyNavBarStyle
 import com.setotower.downloader.util.ThemeUtil
 import com.setotower.downloader.util.UpdateUtil
@@ -401,6 +402,36 @@ class MainActivity : BaseActivity() {
     }
 
     private fun handleIntents(intent: Intent) {
+        val authCallback = intent.data
+        if (authCallback?.scheme == "setotower-downloader" && authCallback.host == "auth") {
+            val code = authCallback.getQueryParameter("code")
+            if (code.isNullOrBlank()) {
+                Toast.makeText(this, "Setotower login was cancelled.", Toast.LENGTH_SHORT).show()
+                return
+            }
+            lifecycleScope.launch {
+                runCatching { SetotowerApi.exchangeDownloaderLogin(code) }
+                    .onSuccess { result ->
+                        preferences.edit()
+                            .putBoolean("logged_in", true)
+                            .putString("auth_token", result.token)
+                            .putString("profile_name", result.name)
+                            .putString("profile_handle", result.email.takeIf { it.isNotBlank() }?.let { "@$it" })
+                            .apply()
+                        navigationBarView?.menu?.findItem(R.id.moreFragment)?.title =
+                            result.name.ifBlank { getString(R.string.you) }
+                        Toast.makeText(this@MainActivity, "Signed in to Setotower.", Toast.LENGTH_SHORT).show()
+                    }
+                    .onFailure { error ->
+                        Toast.makeText(
+                            this@MainActivity,
+                            error.message ?: "Setotower login failed.",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+            }
+            return
+        }
         val action = intent.action
         val type = intent.type
         if (Intent.ACTION_SEND == action && type != null) {
