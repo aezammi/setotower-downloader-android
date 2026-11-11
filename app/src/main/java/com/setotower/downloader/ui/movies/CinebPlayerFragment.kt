@@ -4,11 +4,15 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ImageButton
+import android.widget.SeekBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -32,6 +36,13 @@ import kotlinx.coroutines.withContext
 class CinebPlayerFragment : Fragment() {
     private lateinit var nativePlayerView: androidx.media3.ui.PlayerView
     private var player: ExoPlayer? = null
+    private val progressHandler = Handler(Looper.getMainLooper())
+    private val progressUpdater = object : Runnable {
+        override fun run() {
+            updateProgress()
+            progressHandler.postDelayed(this, 500L)
+        }
+    }
     private lateinit var sourceGroup: ChipGroup
     private lateinit var titleView: TextView
     private lateinit var metaView: TextView
@@ -81,7 +92,69 @@ class CinebPlayerFragment : Fragment() {
         configureCinebActions(view)
 
         configurePlayer()
+        configureNativeControls(view)
         loadSources()
+    }
+
+    private fun configureNativeControls(view: View) {
+        val controls = view.findViewById<View>(R.id.player_controls)
+        val playPause = view.findViewById<ImageButton>(R.id.player_play_pause)
+        val seek = view.findViewById<SeekBar>(R.id.player_seek)
+
+        fun refreshPlayButton() {
+            val playing = player?.isPlaying == true
+            playPause.setImageResource(if (playing) R.drawable.ic_lyrics_pause else R.drawable.ic_lyrics_play)
+            playPause.contentDescription = if (playing) "Pause" else "Play"
+        }
+
+        playPause.setOnClickListener {
+            player?.let { exo ->
+                if (exo.isPlaying) exo.pause() else exo.play()
+                refreshPlayButton()
+            }
+        }
+        view.findViewById<View>(R.id.player_rewind).setOnClickListener {
+            player?.let { it.seekTo((it.currentPosition - 10_000L).coerceAtLeast(0L)) }
+        }
+        view.findViewById<View>(R.id.player_forward).setOnClickListener {
+            player?.let { it.seekTo((it.currentPosition + 10_000L).coerceAtMost(it.duration.coerceAtLeast(0L))) }
+        }
+        view.findViewById<View>(R.id.player_settings).setOnClickListener { showMoreOptions() }
+        seek.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(bar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (fromUser) player?.seekTo(progress.toLong())
+            }
+            override fun onStartTrackingTouch(bar: SeekBar?) = Unit
+            override fun onStopTrackingTouch(bar: SeekBar?) = Unit
+        })
+        controls.setOnClickListener {
+            controls.animate().alpha(if (controls.alpha > 0.5f) 0f else 1f).setDuration(180L).start()
+        }
+        refreshPlayButton()
+        progressHandler.removeCallbacks(progressUpdater)
+        progressHandler.post(progressUpdater)
+    }
+
+    private fun updateProgress() {
+        val root = view ?: return
+        val exo = player ?: return
+        val seek = root.findViewById<SeekBar>(R.id.player_seek)
+        val duration = exo.duration.coerceAtLeast(0L)
+        val position = exo.currentPosition.coerceIn(0L, duration)
+        seek.max = duration.coerceAtMost(Int.MAX_VALUE.toLong()).toInt()
+        seek.progress = position.coerceAtMost(Int.MAX_VALUE.toLong()).toInt()
+        root.findViewById<TextView>(R.id.player_position).text = formatTime(position)
+        root.findViewById<TextView>(R.id.player_duration).text = formatTime(duration)
+        root.findViewById<ImageButton>(R.id.player_play_pause).apply {
+            val playing = exo.isPlaying
+            setImageResource(if (playing) R.drawable.ic_lyrics_pause else R.drawable.ic_lyrics_play)
+            contentDescription = if (playing) "Pause" else "Play"
+        }
+    }
+
+    private fun formatTime(milliseconds: Long): String {
+        val totalSeconds = (milliseconds / 1000L).coerceAtLeast(0L)
+        return "%02d:%02d".format(totalSeconds / 60L, totalSeconds % 60L)
     }
 
     private fun configureCinebActions(view: View) {
@@ -126,6 +199,10 @@ class CinebPlayerFragment : Fragment() {
                     if (playbackState == Player.STATE_READY) {
                         view?.findViewById<ImageView>(R.id.player_backdrop)?.visibility = View.GONE
                     }
+                }
+
+                override fun onIsPlayingChanged(isPlaying: Boolean) {
+                    updateProgress()
                 }
             })
         }
@@ -261,7 +338,7 @@ class CinebPlayerFragment : Fragment() {
     private fun showComments() {
         val content = LinearLayout(requireContext()).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(24, 20, 24, 40)
+            setPadding(20, 20, 20, 20)
         }
         content.addView(TextView(requireContext()).apply {
             text = "Comments"
@@ -272,6 +349,33 @@ class CinebPlayerFragment : Fragment() {
             textSize = 16f
             setPadding(0, 24, 0, 24)
         })
+        val composer = LinearLayout(requireContext()).apply {
+            gravity = android.view.Gravity.CENTER_VERTICAL
+            orientation = LinearLayout.HORIZONTAL
+        }
+        val input = com.google.android.material.textfield.TextInputEditText(requireContext()).apply {
+            hint = "Comment…"
+            singleLine = true
+            background = android.graphics.drawable.GradientDrawable().apply {
+                setColor(Color.rgb(241, 241, 241))
+                cornerRadius = 40f
+            }
+            setPadding(18, 0, 18, 0)
+            layoutParams = LinearLayout.LayoutParams(0, 48).apply { weight = 1f }
+        }
+        val send = ImageButton(requireContext()).apply {
+            setImageResource(R.drawable.outline_arrow_forward_24)
+            contentDescription = "Post comment"
+            background = android.graphics.drawable.GradientDrawable().apply {
+                shape = android.graphics.drawable.GradientDrawable.OVAL
+                setColor(Color.rgb(87, 153, 229))
+            }
+            setColorFilter(Color.WHITE)
+            layoutParams = LinearLayout.LayoutParams(44, 44).apply { marginStart = 8 }
+        }
+        composer.addView(input)
+        composer.addView(send)
+        content.addView(composer)
         BottomSheetDialog(requireContext()).apply {
             setContentView(content)
             show()
@@ -281,12 +385,27 @@ class CinebPlayerFragment : Fragment() {
     private fun showMoreOptions() {
         val content = LinearLayout(requireContext()).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(16, 16, 16, 32)
+            setPadding(8, 14, 8, 24)
         }
-        listOf("Save", "Download", "Report").forEach { label ->
-            content.addView(MaterialButton(requireContext()).apply {
-                text = label
-                setOnClickListener { }
+        listOf(
+            R.drawable.baseline_save_24 to "Save",
+            R.drawable.baseline_download_24 to "Download",
+            R.drawable.baseline_stars_24 to "Thanks",
+            R.drawable.baseline_error_24 to "Report"
+        ).forEach { (icon, label) ->
+            content.addView(LinearLayout(requireContext()).apply {
+                gravity = android.view.Gravity.CENTER_VERTICAL
+                orientation = LinearLayout.HORIZONTAL
+                setPadding(14, 8, 14, 8)
+                minimumHeight = 56
+                addView(ImageView(requireContext()).apply {
+                    setImageResource(icon)
+                    layoutParams = LinearLayout.LayoutParams(28, 28).apply { marginEnd = 14 }
+                })
+                addView(TextView(requireContext()).apply {
+                    text = label
+                    textSize = 16f
+                })
             })
         }
         BottomSheetDialog(requireContext()).apply {
@@ -303,6 +422,7 @@ class CinebPlayerFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        progressHandler.removeCallbacks(progressUpdater)
         nativePlayerView.player = null
         player?.release()
         player = null
