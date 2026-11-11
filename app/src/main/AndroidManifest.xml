@@ -77,6 +77,11 @@
             </intent-filter>
 
         </activity>
+
+        <activity
+            android:name=".ui.auth.AuthWebViewActivity"
+            android:exported="false"
+            android:screenOrientation="unspecified" />
         <activity
             android:name=".receiver.ShareActivity"
             android:configChanges="smallestScreenSize|layoutDirection|locale|orientation|screenSize"

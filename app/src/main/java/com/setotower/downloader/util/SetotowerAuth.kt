@@ -2,7 +2,7 @@ package com.setotower.downloader.util
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
+import com.setotower.downloader.ui.auth.AuthWebViewActivity
 
 /** Downloader-owned account entry point. This must never use Cineb's session. */
 object SetotowerAuth {
@@ -10,6 +10,9 @@ object SetotowerAuth {
         "https://downloader.setotower.com/auth/login?flow=android"
 
     fun startLogin(context: Context) {
-        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(LOGIN_URL)))
+        context.startActivity(
+            Intent(context, AuthWebViewActivity::class.java)
+                .putExtra(AuthWebViewActivity.EXTRA_URL, LOGIN_URL)
+        )
     }
 }
