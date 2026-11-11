@@ -138,6 +138,7 @@ class ResultPlayerFragment : Fragment() {
         playerView.player = null
         player?.release()
         player = null
+        context?.let(VideoPlayerUtil::clearPlaybackCache)
         super.onDestroyView()
     }
 

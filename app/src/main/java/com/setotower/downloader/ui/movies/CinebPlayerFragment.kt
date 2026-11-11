@@ -22,6 +22,7 @@ import com.google.android.material.chip.ChipGroup
 import com.setotower.downloader.R
 import com.setotower.downloader.util.CinebCatalogApi
 import com.setotower.downloader.util.CinebMedia
+import com.setotower.downloader.util.VideoPlayerUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -223,6 +224,7 @@ class CinebPlayerFragment : Fragment() {
         nativePlayerView.player = null
         player?.release()
         player = null
+        context?.let(VideoPlayerUtil::clearPlaybackCache)
         super.onDestroyView()
     }
 }

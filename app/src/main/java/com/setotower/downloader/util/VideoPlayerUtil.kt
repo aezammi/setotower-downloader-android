@@ -8,7 +8,6 @@ import androidx.core.view.updateLayoutParams
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.PlaybackParameters
-import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.exoplayer.DefaultLoadControl
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
@@ -32,7 +31,7 @@ object VideoPlayerUtil {
 
     @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
     fun buildPlayer(context: Context) : ExoPlayer {
-        val dataSourceFactory = DefaultDataSource.Factory(context)
+        val dataSourceFactory = LocalPlaybackCache.dataSourceFactory(context)
         val audioAttributes = AudioAttributes.Builder()
             .setUsage(C.USAGE_MEDIA)
             .setContentType(C.AUDIO_CONTENT_TYPE_MOVIE)
@@ -61,5 +60,9 @@ object VideoPlayerUtil {
                 skipSilenceEnabled = false
                 playbackParameters = PlaybackParameters(1f, 1.0f)
             }
+    }
+
+    fun clearPlaybackCache(context: Context) {
+        LocalPlaybackCache.clear(context)
     }
 }
