@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.exoplayer.source.MergingMediaSource
@@ -20,6 +21,7 @@ import com.setotower.downloader.R
 import com.setotower.downloader.database.models.ResultItem
 import com.setotower.downloader.database.viewmodel.ResultViewModel
 import com.setotower.downloader.util.VideoPlayerUtil
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -34,7 +36,7 @@ class ResultPlayerFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.fragment_result_player, container, false)
+    ): View = inflater.inflate(R.layout.fragment_cineb_player, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,14 +51,48 @@ class ResultPlayerFragment : Fragment() {
             return
         }
 
-        view.findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.result_player_toolbar)
+        view.findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.player_toolbar)
             .setNavigationOnClickListener { findNavController().navigateUp() }
-        view.findViewById<TextView>(R.id.result_player_title).text = item.title.ifBlank { item.url }
+        view.findViewById<TextView>(R.id.player_title).text = item.title.ifBlank { item.url }
+        view.findViewById<TextView>(R.id.player_meta).text =
+            listOf(item.author, item.duration.takeIf { it.isNotBlank() && it != "-1" })
+                .filterNotNull()
+                .filter { it.isNotBlank() }
+                .joinToString("  •  ")
+
+        val backdrop = view.findViewById<android.widget.ImageView>(R.id.player_backdrop)
+        if (item.thumb.isNotBlank()) {
+            Picasso.get().load(item.thumb).fit().centerCrop().into(backdrop)
+        }
+
+        view.findViewById<View>(R.id.player_description).setOnClickListener {
+            status.visibility = View.VISIBLE
+            status.text = "No description available."
+        }
+        view.findViewById<View>(R.id.player_comments).setOnClickListener { }
+        view.findViewById<View>(R.id.player_more).setOnClickListener { }
+        view.findViewById<View>(R.id.player_share).setOnClickListener { share(item) }
+        view.findViewById<View>(R.id.player_subscribe).setOnClickListener { }
+        view.findViewById<View>(R.id.player_like).setOnClickListener { }
+        view.findViewById<View>(R.id.player_dislike).setOnClickListener { }
+        view.findViewById<View>(R.id.player_sources_label).visibility = View.GONE
+        view.findViewById<View>(R.id.player_sources).visibility = View.GONE
+
         status = view.findViewById(R.id.result_player_status)
         loading = view.findViewById(R.id.result_player_loading)
-        playerView = view.findViewById(R.id.result_player_view)
+        loading.visibility = View.VISIBLE
+        playerView = view.findViewById(R.id.cineb_native_player)
 
-        player = VideoPlayerUtil.buildPlayer(requireContext()).also { playerView.player = it }
+        player = VideoPlayerUtil.buildPlayer(requireContext()).also {
+            playerView.player = it
+            it.addListener(object : Player.Listener {
+                override fun onPlaybackStateChanged(playbackState: Int) {
+                    if (playbackState == Player.STATE_READY) {
+                        view.findViewById<View>(R.id.player_backdrop).visibility = View.GONE
+                    }
+                }
+            })
+        }
         load(item, ViewModelProvider(this)[ResultViewModel::class.java])
     }
 
@@ -103,5 +139,15 @@ class ResultPlayerFragment : Fragment() {
         player?.release()
         player = null
         super.onDestroyView()
+    }
+
+    private fun share(item: ResultItem) {
+        startActivity(android.content.Intent.createChooser(
+            android.content.Intent(android.content.Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(android.content.Intent.EXTRA_TEXT, item.url)
+            },
+            "Share video"
+        ))
     }
 }

@@ -35,6 +35,13 @@
             app:show_buffering="when_playing"
             app:shutter_background_color="@android:color/transparent"
             app:use_controller="true" />
+
+        <ProgressBar
+            android:id="@+id/result_player_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
     </FrameLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -158,6 +165,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="More about this title" />
+
+            <TextView
+                android:id="@+id/result_player_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="20dp"
+                android:visibility="gone" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>
