@@ -263,7 +263,7 @@ class CinebPlayerFragment : Fragment() {
             return
         }
         selectedUrl = providerUrl
-        view?.findViewById<View>(R.id.result_player_status)?.apply {
+        view?.findViewById<TextView>(R.id.result_player_status)?.apply {
             text = "Preparing movie…"
             visibility = View.VISIBLE
         }
@@ -387,7 +387,7 @@ class CinebPlayerFragment : Fragment() {
         }
         val input = com.google.android.material.textfield.TextInputEditText(requireContext()).apply {
             hint = "Comment…"
-            singleLine = true
+            setSingleLine(true)
             background = android.graphics.drawable.GradientDrawable().apply {
                 setColor(Color.rgb(241, 241, 241))
                 cornerRadius = 40f

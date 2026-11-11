@@ -55,13 +55,13 @@ class CinebPlaybackResolver(
         webView.webViewClient = object : WebViewClient() {
             override fun shouldInterceptRequest(view: WebView?, request: WebResourceRequest?): WebResourceResponse? {
                 val url = request?.url?.toString().orEmpty()
-                if (isMediaUrl(url)) resolve(url)
+                if (isMediaUrl(url)) resolveMediaUrl(url)
                 return super.shouldInterceptRequest(view, request)
             }
 
             override fun shouldInterceptRequest(view: WebView?, url: String?): WebResourceResponse? {
                 val candidate = url.orEmpty()
-                if (isMediaUrl(candidate)) resolve(candidate)
+                if (isMediaUrl(candidate)) resolveMediaUrl(candidate)
                 return super.shouldInterceptRequest(view, url)
             }
 
@@ -82,7 +82,7 @@ class CinebPlaybackResolver(
         webView.loadUrl(providerUrl)
     }
 
-    private fun resolve(url: String) {
+    private fun resolveMediaUrl(url: String) {
         if (!resolved.compareAndSet(false, true)) return
         timeout?.let(mainHandler::removeCallbacks)
         mainHandler.post { onResolved(url) }
