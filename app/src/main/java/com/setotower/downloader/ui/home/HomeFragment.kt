@@ -16,6 +16,7 @@ import android.os.Looper
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.ImageSpan
+import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.Menu
@@ -29,6 +30,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.OptIn
@@ -929,18 +931,27 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener, SearchSuggesti
         type: DownloadType,
         disableUpdateData : Boolean = false
     ){
-        if(findNavController().currentBackStack.value.firstOrNull {it.destination.id == R.id.downloadBottomSheetDialog} == null &&
-            findNavController().currentDestination?.id == R.id.homeFragment
-            ){
-            //show the fragment if its not in the backstack
-            val bundle = Bundle()
+        if (!isAdded) return
+        runCatching {
+            val navController = findNavController()
+            if (navController.currentBackStack.value.firstOrNull {
+                    it.destination.id == R.id.downloadBottomSheetDialog
+                } != null || navController.currentDestination?.id != R.id.homeFragment
+            ) return
+
+            // Show the sheet only while Home is still the active destination.
+            val bundle = Bundle().apply {
+                putSerializable("type", downloadViewModel.getDownloadType(type, resultItem.url))
+                if (disableUpdateData) putBoolean("disableUpdateData", true)
+            }
             downloadCardViewModel.setResultItem(resultItem)
             downloadCardViewModel.setDownloadItem(null)
-            bundle.putSerializable("type", downloadViewModel.getDownloadType(type, resultItem.url))
-            if (disableUpdateData) {
-                bundle.putBoolean("disableUpdateData", true)
+            navController.navigate(R.id.downloadBottomSheetDialog, bundle)
+        }.onFailure { error ->
+            Log.e("HomeFragment", "Unable to open download options", error)
+            context?.let {
+                Toast.makeText(it, "Download options could not be opened", Toast.LENGTH_SHORT).show()
             }
-            findNavController().navigate(R.id.downloadBottomSheetDialog, bundle)
         }
     }
 

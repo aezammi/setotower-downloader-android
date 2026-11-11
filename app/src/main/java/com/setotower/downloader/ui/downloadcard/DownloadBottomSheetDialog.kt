@@ -106,7 +106,12 @@ class DownloadBottomSheetDialog : BottomSheetDialogFragment() {
         val res = downloadCardViewModel.resultItem
         val dwl = downloadCardViewModel.downloadItem
 
-        type = arguments?.getSerializable("type") as DownloadType
+        type = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arguments?.getSerializable("type", DownloadType::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            arguments?.getSerializable("type") as? DownloadType
+        } ?: DownloadType.video
         disableUpdateData = arguments?.getBoolean("disableUpdateData") == true
         ignoreDuplicates = arguments?.getBoolean("ignore_duplicates") == true
 
