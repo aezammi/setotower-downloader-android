@@ -1,6 +1,8 @@
 package com.setotower.downloader.ui.movies
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -76,9 +78,44 @@ class CinebPlayerFragment : Fragment() {
         view.findViewById<View>(R.id.player_comments).setOnClickListener { showComments() }
         view.findViewById<View>(R.id.player_more).setOnClickListener { showMoreOptions() }
         view.findViewById<View>(R.id.player_share).setOnClickListener { shareTitle() }
+        configureCinebActions(view)
 
         configurePlayer()
         loadSources()
+    }
+
+    private fun configureCinebActions(view: View) {
+        val like = view.findViewById<MaterialButton>(R.id.player_like)
+        val dislike = view.findViewById<MaterialButton>(R.id.player_dislike)
+        val subscribe = view.findViewById<MaterialButton>(R.id.player_subscribe)
+        val active = ColorStateList.valueOf(Color.BLACK)
+        val inactive = ColorStateList.valueOf(Color.rgb(70, 70, 70))
+
+        fun refreshReactions() {
+            like.iconTint = if (like.isSelected) active else inactive
+            dislike.iconTint = if (dislike.isSelected) active else inactive
+        }
+
+        like.setOnClickListener {
+            like.isSelected = !like.isSelected
+            if (like.isSelected) dislike.isSelected = false
+            refreshReactions()
+        }
+        dislike.setOnClickListener {
+            dislike.isSelected = !dislike.isSelected
+            if (dislike.isSelected) like.isSelected = false
+            refreshReactions()
+        }
+        subscribe.setOnClickListener {
+            subscribe.isSelected = !subscribe.isSelected
+            subscribe.text = if (subscribe.isSelected) "Subscribed" else "Subscribe"
+            subscribe.backgroundTintList = ColorStateList.valueOf(
+                if (subscribe.isSelected) Color.rgb(236, 236, 236) else Color.BLACK
+            )
+            subscribe.setTextColor(if (subscribe.isSelected) Color.DKGRAY else Color.WHITE)
+            subscribe.iconTint = if (subscribe.isSelected) inactive else ColorStateList.valueOf(Color.WHITE)
+        }
+        refreshReactions()
     }
 
     private fun configurePlayer() {
@@ -154,6 +191,51 @@ class CinebPlayerFragment : Fragment() {
             text = "Description"
             textSize = 20f
             setPadding(0, 0, 0, 16)
+        })
+        content.addView(TextView(requireContext()).apply {
+            text = media.title
+            textSize = 18f
+            setTypeface(typeface, android.graphics.Typeface.BOLD)
+        })
+        content.addView(TextView(requireContext()).apply {
+            text = media.releaseDate.ifBlank { "Release date unavailable" }
+            textSize = 12f
+            setTextColor(Color.GRAY)
+            setPadding(0, 4, 0, 14)
+        })
+        val stats = LinearLayout(requireContext()).apply {
+            orientation = LinearLayout.HORIZONTAL
+            weightSum = 3f
+        }
+        listOf("${media.voteCount}", "${"%.1f".format(media.voteAverage)}", "HD").forEachIndexed { index, value ->
+            stats.addView(TextView(requireContext()).apply {
+                text = "$value\n${listOf("Votes", "Rating", "Quality")[index]}"
+                gravity = android.view.Gravity.CENTER
+                textSize = 13f
+                setPadding(4, 12, 4, 12)
+                background = android.graphics.drawable.GradientDrawable().apply {
+                    setColor(Color.rgb(248, 239, 237))
+                    cornerRadius = 14f
+                }
+                layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f).apply {
+                    setMargins(if (index == 0) 0 else 4, 0, if (index == 2) 0 else 4, 0)
+                }
+            })
+        }
+        content.addView(stats)
+        content.addView(TextView(requireContext()).apply {
+            text = media.overview.ifBlank { "No description available." }
+            textSize = 14f
+            setTextColor(Color.DKGRAY)
+            setPadding(12, 14, 12, 14)
+            background = android.graphics.drawable.GradientDrawable().apply {
+                setColor(Color.rgb(248, 239, 237))
+                cornerRadius = 14f
+            }
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply { topMargin = 14 }
         })
         if (media.posterUrl.isNotBlank()) {
             content.addView(ImageView(requireContext()).apply {
