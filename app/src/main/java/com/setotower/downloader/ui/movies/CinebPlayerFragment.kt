@@ -28,6 +28,7 @@ import com.google.android.material.chip.ChipGroup
 import com.setotower.downloader.R
 import com.setotower.downloader.util.CinebCatalogApi
 import com.setotower.downloader.util.CinebMedia
+import com.setotower.downloader.util.CinebPlaybackResolver
 import com.setotower.downloader.util.VideoPlayerUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -49,6 +50,7 @@ class CinebPlayerFragment : Fragment() {
 
     private lateinit var media: CinebMedia
     private var selectedUrl: String? = null
+    private var playbackResolver: CinebPlaybackResolver? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -92,6 +94,12 @@ class CinebPlayerFragment : Fragment() {
         configureCinebActions(view)
 
         configurePlayer()
+        playbackResolver = CinebPlaybackResolver(
+            requireContext(),
+            onResolved = ::playResolvedStream,
+            onFailure = ::showPlaybackError
+        )
+        playbackResolver?.attachTo(view.findViewById(R.id.cineb_player_surface))
         configureNativeControls(view)
         loadSources()
     }
@@ -192,7 +200,8 @@ class CinebPlayerFragment : Fragment() {
     }
 
     private fun configurePlayer() {
-        player = ExoPlayer.Builder(requireContext()).build().also { exoPlayer ->
+        @Suppress("UnstableApiUsage")
+        player = VideoPlayerUtil.buildPlayer(requireContext()).also { exoPlayer ->
             nativePlayerView.player = exoPlayer
             exoPlayer.addListener(object : Player.Listener {
                 override fun onPlaybackStateChanged(playbackState: Int) {
@@ -203,6 +212,10 @@ class CinebPlayerFragment : Fragment() {
 
                 override fun onIsPlayingChanged(isPlaying: Boolean) {
                     updateProgress()
+                }
+
+                override fun onPlayerError(error: androidx.media3.common.PlaybackException) {
+                    showPlaybackError("This source could not be played. Choose another source.")
                 }
             })
         }
@@ -244,18 +257,37 @@ class CinebPlayerFragment : Fragment() {
     }
 
     private fun loadProvider(encodedSource: String) {
-        val streamUrl = CinebCatalogApi.streamUrl(media, encodedSource)
-        if (streamUrl == selectedUrl) return
-        selectedUrl = streamUrl
+        val providerUrl = CinebCatalogApi.decodeSource(encodedSource)
+        if (providerUrl.isNullOrBlank()) {
+            showPlaybackError("This source URL is invalid.")
+            return
+        }
+        selectedUrl = providerUrl
+        view?.findViewById<View>(R.id.result_player_status)?.apply {
+            text = "Preparing movie…"
+            visibility = View.VISIBLE
+        }
+        playbackResolver?.resolve(providerUrl)
+    }
+
+    private fun playResolvedStream(streamUrl: String) {
         val exoPlayer = player ?: return
-        // Cineb resolves the provider through its short-lived server-side
-        // helper. Media3 receives the resulting MP4 stream directly.
+        selectedUrl = streamUrl
         runCatching {
             exoPlayer.setMediaItem(MediaItem.fromUri(streamUrl))
             exoPlayer.prepare()
-            exoPlayer.playWhenReady = false
+            exoPlayer.playWhenReady = true
+            exoPlayer.play()
+            view?.findViewById<View>(R.id.result_player_status)?.visibility = View.GONE
         }.onFailure {
-            selectedUrl = null
+            showPlaybackError("The resolved movie stream could not be opened.")
+        }
+    }
+
+    private fun showPlaybackError(message: String) {
+        view?.findViewById<View>(R.id.result_player_status)?.apply {
+            (this as? TextView)?.text = message
+            visibility = View.VISIBLE
         }
     }
 
@@ -423,6 +455,8 @@ class CinebPlayerFragment : Fragment() {
 
     override fun onDestroyView() {
         progressHandler.removeCallbacks(progressUpdater)
+        playbackResolver?.destroy()
+        playbackResolver = null
         nativePlayerView.player = null
         player?.release()
         player = null

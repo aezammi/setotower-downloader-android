@@ -1,6 +1,7 @@
 package com.setotower.downloader.util
 
 import android.content.Context
+import android.util.Base64
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
@@ -118,6 +119,10 @@ object CinebCatalogApi {
             .build()
             .toString()
     }
+
+    fun decodeSource(encodedSource: String): String? = runCatching {
+        Base64.decode(encodedSource, Base64.DEFAULT).toString(Charsets.UTF_8)
+    }.getOrNull()?.takeIf { it.startsWith("https://") || it.startsWith("http://") }
 
     suspend fun seasonEpisodes(media: CinebMedia, season: Int): List<CinebEpisode> = withContext(Dispatchers.IO) {
         val json = request("season_details", mapOf("id" to media.id.toString(), "s" to season.toString()))
