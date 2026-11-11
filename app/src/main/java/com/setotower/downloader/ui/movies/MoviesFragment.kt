@@ -99,13 +99,12 @@ class MoviesFragment : Fragment() {
     }
 
     private fun renderHome(groups: List<List<CinebMedia>>) {
-        if (groups.size >= 5) {
-            updateRail(R.id.movies_featured_list, groups[0])
-            updateRail(R.id.movies_recommended_list, groups[1])
-            updateRail(R.id.movies_trending_list, groups[2])
-            updateRail(R.id.movies_tv_list, groups[3])
-            moreAdapter.submitList(groups[4])
-        }
+        if (groups.size < 5) return
+        updateRail(R.id.movies_featured_list, groups[0])
+        updateRail(R.id.movies_recommended_list, groups[1])
+        updateRail(R.id.movies_trending_list, groups[2])
+        updateRail(R.id.movies_tv_list, groups[3])
+        moreAdapter.submitList(groups[4])
     }
 
     private fun searchFor(query: String) {

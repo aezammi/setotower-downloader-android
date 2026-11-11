@@ -14,7 +14,9 @@ import okhttp3.Request
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-private const val CINEB_HOME_CACHE = "cineb_home_snapshot"
+// Bump the key so older app builds cannot feed an incompatible snapshot into
+// the Movies screen after an APK update.
+private const val CINEB_HOME_CACHE = "cineb_home_snapshot_v2"
 private const val CINEB_HOME_CACHE_TTL_MS = 30 * 60 * 1000L
 
 data class CinebMedia(
@@ -51,7 +53,9 @@ object CinebCatalogCache {
         val raw = context.getSharedPreferences("cineb_cache", Context.MODE_PRIVATE)
             .getString(CINEB_HOME_CACHE, null)
             ?: return null
-        return runCatching { Gson().fromJson(raw, CinebHomeSnapshot::class.java) }
+        return runCatching {
+            Gson().fromJson(raw, CinebHomeSnapshot::class.java).takeIf { it.groups.size >= 5 }
+        }
             .getOrNull()
             ?.also { memory = it }
     }
