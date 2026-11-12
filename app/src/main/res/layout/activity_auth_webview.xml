@@ -1,27 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="?attr/colorSurface">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/auth_toolbar"
+    <WebView
+        android:id="@+id/auth_webview"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:title="Sign in to Setotower"
-        android:navigationIcon="?attr/homeAsUpIndicator" />
+        android:layout_height="match_parent" />
 
     <ProgressBar
         android:id="@+id/auth_progress"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="3dp"
+        android:layout_gravity="top"
         android:visibility="gone" />
-
-    <WebView
-        android:id="@+id/auth_webview"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-</LinearLayout>
+</FrameLayout>

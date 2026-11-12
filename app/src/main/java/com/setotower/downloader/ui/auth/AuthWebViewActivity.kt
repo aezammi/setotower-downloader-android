@@ -13,7 +13,6 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ProgressBar
 import androidx.activity.OnBackPressedCallback
-import com.google.android.material.appbar.MaterialToolbar
 import com.setotower.downloader.MainActivity
 import com.setotower.downloader.R
 import com.setotower.downloader.ui.BaseActivity
@@ -33,8 +32,6 @@ class AuthWebViewActivity : BaseActivity() {
             return
         }
 
-        val toolbar = findViewById<MaterialToolbar>(R.id.auth_toolbar)
-        toolbar.setNavigationOnClickListener { finish() }
         progress = findViewById(R.id.auth_progress)
         webView = findViewById(R.id.auth_webview)
 
@@ -62,7 +59,6 @@ class AuthWebViewActivity : BaseActivity() {
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 progress.visibility = View.GONE
-                toolbar.title = view?.title?.ifBlank { "Sign in to Setotower" } ?: "Sign in to Setotower"
             }
 
             override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
